@@ -1,0 +1,12 @@
+funclist
+*.lst
+*.p1
+*.pre
+*.as
+*.lst
+*.obj
+*.rlf
+*.hex
+*.hxl
+*.sdb
+*.sym
