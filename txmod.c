@@ -177,14 +177,19 @@ void main(void)
 				input_done = 0;
 				// time to calculate mixes:
 				
-				// display channel 1 for debugging:
-				ledSendHex(input_pulse[debug_channel].bytes.high);
-				ledSendHex(input_pulse[debug_channel].bytes.low);
-				
 				channel = -1;
 				startCapture(BEGIN);
 				// end of calculations, start outputting PPM:
 				//startPPM({65500},BEGIN);
+				
+				ledSendHex(input_pulse[debug_channel].bytes.high);
+				ledSendHex(input_pulse[debug_channel].bytes.low);
+				
+				LED_LATCH = 0;
+				NOP();
+				NOP();
+				NOP();
+				LED_LATCH = 1;
 			}
 			if (tick) {
 				tick = 0;
