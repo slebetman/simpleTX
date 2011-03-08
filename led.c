@@ -31,8 +31,8 @@ void ledSendBcd(unsigned char data)
 	}
 	ledSend(font[temp]);
 	temp = data & 0x0f;
-	ledSend(font[temp] DOT); // send dot anyway since the dots
-	                         // for decimal are not wired ;-)
+	ledSend(font[temp]); // send dot anyway since the dots
+	                     // for decimal are not wired ;-)
 }
 
 void addBcd(char* hi, char* lo, const char datahi, const char datalo)
