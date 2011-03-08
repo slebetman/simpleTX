@@ -6,6 +6,7 @@
 #include <htc.h>
 #include "config.h"
 #include "pinout.h"
+#include "led.h"
 
 #define enableInterrupts() GIE = 1
 #define disableInterrupts() GIE = 0
@@ -140,6 +141,9 @@ void main(void)
 	static bit in_sync = 0;
 	static bit last_ppm = 0;
 	unsigned char ppm_time = 0;
+	unsigned char debug_channel = 0;
+	
+	unsigned char temp;
 
 	initTimers();
 	input_done = 0;
@@ -173,11 +177,21 @@ void main(void)
 				input_done = 0;
 				// time to calculate mixes:
 				
+				// display channel 1 for debugging:
+				ledSendHex(input_pulse[debug_channel].bytes.high);
+				ledSendHex(input_pulse[debug_channel].bytes.low);
+				
 				channel = -1;
 				startCapture(BEGIN);
 				// end of calculations, start outputting PPM:
 				//startPPM({65500},BEGIN);
 			}
+			if (tick) {
+				tick = 0;
+			}
+			debug_channel = 0;
+			debug_channel |= SWITCH1;
+			debug_channel |= (SWITCH2 << 1);
 		}
 	}
 }
