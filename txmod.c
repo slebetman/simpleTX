@@ -95,14 +95,10 @@ void startCapture (signed char mode) {
 }
 
 void processInput () {
-	//printLed(count,3);
 	if (channel < TOTAL_INPUT_CHANNELS) {
 		if (channel >= 0) {
 			input_pulse[channel].bytes.high = CCPR1H;
 			input_pulse[channel].bytes.low  = CCPR1L;
-		}
-		if (channel == 2) {
-			printLed(CCPR1H,CCPR1L);
 		}
 		channel++;
 		startCapture(CONTINUE);
@@ -198,7 +194,6 @@ void main(void)
 			// assume we are at the end of PPM frame
 			ppm_time = 0;
 			in_sync = 1;
-			printLed(0,2);
 			startCapture(BEGIN);
 		}
 	
@@ -214,12 +209,11 @@ void main(void)
 				temp.integer = input_pulse[debug_channel].integer;
 				startCapture(BEGIN);
 				
-				//printLed(
-				//	temp.bytes.high,
-				//	temp.bytes.low
-				//);
-				
-				//in_sync = 0;
+				printLed(
+					temp.bytes.high,
+					temp.bytes.low
+				);
+				in_sync = 0;
 			}
 			else if (tick) {
 				tick = 0;
