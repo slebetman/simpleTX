@@ -97,10 +97,10 @@ void startCapture (signed char mode) {
 void processInput () {
 	//printLed(count,3);
 	if (channel < TOTAL_INPUT_CHANNELS) {
-		//if (channel >= 0) {
-		//	input_pulse[channel].bytes.high = CCPR1H;
-		//	input_pulse[channel].bytes.low  = CCPR1L;
-		//}
+		if (channel >= 0) {
+			input_pulse[channel].bytes.high = CCPR1H;
+			input_pulse[channel].bytes.low  = CCPR1L;
+		}
 		if (channel == 2) {
 			printLed(CCPR1H,CCPR1L);
 		}
@@ -140,10 +140,12 @@ void interrupt HANDLER(void)
 	if(CCP1IF)
 	{
 		processInput();
+		CCP1IF = 0;
 	}
 	if(TMR1IF)
 	{
 		//processOutput();
+		TMR1IF = 0;
 	}
 	if(T0IF)
 	{
@@ -166,6 +168,8 @@ void main(void)
 	TRISA = 0xFF;
 	TRISB = 0x00;
 	TRISC = 0xEF;
+	ANSEL = 0x00;
+	ANSELH = 0x00;
 	count = 0;
 	
 	printLed(0,1);
@@ -221,8 +225,12 @@ void main(void)
 				tick = 0;
 			}
 			debug_channel = 0;
-			debug_channel |= SWITCH1;
-			debug_channel |= (SWITCH2 << 1);
+			if (SWITCH1) {
+				debug_channel |= 1;
+			}
+			if (SWITCH2) {
+				debug_channel |= 2;
+			}
 		}
 	}
 }
