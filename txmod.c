@@ -18,7 +18,8 @@ bit input_done;
 
 #define TOTAL_OUTPUT_CHANNELS 6
 #define TOTAL_INPUT_CHANNELS 4
-char channel; // which servo channel to pulse
+signed char channel; // which servo channel to pulse
+unsigned char count;
 
 struct twoBytes {
 	unsigned char low;
@@ -32,6 +33,15 @@ union intOrBytes {
 
 union intOrBytes input_pulse[TOTAL_INPUT_CHANNELS];
 union intOrBytes output_pulse[TOTAL_OUTPUT_CHANNELS];
+
+void printLed (unsigned char x,unsigned char y) {
+	ledSendHex(x);
+	ledSendHex(y);
+	
+	LED_LATCH = 0;
+	NOP();
+	LED_LATCH = 1;
+}
 
 void initTimers(void)
 {
@@ -52,6 +62,7 @@ void initTimers(void)
 	T1CKPS1 = 0; // disable prescaler
 	T1SYNC = 1;
 	TMR1IE = 1;
+	CCP1IE = 1;
 	PEIE = 1;
 	
 	// Clear timer interrupts:
@@ -59,38 +70,43 @@ void initTimers(void)
 	TMR1IF = 0;
 }
 
-#define BEGIN -1
-#define CONTINUE 0
+#define BEGIN 0
+#define CONTINUE 1
 
-void startPPM (union intOrBytes duration,char mode) {
-	channel = mode;
+void startPPM (union intOrBytes duration,signed char mode) {
+	if (mode == BEGIN) {
+		channel = -1;
+	}
 	TMR1H = duration.bytes.high;
 	TMR1L = duration.bytes.low;
 	TMR1IF = 0;
 	TMR1ON = 1;
 }
 
-void startCapture (char mode) {
-	channel = mode;
+void startCapture (signed char mode) {
+	if (mode == BEGIN) {
+		channel = -1;
+	}
 	TMR1H = 0;
-	TMR1L = 0;
+	TMR1L = 9;
+	TMR1ON = 1;
 	CCP1IF = 0;
 	CCP1CON = 0x04;
 }
 
 void processInput () {
 	if (channel < TOTAL_INPUT_CHANNELS) {
-		if (channel > 0) {
-			input_pulse[channel].bytes.high = TMR1H;
-			input_pulse[channel].bytes.low  = TMR1L;
+		if (channel >= 0) {
+			input_pulse[channel].bytes.high = CCPR1H;
+			input_pulse[channel].bytes.low  = CCPR1L;
 		}
 		channel++;
 		startCapture(CONTINUE);
 	}
 	else {
 		stopCapture();
-		channel = 0;
 		input_done = 1;
+		count++;
 	}
 }
 
@@ -107,7 +123,6 @@ void processOutput () {
 	else {
 		PPM_OUT = 0;
 		stopPPM();
-		channel = -1;
 		startCapture(BEGIN);
 		NOP();
 		NOP();
@@ -121,11 +136,12 @@ void interrupt HANDLER(void)
 	if(CCP1IF)
 	{
 		processInput();
+		CCP1IF = 0;
 	}
 	if(TMR1IF)
 	{
-		processOutput();
-		TMR1IF = 0; // reset timer interrupt
+		//processOutput();
+		TMR1IF = 0;
 	}
 	if(T0IF)
 	{
@@ -143,8 +159,17 @@ void main(void)
 	unsigned char ppm_time = 0;
 	unsigned char debug_channel = 0;
 	
-	unsigned char temp;
-
+	union intOrBytes temp = {0};
+	
+	TRISA = 0xFF;
+	TRISB = 0x00;
+	TRISC = 0xEF;
+	ANSEL = 0x00;
+	ANSELH = 0x00;
+	count = 0;
+	
+	printLed(0,1);
+	
 	initTimers();
 	input_done = 0;
 	tick = 0;
@@ -169,6 +194,7 @@ void main(void)
 			// assume we are at the end of PPM frame
 			ppm_time = 0;
 			in_sync = 1;
+			startCapture(BEGIN);
 		}
 	
 		while(in_sync)
@@ -177,26 +203,28 @@ void main(void)
 				input_done = 0;
 				// time to calculate mixes:
 				
-				channel = -1;
-				startCapture(BEGIN);
 				// end of calculations, start outputting PPM:
 				//startPPM({65500},BEGIN);
 				
-				ledSendHex(input_pulse[debug_channel].bytes.high);
-				ledSendHex(input_pulse[debug_channel].bytes.low);
+				temp.integer = input_pulse[debug_channel].integer;
+				startCapture(BEGIN);
 				
-				LED_LATCH = 0;
-				NOP();
-				NOP();
-				NOP();
-				LED_LATCH = 1;
+				printLed(
+					temp.bytes.high,
+					temp.bytes.low
+				);
+				in_sync = 0;
 			}
-			if (tick) {
+			else if (tick) {
 				tick = 0;
 			}
 			debug_channel = 0;
-			debug_channel |= SWITCH1;
-			debug_channel |= (SWITCH2 << 1);
+			if (SWITCH1) {
+				debug_channel |= 1;
+			}
+			if (SWITCH2) {
+				debug_channel |= 2;
+			}
 		}
 	}
 }
