@@ -7,6 +7,7 @@
 //########################################################################
 void ledSend(unsigned char data)
 {
+	LED_CLOCK = 0;
 	char i;
 	for(i=0;i<8;i++)
 	{
@@ -17,6 +18,8 @@ void ledSend(unsigned char data)
 		}
 		LED_CLOCK = 1;
 		data <<= 1;
+		NOP();
+		NOP();
 		LED_CLOCK = 0;
 	}
 }
@@ -26,13 +29,9 @@ void ledSendBcd(unsigned char data)
 	unsigned char temp;
 	temp = data & 0xf0;
 	temp >>= 4;
-	if(temp==0x0f) {
-		temp++;
-	}
 	ledSend(font[temp]);
 	temp = data & 0x0f;
-	ledSend(font[temp]); // send dot anyway since the dots
-	                     // for decimal are not wired ;-)
+	ledSend(font[temp]);
 }
 
 void addBcd(char* hi, char* lo, const char datahi, const char datalo)
