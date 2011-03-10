@@ -13,7 +13,15 @@
 #define stopCapture() CCP1IE=0;CCP1CON=0x00
 #define stopPPM() TMR1IE=0;TMR1ON=0
 
+#define SERVO_MIN 6256
+#define SERVO_MAX 11620
+#define SERVO_CENTER (SERVO_MIN+SERVO_MAX)/2
+
 unsigned char tick;          // timer tick (roughly 1ms using 24 MHz XTAL)
+#define TICK_1MS 55
+#define resetTick() tick=0;TMR0=TICK_1MS
+
+bit in_sync;
 bit input_done;
 
 #define TOTAL_OUTPUT_CHANNELS 6
@@ -75,6 +83,7 @@ void startPPM (union intOrBytes duration,signed char mode) {
 	if (mode == BEGIN) {
 		channel = -1;
 	}
+	duration.integer = 65535-duration.integer;
 	TMR1H = duration.bytes.high;
 	TMR1L = duration.bytes.low;
 	TMR1IF = 0;
@@ -111,23 +120,27 @@ void processInput () {
 }
 
 void processOutput () {
+	unsigned char delay;
 	if (channel < TOTAL_OUTPUT_CHANNELS) {
 		PPM_OUT = 0;
 		channel++;
 		startPPM(output_pulse[channel],CONTINUE);
-		NOP();
-		NOP();
-		NOP();
+		for (delay=30;delay--;) {
+			NOP();
+		}
 		PPM_OUT = 1;
 	}
 	else {
 		PPM_OUT = 0;
 		stopPPM();
 		startCapture(BEGIN);
-		NOP();
-		NOP();
-		NOP();
+		for (delay=30;delay--;) {
+			NOP();
+		}
 		PPM_OUT = 1;
+		if (tick > 11) {
+			in_sync = 0; // all the processing took too long, skip a frame
+		}
 	}
 }
 
@@ -140,24 +153,23 @@ void interrupt HANDLER(void)
 	}
 	if(TMR1IF)
 	{
-		//processOutput();
+		processOutput();
 		TMR1IF = 0;
 	}
 	if(T0IF)
 	{
-		TMR0 = 55;
+		TMR0 = TICK_1MS;
 		T0IF = 0;   // reset timer interrupt
-		tick = 1;
+		tick ++;
 	}
 }
 
 void main(void)
 {
 	#define PPM_BLANK_CHECK 5
-	static bit in_sync = 0;
 	static bit last_ppm = 0;
-	unsigned char ppm_time = 0;
 	unsigned char debug_channel = 0;
+	unsigned char i;
 	
 	union intOrBytes temp = {0};
 	
@@ -167,6 +179,7 @@ void main(void)
 	ANSEL = 0x00;
 	ANSELH = 0x00;
 	count = 0;
+	in_sync = 0;
 	
 	printLed(0,1);
 	
@@ -174,6 +187,9 @@ void main(void)
 	input_done = 0;
 	tick = 0;
 	enableInterrupts();
+	
+	output_pulse[4].integer = SERVO_MIN;
+	output_pulse[5].integer = SERVO_MIN;
 
 	while(1)
 	{
@@ -182,17 +198,12 @@ void main(void)
 		 * for the end of a PPM frame.
 		 */
 		 
-		if (tick) {
-			tick = 0;
-			ppm_time ++;
-		}
 		if (PPM_IN != last_ppm) {
-			ppm_time = 0;
+			resetTick(); // reset tick counter
 			last_ppm = PPM_IN;
 		}
-		if (ppm_time > PPM_BLANK_CHECK) {
+		if (tick > PPM_BLANK_CHECK) {
 			// assume we are at the end of PPM frame
-			ppm_time = 0;
 			in_sync = 1;
 			startCapture(BEGIN);
 		}
@@ -201,22 +212,24 @@ void main(void)
 		{
 			if (input_done) {
 				input_done = 0;
+				resetTick();
+				
 				// time to calculate mixes:
-				
-				// end of calculations, start outputting PPM:
-				//startPPM({65500},BEGIN);
-				
 				temp.integer = input_pulse[debug_channel].integer;
-				startCapture(BEGIN);
 				
 				printLed(
 					temp.bytes.high,
 					temp.bytes.low
 				);
-				in_sync = 0;
-			}
-			else if (tick) {
-				tick = 0;
+				
+				// simple copy mix for now:
+				for (i=0;i<TOTAL_INPUT_CHANNELS;i++) {
+					output_pulse[i].integer = input_pulse[i].integer;
+				}
+				
+				// end of calculations, start outputting PPM:
+				temp.integer = 10;
+				startPPM(temp,BEGIN);
 			}
 			debug_channel = 0;
 			if (SWITCH1) {
