@@ -8,12 +8,12 @@
 #include "pinout.h"
 #include "led.h"
 
-#define enableInterrupts() GIE = 1
-#define disableInterrupts() GIE = 0
-#define stopCapture() CCP1CON = 0x00
-#define stopPPM() TMR1ON=0
+#define enableInterrupts() GIE=1
+#define disableInterrupts() GIE=0
+#define stopCapture() CCP1IE=0;CCP1CON=0x00
+#define stopPPM() TMR1IE=0;TMR1ON=0
 
-bit tick;          // timer tick (roughly 1ms using 24 MHz XTAL)
+unsigned char tick;          // timer tick (roughly 1ms using 24 MHz XTAL)
 bit input_done;
 
 #define TOTAL_OUTPUT_CHANNELS 6
@@ -61,8 +61,6 @@ void initTimers(void)
 	T1CKPS0 = 0;
 	T1CKPS1 = 0; // disable prescaler
 	T1SYNC = 1;
-	TMR1IE = 1;
-	CCP1IE = 1;
 	PEIE = 1;
 	
 	// Clear timer interrupts:
@@ -80,6 +78,7 @@ void startPPM (union intOrBytes duration,signed char mode) {
 	TMR1H = duration.bytes.high;
 	TMR1L = duration.bytes.low;
 	TMR1IF = 0;
+	TMR1IE = 1;
 	TMR1ON = 1;
 }
 
@@ -91,6 +90,7 @@ void startCapture (signed char mode) {
 	TMR1L = 9;
 	TMR1ON = 1;
 	CCP1IF = 0;
+	CCP1IE = 1;
 	CCP1CON = 0x04;
 }
 
