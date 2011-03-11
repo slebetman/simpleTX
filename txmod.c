@@ -7,15 +7,14 @@
 #include "config.h"
 #include "pinout.h"
 #include "led.h"
+#include "txmod.h"
 
 #define enableInterrupts() GIE=1
 #define disableInterrupts() GIE=0
 #define stopCapture() CCP1IE=0;CCP1CON=0x00
 #define stopPPM() TMR1IE=0;TMR1ON=0
 
-#define SERVO_MIN 6256
-#define SERVO_MAX 11620
-#define SERVO_CENTER (SERVO_MIN+SERVO_MAX)/2
+extern void mix (void);
 
 unsigned char tick;          // timer tick (roughly 1ms using 24 MHz XTAL)
 #define TICK_1MS 55
@@ -24,20 +23,8 @@ unsigned char tick;          // timer tick (roughly 1ms using 24 MHz XTAL)
 bit in_sync;
 bit input_done;
 
-#define TOTAL_OUTPUT_CHANNELS 6
-#define TOTAL_INPUT_CHANNELS 4
 signed char channel; // which servo channel to pulse
 unsigned char count;
-
-struct twoBytes {
-	unsigned char low;
-	unsigned char high;
-};
-
-union intOrBytes {
-	unsigned int integer;
-	struct twoBytes bytes;
-};
 
 union intOrBytes input_pulse[TOTAL_INPUT_CHANNELS];
 union intOrBytes output_pulse[TOTAL_OUTPUT_CHANNELS];
@@ -189,7 +176,7 @@ void main(void)
 	enableInterrupts();
 	
 	output_pulse[4].integer = SERVO_MIN;
-	output_pulse[5].integer = SERVO_MIN;
+	//output_pulse[5].integer = SERVO_MIN;
 
 	while(1)
 	{
@@ -214,7 +201,6 @@ void main(void)
 				input_done = 0;
 				resetTick();
 				
-				// time to calculate mixes:
 				temp.integer = input_pulse[debug_channel].integer;
 				
 				printLed(
@@ -222,12 +208,8 @@ void main(void)
 					temp.bytes.low
 				);
 				
-				// simple copy mix for now:
-				for (i=0;i<TOTAL_INPUT_CHANNELS;i++) {
-					output_pulse[i].integer = input_pulse[i].integer;
-				}
+				mix();
 				
-				// end of calculations, start outputting PPM:
 				temp.integer = 10;
 				startPPM(temp,BEGIN);
 			}
