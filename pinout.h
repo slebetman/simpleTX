@@ -1,5 +1,7 @@
 /* pinout assumes PIC16F690 */
 
+#include <pic.h>
+
 // PPM signal
 #define PPM_IN   RC5
 #define PPM_OUT  RC4
