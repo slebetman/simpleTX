@@ -158,8 +158,6 @@ void main(void)
 	count = 0;
 	in_sync = 0;
 	
-	printLed(0,1);
-	
 	initTimers();
 	input_done = 0;
 	tick = 0;
