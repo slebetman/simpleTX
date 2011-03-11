@@ -58,7 +58,7 @@ void initTimers(void)
 
 void startPPM (union intOrBytes duration,signed char mode) {
 	if (mode == BEGIN) {
-		channel = -1;
+		channel = 0;
 	}
 	duration.integer = 65535-duration.integer;
 	TMR1H = duration.bytes.high;
@@ -110,13 +110,15 @@ void processOutput () {
 	else {
 		PPM_OUT = 0;
 		stopPPM();
-		startCapture(BEGIN);
 		for (delay=30;delay--;) {
 			NOP();
 		}
 		PPM_OUT = 1;
 		if (tick > 11) {
 			in_sync = 0; // all the processing took too long, skip a frame
+		}
+		else {
+			startCapture(BEGIN);
 		}
 	}
 }
