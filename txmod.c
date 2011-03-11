@@ -100,12 +100,12 @@ void processOutput () {
 	unsigned char delay;
 	if (channel < TOTAL_OUTPUT_CHANNELS) {
 		PPM_OUT = 0;
-		channel++;
 		startPPM(output_pulse[channel],CONTINUE);
 		for (delay=30;delay--;) {
 			NOP();
 		}
 		PPM_OUT = 1;
+		channel++;
 	}
 	else {
 		PPM_OUT = 0;
