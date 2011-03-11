@@ -6,7 +6,6 @@
 #include <htc.h>
 #include "config.h"
 #include "pinout.h"
-#include "led.h"
 #include "txmod.h"
 
 #define enableInterrupts() GIE=1
@@ -28,15 +27,6 @@ unsigned char count;
 
 union intOrBytes input_pulse[TOTAL_INPUT_CHANNELS];
 union intOrBytes output_pulse[TOTAL_OUTPUT_CHANNELS];
-
-void printLed (unsigned char x,unsigned char y) {
-	ledSendHex(x);
-	ledSendHex(y);
-	
-	LED_LATCH = 0;
-	NOP();
-	LED_LATCH = 1;
-}
 
 void initTimers(void)
 {
@@ -200,13 +190,6 @@ void main(void)
 			if (input_done) {
 				input_done = 0;
 				resetTick();
-				
-				temp.integer = input_pulse[debug_channel].integer;
-				
-				printLed(
-					temp.bytes.high,
-					temp.bytes.low
-				);
 				
 				mix();
 				
