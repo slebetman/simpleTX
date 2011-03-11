@@ -16,7 +16,7 @@
 extern void mix (void);
 
 unsigned char tick;          // timer tick (roughly 1ms using 24 MHz XTAL)
-#define TICK_1MS 55
+#define TICK_1MS 70
 #define resetTick() tick=0;TMR0=TICK_1MS
 
 bit in_sync;
