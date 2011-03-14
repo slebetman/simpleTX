@@ -1,6 +1,6 @@
 #include "txmod.h"
 
-#define X_RANGE 512L
+#define X_RANGE 1024L
 #define K_RANGE 100L
 
 void expo (unsigned char channel, unsigned char k /* 0-100 */) {
