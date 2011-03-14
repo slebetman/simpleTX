@@ -15,6 +15,11 @@
 #define CHANNEL5 4
 #define CHANNEL6 5
 
+#define AILERON  CHANNEL1
+#define ELEVATOR CHANNEL2
+#define THROTTLE CHANNEL3
+#define RUDDER   CHANNEL4
+
 struct twoBytes {
 	unsigned char low;
 	unsigned char high;
