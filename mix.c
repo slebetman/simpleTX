@@ -4,8 +4,8 @@ void mix(void)
 {
 	// simple copy mix as template:
 	
-	output_pulse[0].integer = input_pulse[0].integer;
-	output_pulse[1].integer = input_pulse[1].integer;
-	output_pulse[2].integer = input_pulse[2].integer;
-	output_pulse[3].integer = input_pulse[3].integer;
+	output_pulse[CHANNEL1].integer = input_pulse[CHANNEL1].integer;
+	output_pulse[CHANNEL2].integer = input_pulse[CHANNEL2].integer;
+	output_pulse[CHANNEL3].integer = input_pulse[CHANNEL3].integer;
+	output_pulse[CHANNEL4].integer = input_pulse[CHANNEL4].integer;
 }

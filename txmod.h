@@ -8,6 +8,13 @@
 #define TOTAL_OUTPUT_CHANNELS 6
 #define TOTAL_INPUT_CHANNELS 4
 
+#define CHANNEL1 0
+#define CHANNEL2 1
+#define CHANNEL3 2
+#define CHANNEL4 3
+#define CHANNEL5 4
+#define CHANNEL6 5
+
 struct twoBytes {
 	unsigned char low;
 	unsigned char high;

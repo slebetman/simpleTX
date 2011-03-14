@@ -167,8 +167,8 @@ void main(void)
 	tick = 0;
 	enableInterrupts();
 	
-	output_pulse[4].integer = SERVO_MIN;
-	output_pulse[5].integer = SERVO_MIN;
+	output_pulse[CHANNEL5].integer = SERVO_MIN;
+	output_pulse[CHANNEL6].integer = SERVO_MIN;
 
 	while(1)
 	{
