@@ -14,7 +14,7 @@
 #define stopPPM() TMR1IE=0;TMR1ON=0
 
 extern void mix (void);
-extern unsigned int expo (unsigned int, unsigned char);
+extern void expo (unsigned char, unsigned char);
 
 unsigned char tick;          // timer tick (roughly 1ms using 24 MHz XTAL)
 #define TICK_1MS 70
@@ -192,7 +192,7 @@ void main(void)
 			if (input_done) {
 				input_done = 0;
 				resetTick();
-				
+
 				mix();
 				
 				temp.integer = 10;
