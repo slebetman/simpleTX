@@ -101,7 +101,7 @@ void processOutput () {
 	if (channel < TOTAL_OUTPUT_CHANNELS) {
 		PPM_OUT = 0;
 		startPPM(output_pulse[channel],CONTINUE);
-		for (delay=30;delay--;) {
+		for (delay=100;delay--;) {
 			NOP();
 		}
 		PPM_OUT = 1;
@@ -110,7 +110,7 @@ void processOutput () {
 	else {
 		PPM_OUT = 0;
 		stopPPM();
-		for (delay=30;delay--;) {
+		for (delay=100;delay--;) {
 			NOP();
 		}
 		PPM_OUT = 1;
