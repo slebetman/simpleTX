@@ -10,8 +10,8 @@ void mix(void)
 	output_pulse[CHANNEL4] = input_pulse[CHANNEL4];
 	
 	// V-tail mix:
-	channel2_normalized = input_pulse[1].integer-SERVO_MIN;
-	channel1_normalized = input_pulse[0].integer-SERVO_MIN;
+	channel2_normalized = input_pulse[CHANNEL2].integer-SERVO_MIN;
+	channel1_normalized = input_pulse[CHANNEL1].integer-SERVO_MIN;
 	channel1_reverse = SERVO_RANGE-channel1_normalized;
 	
 	left_servo = (channel2_normalized+channel1_normalized)/2;
