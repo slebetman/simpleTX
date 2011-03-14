@@ -6,7 +6,7 @@
 unsigned int expo (unsigned int pulse, unsigned char k /* 0-100 */) {
 	long x;
 	
-	x = (pulse-SERVO_CENTER);  // get stick position relative to center
+	x = ((signed long)pulse-SERVO_CENTER);  // get stick position relative to center
 	x = x*X_RANGE/(SERVO_RANGE/2); // scale down to -512/512
 	
 	// all calculations from this point on are signed 10 bits:
