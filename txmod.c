@@ -91,7 +91,7 @@ void processInput () {
 		channel++;
 		startCapture(CONTINUE);
 	}
-	else {
+	if (channel == TOTAL_INPUT_CHANNELS) {
 		stopCapture();
 		input_done = 1;
 		count++;
