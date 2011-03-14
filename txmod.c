@@ -57,6 +57,7 @@ void initTimers(void)
 #define BEGIN 0
 #define CONTINUE 1
 
+
 void startPPM (union intOrBytes duration,signed char mode) {
 	if (mode == BEGIN) {
 		channel = 0;
@@ -167,7 +168,7 @@ void main(void)
 	enableInterrupts();
 	
 	output_pulse[4].integer = SERVO_MIN;
-	//output_pulse[5].integer = SERVO_MIN;
+	output_pulse[5].integer = SERVO_MIN;
 
 	while(1)
 	{
