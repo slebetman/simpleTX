@@ -63,9 +63,11 @@ void main(void)
 	input_done = 0;
 	tick = 0;
 	enableInterrupts();
-	
-	output_pulse[CHANNEL5].integer = SERVO_MIN;
-	output_pulse[CHANNEL6].integer = SERVO_MIN;
+
+	// Init output_pulse array to sane defaults:
+	for (i=0;i<TOTAL_OUTPUT_CHANNELS;i++) {	
+		output_pulse[i].integer = SERVO_MIN;
+	}
 
 	while(1)
 	{
