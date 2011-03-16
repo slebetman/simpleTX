@@ -1,4 +1,5 @@
 #include "txmod.h"
+#include "ppmio.h"
 
 void mix(void)
 {

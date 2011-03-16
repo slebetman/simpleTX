@@ -1,5 +1,8 @@
 /* Assumes PIC16F690 running at 24MHz */
 
+#ifndef _TXMOD_H_
+#define _TXMOD_H_
+
 #define SERVO_MIN 6256
 #define SERVO_MAX 11620
 #define SERVO_CENTER ((SERVO_MIN+SERVO_MAX)/2)
@@ -30,5 +33,8 @@ union intOrBytes {
 	struct twoBytes bytes;
 };
 
-extern union intOrBytes input_pulse[TOTAL_INPUT_CHANNELS];
-extern union intOrBytes output_pulse[TOTAL_OUTPUT_CHANNELS];
+extern unsigned char tick;
+#define TICK_1MS 70
+#define resetTick() tick=0;TMR0=TICK_1MS
+
+#endif
