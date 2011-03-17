@@ -91,8 +91,9 @@ void processOutput () {
 			NOP();
 		}
 		PPM_OUT = 1;
-		if (tick >= 19) {
-			in_sync = 0; // all the processing took too long, skip a frame
+		if (tick >= 19 || tick <= 8) {
+			in_sync = 0; // processing time was too long or too short
+			             // signal main loop to re-sync with PPM input
 		}
 		else {
 			startCapture(BEGIN);
