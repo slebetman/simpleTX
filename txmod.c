@@ -77,7 +77,6 @@ void main(void)
 		{
 			if (input_done) {
 				input_done = 0;
-				resetTick();
 				
 				mix();
 				

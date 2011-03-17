@@ -3,7 +3,7 @@
 #include "txmod.h"
 #include "pinout.h"
 
-#define PPM_BLANK_CHECK 5 /* milliseconds */
+#define PPM_BLANK_CHECK 9 /* milliseconds */
 
 signed char channel;
 bit in_sync;
@@ -18,6 +18,7 @@ void syncPPM (void) {
 	 * for the end of a PPM frame.
 	 */   
 	static bit last_ppm = 0;
+	resetTick();
 	while(1) {
 		if (PPM_IN != last_ppm) {
 			resetTick(); // reset tick counter
@@ -62,6 +63,9 @@ void processInput () {
 			input_pulse[channel].bytes.high = CCPR1H;
 			input_pulse[channel].bytes.low  = CCPR1L;
 		}
+		else {
+			resetTick();
+		}
 		channel++;
 		startCapture(CONTINUE);
 	}
@@ -89,7 +93,7 @@ void processOutput () {
 			NOP();
 		}
 		PPM_OUT = 1;
-		if (tick > 11) {
+		if (tick >= 19) {
 			in_sync = 0; // all the processing took too long, skip a frame
 		}
 		else {
