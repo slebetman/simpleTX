@@ -59,8 +59,7 @@ void startCapture (signed char mode) {
 void processInput () {
 	if (channel < TOTAL_INPUT_CHANNELS) {
 		if (channel >= 0) {
-			input_pulse[channel] = (unsigned int)CCPR1H << 8;
-			input_pulse[channel] |= CCPR1L;
+			input_pulse[channel] = ((unsigned int)CCPR1H << 8) | CCPR1L;
 		}
 		else {
 			resetTick();
