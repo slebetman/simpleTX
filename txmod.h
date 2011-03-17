@@ -23,16 +23,6 @@
 #define THROTTLE CHANNEL3
 #define RUDDER   CHANNEL4
 
-struct twoBytes {
-	unsigned char low;
-	unsigned char high;
-};
-
-union intOrBytes {
-	unsigned int integer;
-	struct twoBytes bytes;
-};
-
 extern unsigned char tick;
 #define TICK_1MS 70
 #define resetTick() tick=0;TMR0=TICK_1MS

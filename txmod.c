@@ -17,9 +17,6 @@ extern void expo (unsigned char, unsigned char);
 
 unsigned char tick;          // timer tick (roughly 1ms using 24 MHz XTAL)
 
-union intOrBytes input_pulse[TOTAL_INPUT_CHANNELS];
-union intOrBytes output_pulse[TOTAL_OUTPUT_CHANNELS];
-
 void initTimers(void)
 {
 	// Set up timer 0 for 1ms tick:
@@ -50,8 +47,6 @@ void main(void)
 	unsigned char debug_channel = 0;
 	unsigned char i;
 	
-	union intOrBytes temp = {0};
-	
 	TRISA = 0xFF;
 	TRISB = 0x00;
 	TRISC = 0xEF;
@@ -66,7 +61,7 @@ void main(void)
 
 	// Init output_pulse array to sane defaults:
 	for (i=0;i<TOTAL_OUTPUT_CHANNELS;i++) {	
-		output_pulse[i].integer = SERVO_MIN;
+		output_pulse[i] = SERVO_MIN;
 	}
 
 	while(1)
@@ -80,8 +75,7 @@ void main(void)
 				
 				mix();
 				
-				temp.integer = 10;
-				startPPM(temp,BEGIN);
+				startPPM(10,BEGIN);
 			}
 			debug_channel = 0;
 			if (SWITCH1) {

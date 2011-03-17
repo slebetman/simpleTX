@@ -7,7 +7,7 @@
 void expo (unsigned char channel, unsigned char k /* 0-100 */) {
 	long x;
 	
-	x = ((signed long)input_pulse[channel].integer-SERVO_CENTER);  // get stick position relative to center
+	x = ((signed long)input_pulse[channel]-SERVO_CENTER);  // get stick position relative to center
 	x = x*X_RANGE/(SERVO_RANGE/2); // scale down to -512/512
 	
 	// all calculations from this point on are signed 10 bits:
@@ -25,5 +25,5 @@ void expo (unsigned char channel, unsigned char k /* 0-100 */) {
 	x = x*(SERVO_RANGE/2)/X_RANGE;
 	x += SERVO_CENTER;
 	
-	input_pulse[channel].integer = (unsigned int)x;
+	input_pulse[channel] = (unsigned int)x;
 }

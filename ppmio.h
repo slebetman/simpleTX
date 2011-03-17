@@ -8,11 +8,11 @@
 #define CONTINUE 1
 
 extern void syncPPM (void);
-extern void startPPM (union intOrBytes,signed char);
+extern void startPPM (unsigned int,signed char);
 extern void startCapture (signed char);
 
 extern bit in_sync;
 extern bit input_done;
 
-extern union intOrBytes input_pulse[TOTAL_INPUT_CHANNELS];
-extern union intOrBytes output_pulse[TOTAL_OUTPUT_CHANNELS];
+extern unsigned int input_pulse[TOTAL_INPUT_CHANNELS];
+extern unsigned int output_pulse[TOTAL_OUTPUT_CHANNELS];

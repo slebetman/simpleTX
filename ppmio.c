@@ -8,9 +8,8 @@
 signed char channel;
 bit in_sync;
 bit input_done;
-
-union intOrBytes input_pulse[TOTAL_INPUT_CHANNELS];
-union intOrBytes output_pulse[TOTAL_OUTPUT_CHANNELS];
+unsigned int input_pulse[TOTAL_INPUT_CHANNELS];
+unsigned int output_pulse[TOTAL_OUTPUT_CHANNELS];
 
 void syncPPM (void) {
 	/*
@@ -33,13 +32,13 @@ void syncPPM (void) {
 	}
 }
 
-void startPPM (union intOrBytes duration,signed char mode) {
+void startPPM (unsigned int duration,signed char mode) {
 	if (mode == BEGIN) {
 		channel = 0;
 	}
-	duration.integer = 65535-duration.integer;
-	TMR1H = duration.bytes.high;
-	TMR1L = duration.bytes.low;
+	duration = 65535-duration;
+	TMR1H = duration >> 8;
+	TMR1L = duration;
 	TMR1IF = 0;
 	TMR1IE = 1;
 	TMR1ON = 1;
@@ -60,8 +59,8 @@ void startCapture (signed char mode) {
 void processInput () {
 	if (channel < TOTAL_INPUT_CHANNELS) {
 		if (channel >= 0) {
-			input_pulse[channel].bytes.high = CCPR1H;
-			input_pulse[channel].bytes.low  = CCPR1L;
+			input_pulse[channel] = (unsigned int)CCPR1H << 8;
+			input_pulse[channel] |= CCPR1L;
 		}
 		else {
 			resetTick();
