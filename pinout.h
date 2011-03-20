@@ -12,10 +12,10 @@
 #define ANALOG3  RC7
 
 // Digital I/O
-#define DIGITAL1 RB7
-#define DIGITAL2 RB6
-#define DIGITAL3 RB5
-#define DIGITAL4 RB4
+#define DIGITAL1 RB4
+#define DIGITAL2 RB5
+#define DIGITAL3 RB6
+#define DIGITAL4 RB7
 #define SWITCH1  RA2
 #define SWITCH2  RC1
 #define SWITCH3  RC0
