@@ -7,9 +7,9 @@
 #define PPM_OUT  RC4
 
 // Analog/Potentiometer input
-#define ANALOG1  RC3
+#define ANALOG1  RC7
 #define ANALOG2  RC6
-#define ANALOG3  RC7
+#define ANALOG3  RC3
 
 // Digital I/O
 #define DIGITAL1 RB4
