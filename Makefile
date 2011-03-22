@@ -18,9 +18,7 @@ $(HEXFILE): $(SOURCES) $(HEADERS)
 install: $(HEXFILE)
 	$(PROGRAMMER) -p$(CPU) -e
 	$(PROGRAMMER) -p$(CPU) -w -f=$(HEXFILE) --silent
-
-verify: $(HEXFILE)
-	$(PROGRAMMER) -v -f=$(HEXFILE) --silent
+	$(PROGRAMMER) -p$(CPU) -v -f=$(HEXFILE) --silent
 
 run: $(HEXFILE)
 	$(PROGRAMMER) --run
