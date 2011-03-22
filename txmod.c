@@ -47,11 +47,15 @@ void main(void)
 	unsigned char debug_channel = 0;
 	unsigned char i;
 	
-	TRISA = 0xFF;
+	TRISA = 0xFB;
 	TRISB = 0x00;
 	TRISC = 0xEF;
 	ANSEL = 0x00;
 	ANSELH = 0x00;
+	RABPU = 0;
+	WPUB = 0xf0;
+	WPUA = 0x04;
+	
 	in_sync = 0;
 	
 	initTimers();
