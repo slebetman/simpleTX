@@ -12,10 +12,12 @@
 #define ANALOG3  RC3
 
 // Digital I/O
-#define DIGITAL1 RB4
-#define DIGITAL2 RB5
-#define DIGITAL3 RB6
-#define DIGITAL4 RB7
+#define DIGITAL1 RB5
+#define DIGITAL2 RB6
+#define DIGITAL3 RB7
+//#define DIGITAL4 RB7 /* accidentally broke off DIGITAL1
+                        * so now we have only 3 ports
+                        */
 #define SWITCH1  RA2
 #define SWITCH2  RC1
 #define SWITCH3  RC0
