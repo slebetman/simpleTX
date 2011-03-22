@@ -48,12 +48,12 @@ void main(void)
 	unsigned char i;
 	
 	TRISA = 0xFB;
-	TRISB = 0x00;
+	TRISB = 0xF0;
 	TRISC = 0xEF;
 	ANSEL = 0x00;
 	ANSELH = 0x00;
 	RABPU = 0;
-	WPUB = 0xf0;
+	WPUB = 0xF0;
 	WPUA = 0x04;
 	
 	in_sync = 0;
