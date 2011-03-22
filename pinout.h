@@ -15,7 +15,8 @@
 #define DIGITAL1 RB5
 #define DIGITAL2 RB6
 #define DIGITAL3 RB7
-//#define DIGITAL4 RB7 /* accidentally broke off DIGITAL1
+//#define DIGITAL4 RB7
+                       /* accidentally broke off DIGITAL1
                         * so now we have only 3 ports
                         */
 #define SWITCH1  RA2
