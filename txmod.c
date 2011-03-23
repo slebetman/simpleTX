@@ -47,7 +47,7 @@ void main(void)
 	unsigned char debug_channel = 0;
 	unsigned char i;
 	
-	TRISA = 0xFB;
+	TRISA = 0xFF;
 	TRISB = 0xF0;
 	TRISC = 0xEF;
 	ANSEL = 0x00;
