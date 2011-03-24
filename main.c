@@ -5,8 +5,7 @@
 #include <pic.h>
 #include <htc.h>
 #include "config.h"
-#include "pinout.h"
-#include "txmod.h"
+#include "common.h"
 #include "ppmio.h"
 #include "calculations.h"
 #include "init.h"

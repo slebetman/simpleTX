@@ -1,7 +1,9 @@
 /* Assumes PIC16F690 running at 24MHz */
 
-#ifndef _TXMOD_H_
-#define _TXMOD_H_
+#include pinout.h
+
+#ifndef _COMMON_H_
+#define _COMMON_H_
 
 #define enableInterrupts() GIE=1
 #define disableInterrupts() GIE=0

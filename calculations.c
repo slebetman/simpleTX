@@ -1,4 +1,4 @@
-#include "txmod.h"
+#include "common.h"
 #include "ppmio.h"
 
 unsigned int expo (unsigned int input, unsigned char k /* 0-100 */) {

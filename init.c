@@ -4,8 +4,7 @@
 
 #include <pic.h>
 #include <htc.h>
-#include "pinout.h"
-#include "txmod.h"
+#include "common.h"
 #include "ppmio.h"
 
 void initTimers (void) {

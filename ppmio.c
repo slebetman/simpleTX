@@ -1,7 +1,6 @@
 #include <pic.h>
 #include "ppmio.h"
-#include "txmod.h"
-#include "pinout.h"
+#include "common.h"
 
 #define PPM_BLANK_CHECK 9 /* milliseconds */
 

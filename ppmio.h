@@ -1,5 +1,3 @@
-#include "txmod.h"
-
 #define stopCapture() CCP1IE=0;CCP1CON=0x00
 #define stopPPM() TMR1IE=0;TMR1ON=0
 
