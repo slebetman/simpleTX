@@ -57,6 +57,9 @@ void startCapture (signed char mode) {
 
 void processInput () {
 	unsigned int input_buffer;
+	unsigned char delay;
+
+	RA1 = 0;
 	if (channel < TOTAL_INPUT_CHANNELS) {
 		startCapture(CONTINUE);
 		if (channel >= 0) {
@@ -73,26 +76,23 @@ void processInput () {
 		stopCapture();
 		input_done = 1;
 	}
+	for (delay=100;delay--;) {
+		NOP();
+	}
+	RA1 = 1;
 }
 
 void processOutput () {
 	unsigned char delay;
+	
+	PPM_OUT = 0;
+	RA0 = 0;
 	if (channel < TOTAL_OUTPUT_CHANNELS) {
-		PPM_OUT = 0;
 		startPPM(output_pulse[channel],CONTINUE);
-		for (delay=100;delay--;) {
-			NOP();
-		}
-		PPM_OUT = 1;
 		channel++;
 	}
 	else {
-		PPM_OUT = 0;
 		stopPPM();
-		for (delay=100;delay--;) {
-			NOP();
-		}
-		PPM_OUT = 1;
 		if (tick >= 19 || tick <= 8) {
 			in_sync = 0; // processing time was too long or too short
 			             // signal main loop to re-sync with PPM input
@@ -101,6 +101,11 @@ void processOutput () {
 			startCapture(BEGIN);
 		}
 	}
+	for (delay=100;delay--;) {
+		NOP();
+	}
+	PPM_OUT = 1;
+	RA0 = 1;
 }
 
 void interrupt HANDLER(void)
