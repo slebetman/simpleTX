@@ -32,7 +32,7 @@ void initTimers (void) {
 }
 
 void initIO (void) {
-	TRISA = 0xFF;
+	TRISA = 0xFC;
 	TRISB = 0xF0;
 	TRISC = 0xEF;
 	ANSEL = 0x00;
