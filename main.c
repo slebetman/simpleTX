@@ -26,21 +26,25 @@ void main(void)
 			if (input_done) {
 				input_done = 0;
 				
+				if (SWITCH4) {
+					AILERON = expo(AILERON, 65);
+				}
+				
 				if (SWITCH1) { // ===================================== ELEVON
 					output_pulse[CHANNEL3] = THROTTLE;
 					output_pulse[CHANNEL4] = RUDDER;
-					mix(AILERON,ELEVATOR,
-						&output_pulse[CHANNEL1],&output_pulse[CHANNEL2]);
+					mix(AILERON, ELEVATOR,
+						&output_pulse[CHANNEL1], &output_pulse[CHANNEL2]);
 				}
 				else if (SWITCH2) { // ================================ FLAPPERON
 					if (DIGITAL1) {
-						slowdown(1600,&flap_position,40);
+						slowdown(1600, &flap_position, 40);
 					}
 					else {
-						slowdown(0,&flap_position,-40);
+						slowdown(0, &flap_position, -40);
 					}
-					mix(input_pulse[AILERON],flap_position,
-						&output_pulse[CHANNEL1],&output_pulse[CHANNEL5]);
+					mix(input_pulse[AILERON], flap_position,
+						&output_pulse[CHANNEL1], &output_pulse[CHANNEL5]);
 						
 					if (output_pulse[CHANNEL1] > SERVO_MAX) {
 						output_pulse[CHANNEL1] = SERVO_MAX;
@@ -51,7 +55,7 @@ void main(void)
 				}
 				else if (SWITCH3) { // ================================ SAILBOAT
 					output_pulse[CHANNEL1] = AILERON;
-					output_pulse[CHANNEL3] = scale(THROTTLE,240);
+					output_pulse[CHANNEL3] = scale(THROTTLE, 240);
 				}
 				else { // ============================================= NORMAL
 					output_pulse[CHANNEL1] = AILERON;
@@ -60,7 +64,7 @@ void main(void)
 					output_pulse[CHANNEL4] = RUDDER;
 				}
 				
-				startPPM(10,BEGIN);
+				startPPM(10, BEGIN);
 			}
 		}
 	}
