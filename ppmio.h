@@ -13,10 +13,10 @@
 #define CHANNEL5 4
 #define CHANNEL6 5
 
-#define AILERON  CHANNEL1
-#define ELEVATOR CHANNEL2
-#define THROTTLE CHANNEL3
-#define RUDDER   CHANNEL4
+#define AILERON  input_pulse[CHANNEL1]
+#define ELEVATOR input_pulse[CHANNEL2]
+#define THROTTLE input_pulse[CHANNEL3]
+#define RUDDER   input_pulse[CHANNEL4]
 
 #define stopCapture() CCP1IE=0;CCP1CON=0x00
 #define stopPPM() TMR1IE=0;TMR1ON=0
