@@ -1,7 +1,9 @@
-#define SERVO_MIN 6256
-#define SERVO_MAX 11620
-#define SERVO_CENTER ((SERVO_MIN+SERVO_MAX)/2)
-#define SERVO_RANGE (SERVO_MAX-SERVO_MIN)
+#define PULSE_MIN 6256
+#define PULSE_MAX 11620
+#define PULSE_CENTER ((PULSE_MIN+PULSE_MAX)/2)
+#define SERVO_RANGE (PULSE_MAX-PULSE_MIN)
+#define SERVO_MAX (SERVO_RANGE/2)
+#define SERVO_MIN -SERVO_MAX
 
 #define TOTAL_OUTPUT_CHANNELS 6
 #define TOTAL_INPUT_CHANNELS 5
@@ -32,5 +34,5 @@ extern void startCapture (signed char);
 extern bit in_sync;
 extern bit input_done;
 
-extern unsigned int input_pulse[TOTAL_INPUT_CHANNELS];
-extern unsigned int output_pulse[TOTAL_OUTPUT_CHANNELS];
+extern int input_pulse[TOTAL_INPUT_CHANNELS];
+extern int output_pulse[TOTAL_OUTPUT_CHANNELS];

@@ -7,8 +7,8 @@
 signed char channel;
 bit in_sync;
 bit input_done;
-unsigned int input_pulse[TOTAL_INPUT_CHANNELS];
-unsigned int output_pulse[TOTAL_OUTPUT_CHANNELS];
+int input_pulse[TOTAL_INPUT_CHANNELS];
+int output_pulse[TOTAL_OUTPUT_CHANNELS];
 
 void syncPPM (void) {
 	/*
@@ -56,14 +56,15 @@ void startCapture (signed char mode) {
 }
 
 void processInput () {
-	unsigned int input_buffer;
+	int input_buffer;
 	unsigned char delay;
 
 	RA1 = 0;
 	if (channel < TOTAL_INPUT_CHANNELS) {
 		startCapture(CONTINUE);
 		if (channel >= 0) {
-			input_buffer = ((unsigned int)CCPR1H << 8) | CCPR1L;
+			input_buffer = ((int)CCPR1H << 8) | CCPR1L;
+			input_buffer = input_buffer-PULSE_CENTER;
 			input_pulse[channel] = input_pulse[channel] + input_buffer;
 			input_pulse[channel] /= 2;
 		}
@@ -88,7 +89,7 @@ void processOutput () {
 	PPM_OUT = 0;
 	RA0 = 0;
 	if (channel < TOTAL_OUTPUT_CHANNELS) {
-		startPPM(output_pulse[channel],CONTINUE);
+		startPPM(output_pulse[channel]+PULSE_CENTER,CONTINUE);
 		channel++;
 	}
 	else {
