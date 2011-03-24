@@ -1,9 +1,9 @@
 #include "common.h"
 #include "ppmio.h"
 
-unsigned int expo (unsigned int input, unsigned char k /* 0-100 */) {
+unsigned int expo (unsigned int input, unsigned char percent /* 0-100 */) {
 	#define X_RANGE 512L
-	#define K_RANGE 100L
+	#define P_RANGE 100L
 
 	long x;
 	
@@ -14,11 +14,11 @@ unsigned int expo (unsigned int input, unsigned char k /* 0-100 */) {
 
 	// Thanks to Thus from rcgroups for this formula:	
 	x = (
-			x*x*x/65536*k/(X_RANGE*X_RANGE/65536) +
-			(K_RANGE-k)*x + 
-			K_RANGE/2
+			x*x*x/65536*percent/(X_RANGE*X_RANGE/65536) +
+			(P_RANGE-percent)*x + 
+			P_RANGE/2
 		) /
-		K_RANGE;
+		P_RANGE;
 	
 	// now scale it back up to full servo pulse:
 	
@@ -28,8 +28,11 @@ unsigned int expo (unsigned int input, unsigned char k /* 0-100 */) {
 	return (unsigned int)x;
 }
 
-void mix(unsigned int proportional, unsigned int differential, unsigned int* a, unsigned int* b)
-{
+unsigned int reverse (unsigned int input) {
+	return SERVO_MAX+SERVO_RANGE-input;
+}
+
+void mix (unsigned int proportional, unsigned int differential, unsigned int* a, unsigned int* b) {
 	int proportional_normalized, differential_normalized, differential_reverse;
 
 	proportional_normalized = proportional-SERVO_MIN;
@@ -38,4 +41,26 @@ void mix(unsigned int proportional, unsigned int differential, unsigned int* a, 
 	
 	*a = (proportional_normalized+differential_normalized)/2+SERVO_MIN;
 	*b = (proportional_normalized+differential_reverse)/2+SERVO_MIN;
+}
+
+void slowdown (unsigned int input, unsigned int* output, int increment) {
+	if (increment > 0) {
+		if (*output	< input) {
+			*output += increment;
+		}
+	}
+	else {
+		if (*output > input) {
+			*output += increment;
+		}
+	}
+}
+
+unsigned int scale (unsigned int input, unsigned int percent) {
+	long temp;
+	
+	temp = (long)input-SERVO_CENTER;
+	temp = temp*percent/100;
+	
+	return (unsigned int)temp+SERVO_CENTER;
 }
