@@ -20,6 +20,9 @@ install: $(HEXFILE)
 	$(PROGRAMMER) -p$(CPU) -w -f=$(HEXFILE) --silent
 	$(PROGRAMMER) -p$(CPU) -v -f=$(HEXFILE) --silent
 
+verify:
+	$(PROGRAMMER) -p$(CPU) -v -f=$(HEXFILE) --silent
+
 run: $(HEXFILE)
 	$(PROGRAMMER) --run
 

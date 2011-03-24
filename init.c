@@ -4,21 +4,10 @@
 
 #include <pic.h>
 #include <htc.h>
-#include "config.h"
-#include "pinout.h"
-#include "txmod.h"
+#include "common.h"
 #include "ppmio.h"
 
-#define enableInterrupts() GIE=1
-#define disableInterrupts() GIE=0
-
-extern void mix (void);
-extern void expo (unsigned char, unsigned char);
-
-unsigned char tick;          // timer tick (roughly 1ms using 24 MHz XTAL)
-
-void initTimers(void)
-{
+void initTimers (void) {
 	// Set up timer 0 for 1ms tick:
 	T0CS = 0;
 	
@@ -42,12 +31,8 @@ void initTimers(void)
 	TMR1IF = 0;
 }
 
-void main(void)
-{
-	unsigned char debug_channel = 0;
-	unsigned char i;
-	
-	TRISA = 0xFF;
+void initIO (void) {
+	TRISA = 0xFC;
 	TRISB = 0xF0;
 	TRISC = 0xEF;
 	ANSEL = 0x00;
@@ -55,39 +40,24 @@ void main(void)
 	RABPU = 0;
 	WPUB = 0xF0;
 	WPUA = 0x04;
+}
+
+void initGlobals (void) {
+	unsigned char i;
 	
 	in_sync = 0;
-	
-	initTimers();
 	input_done = 0;
 	tick = 0;
-	enableInterrupts();
 
 	// Init output_pulse array to sane defaults:
 	for (i=0;i<TOTAL_OUTPUT_CHANNELS;i++) {	
 		output_pulse[i] = SERVO_MIN;
 	}
+}
 
-	while(1)
-	{
-		syncPPM();
-	
-		while(in_sync)
-		{
-			if (input_done) {
-				input_done = 0;
-				
-				mix();
-				
-				startPPM(10,BEGIN);
-			}
-			debug_channel = 0;
-			if (SWITCH1) {
-				debug_channel |= 1;
-			}
-			if (SWITCH2) {
-				debug_channel |= 2;
-			}
-		}
-	}
+void init (void) {
+	initTimers();
+	initIO();
+	initGlobals();
+	enableInterrupts();
 }
