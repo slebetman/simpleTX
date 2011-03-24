@@ -3,6 +3,9 @@
 #ifndef _TXMOD_H_
 #define _TXMOD_H_
 
+#define enableInterrupts() GIE=1
+#define disableInterrupts() GIE=0
+
 #define SERVO_MIN 6256
 #define SERVO_MAX 11620
 #define SERVO_CENTER ((SERVO_MIN+SERVO_MAX)/2)

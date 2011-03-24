@@ -8,65 +8,17 @@
 #include "pinout.h"
 #include "txmod.h"
 #include "ppmio.h"
-
-#define enableInterrupts() GIE=1
-#define disableInterrupts() GIE=0
-
-extern void mix (void);
-extern void expo (unsigned char, unsigned char);
+#include "calculations.h"
+#include "init.h"
 
 unsigned char tick;          // timer tick (roughly 1ms using 24 MHz XTAL)
-
-void initTimers(void)
-{
-	// Set up timer 0 for 1ms tick:
-	T0CS = 0;
-	
-	PS2 = 1;
-	PS1 = 0; // set prescaler to 32
-	PS0 = 0;
-	
-	PSA = 0;
-	T0IE = 1; // initialise timer interrupt.
-	
-	// Set up timer 1 for servo control:
-	TMR1GE = 0;
-	TMR1CS = 0; // use internal clock
-	T1CKPS0 = 0;
-	T1CKPS1 = 0; // disable prescaler
-	T1SYNC = 1;
-	PEIE = 1;
-	
-	// Clear timer interrupts:
-	T0IF = 0;
-	TMR1IF = 0;
-}
 
 void main(void)
 {
 	unsigned char debug_channel = 0;
 	unsigned char i;
 	
-	TRISA = 0xFF;
-	TRISB = 0xF0;
-	TRISC = 0xEF;
-	ANSEL = 0x00;
-	ANSELH = 0x00;
-	RABPU = 0;
-	WPUB = 0xF0;
-	WPUA = 0x04;
-	
-	in_sync = 0;
-	
-	initTimers();
-	input_done = 0;
-	tick = 0;
-	enableInterrupts();
-
-	// Init output_pulse array to sane defaults:
-	for (i=0;i<TOTAL_OUTPUT_CHANNELS;i++) {	
-		output_pulse[i] = SERVO_MIN;
-	}
+	init();
 
 	while(1)
 	{
@@ -77,7 +29,11 @@ void main(void)
 			if (input_done) {
 				input_done = 0;
 				
-				mix();
+				output_pulse[CHANNEL1] = input_pulse[CHANNEL1];
+				output_pulse[CHANNEL2] = input_pulse[CHANNEL2];
+				output_pulse[CHANNEL3] = input_pulse[CHANNEL3];
+				output_pulse[CHANNEL4] = input_pulse[CHANNEL4];
+	
 				
 				startPPM(10,BEGIN);
 			}
