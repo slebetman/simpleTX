@@ -10,7 +10,6 @@ bit in_sync;
 bit input_done;
 int input_pulse[TOTAL_INPUT_CHANNELS];
 int output_pulse[TOTAL_OUTPUT_CHANNELS];
-int output_trim[TOTAL_OUTPUT_CHANNELS];
 
 void syncPPM (void) {
 	/*

@@ -15,7 +15,7 @@ void initTrim (void) {
 	
 	for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
 		temp = eeprom_read(i*2);
-		temp |= (int)eeprom_read(i*2+1);
+		temp |= (int)eeprom_read(i*2+1) << 8;
 		output_trim[i] = temp;
 	}
 }
@@ -57,6 +57,7 @@ bit saveTrim (void) {
 	int temp;
 
 	if (trim_mode) {
+		disableInterrupts();
 		trim_mode = 0;
 	
 		for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
@@ -65,6 +66,7 @@ bit saveTrim (void) {
 			temp = output_trim[i] >> 8;
 			eeprom_write(i*2+1,(unsigned char)temp);
 		}
+		enableInterrupts();
 		return 1;
 	}
 	return 0;

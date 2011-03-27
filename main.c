@@ -35,13 +35,13 @@ void main(void)
 				if (SWITCH4) {
 					trimMode(CHANNEL3);
 				}
-				
-				if (saveTrim()) {
-					in_sync = 0;
-				}
 				else {
-					startPPM(10, BEGIN);
+					if (saveTrim()) {
+						in_sync = 0;
+					}
 				}
+				
+				startPPM(10, BEGIN);
 			}
 		}
 	}
