@@ -8,6 +8,7 @@
 #include "common.h"
 #include "ppmio.h"
 #include "calculations.h"
+#include "trim.h"
 #include "init.h"
 
 unsigned char tick; // timer tick (roughly 1ms using 24 MHz XTAL)
@@ -15,6 +16,7 @@ unsigned char tick; // timer tick (roughly 1ms using 24 MHz XTAL)
 void main(void)
 {
 	init();
+	initTrim();
 
 	while(1)
 	{
@@ -30,7 +32,16 @@ void main(void)
 				output_pulse[CHANNEL3] = THROTTLE;
 				output_pulse[CHANNEL4] = RUDDER;
 				
-				startPPM(10, BEGIN);
+				if (SWITCH4) {
+					trimMode(CHANNEL3);
+				}
+				
+				if (saveTrim()) {
+					in_sync = 0;
+				}
+				else {
+					startPPM(10, BEGIN);
+				}
 			}
 		}
 	}

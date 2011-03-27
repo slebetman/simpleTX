@@ -1,6 +1,7 @@
 #include <pic.h>
 #include "ppmio.h"
 #include "common.h"
+#include "trim.h"
 
 #define PPM_BLANK_CHECK 9 /* milliseconds */
 
@@ -9,6 +10,7 @@ bit in_sync;
 bit input_done;
 int input_pulse[TOTAL_INPUT_CHANNELS];
 int output_pulse[TOTAL_OUTPUT_CHANNELS];
+int output_trim[TOTAL_OUTPUT_CHANNELS];
 
 void syncPPM (void) {
 	/*
@@ -89,7 +91,10 @@ void processOutput () {
 	PPM_OUT = 0;
 	RA0 = 0;
 	if (channel < TOTAL_OUTPUT_CHANNELS) {
-		startPPM(output_pulse[channel]+PULSE_CENTER,CONTINUE);
+		startPPM(
+			output_pulse[channel] + output_trim[channel] + PULSE_CENTER,
+			CONTINUE
+		);
 		channel++;
 	}
 	else {
