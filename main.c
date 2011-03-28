@@ -32,14 +32,7 @@ void main(void)
 				output_pulse[CHANNEL3] = THROTTLE;
 				output_pulse[CHANNEL4] = RUDDER;
 				
-				if (SWITCH4) {
-					trimMode(CHANNEL3);
-				}
-				else {
-					if (saveTrim()) {
-						in_sync = 0;
-					}
-				}
+				trim(SWITCH4, EXCEPT CHANNEL3);
 				
 				startPPM(10, BEGIN);
 			}
