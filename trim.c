@@ -6,18 +6,30 @@
 bit trim_mode;
 int output_trim[TOTAL_OUTPUT_CHANNELS];
 int stick_center[TOTAL_OUTPUT_CHANNELS];
+char trim_slot;
 
-void initTrim (void) {
+void setTrimSlot (char slot) {
+	if (trim_slot != slot) {
+		trim_slot =	 slot;
+		readTrim();
+	}
+}
+
+void readTrim () {
 	unsigned char i;
 	int temp;
 	
-	trim_mode = 0;
-	
 	for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
-		temp = eeprom_read(i*2);
-		temp |= (int)eeprom_read(i*2+1) << 8;
+		temp = eeprom_read(i*2*trim_slot);
+		temp |= (int)eeprom_read(i*2*trim_slot+1) << 8;
 		output_trim[i] = temp;
 	}
+}
+
+void initTrim () {
+	trim_mode = 0;
+	trim_slot = 0;
+	readTrim();
 }
 
 #define NO_EXCEPTIONS -1

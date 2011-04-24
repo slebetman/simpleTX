@@ -6,3 +6,4 @@ extern int stick_center[TOTAL_OUTPUT_CHANNELS];
 #define EXCEPT
 extern void trim (unsigned char on_switch, signed char exception);
 extern void initTrim (void);
+extern void setTrimSlot (char slot);
