@@ -71,9 +71,9 @@ void trim (unsigned char on_switch, signed char exception) {
 	
 		for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
 			temp = output_trim[i] & 0x00ff;
-			eeprom_write(i*2,(unsigned char)temp);
+			eeprom_write(i*2*trim_slot,(unsigned char)temp);
 			temp = output_trim[i] >> 8;
-			eeprom_write(i*2+1,(unsigned char)temp);
+			eeprom_write(i*2*trim_slot+1,(unsigned char)temp);
 		}
 		enableInterrupts();
 		
