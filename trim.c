@@ -3,21 +3,42 @@
 #include "common.h"
 #include "ppmio.h"
 
+#define TOTAL_TRIM_SLOTS 5
+
 bit trim_mode;
 int output_trim[TOTAL_OUTPUT_CHANNELS];
 int stick_center[TOTAL_OUTPUT_CHANNELS];
+char trim_slot;
+char trim_offset[TOTAL_TRIM_SLOTS] = {
+	TOTAL_OUTPUT_CHANNELS*sizeof(int)*0,
+	TOTAL_OUTPUT_CHANNELS*sizeof(int)*1,
+	TOTAL_OUTPUT_CHANNELS*sizeof(int)*2,
+	TOTAL_OUTPUT_CHANNELS*sizeof(int)*3,
+	TOTAL_OUTPUT_CHANNELS*sizeof(int)*4
+};
 
-void initTrim (void) {
+void readTrim () {
 	unsigned char i;
 	int temp;
 	
-	trim_mode = 0;
-	
 	for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
-		temp = eeprom_read(i*2);
-		temp |= (int)eeprom_read(i*2+1) << 8;
+		temp = eeprom_read(i*2+trim_offset[trim_slot]);
+		temp |= (int)eeprom_read(i*2+trim_offset[trim_slot]+1) << 8;
 		output_trim[i] = temp;
 	}
+}
+
+void setTrimSlot (char slot) {
+	if (trim_slot != slot) {
+		trim_slot =	 slot;
+		readTrim();
+	}
+}
+
+void initTrim () {
+	trim_mode = 0;
+	trim_slot = 0;
+	readTrim();
 }
 
 #define NO_EXCEPTIONS -1
@@ -59,9 +80,9 @@ void trim (unsigned char on_switch, signed char exception) {
 	
 		for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
 			temp = output_trim[i] & 0x00ff;
-			eeprom_write(i*2,(unsigned char)temp);
+			eeprom_write(i*2+trim_offset[trim_slot],(unsigned char)temp);
 			temp = output_trim[i] >> 8;
-			eeprom_write(i*2+1,(unsigned char)temp);
+			eeprom_write(i*2+trim_offset[trim_slot]+1,(unsigned char)temp);
 		}
 		enableInterrupts();
 		
