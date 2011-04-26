@@ -8,13 +8,6 @@ int output_trim[TOTAL_OUTPUT_CHANNELS];
 int stick_center[TOTAL_OUTPUT_CHANNELS];
 char trim_slot;
 
-void setTrimSlot (char slot) {
-	if (trim_slot != slot) {
-		trim_slot =	 slot;
-		readTrim();
-	}
-}
-
 void readTrim () {
 	unsigned char i;
 	int temp;
@@ -23,6 +16,13 @@ void readTrim () {
 		temp = eeprom_read(i*2*trim_slot);
 		temp |= (int)eeprom_read(i*2*trim_slot+1) << 8;
 		output_trim[i] = temp;
+	}
+}
+
+void setTrimSlot (char slot) {
+	if (trim_slot != slot) {
+		trim_slot =	 slot;
+		readTrim();
 	}
 }
 
