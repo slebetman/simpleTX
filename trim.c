@@ -15,7 +15,7 @@ char trim_offset[TOTAL_TRIM_SLOTS] = {
 	TOTAL_OUTPUT_CHANNELS*2,
 	TOTAL_OUTPUT_CHANNELS*3,
 	TOTAL_OUTPUT_CHANNELS*4
-}
+};
 
 void readTrim () {
 	unsigned char i;
