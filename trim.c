@@ -3,7 +3,7 @@
 #include "common.h"
 #include "ppmio.h"
 
-#define TOTAL_TRIM_SLOTS 5
+#define TOTAL_TRIM_SLOTS 10
 
 bit trim_mode;
 int output_trim[TOTAL_OUTPUT_CHANNELS];
@@ -14,7 +14,12 @@ char trim_offset[TOTAL_TRIM_SLOTS] = {
 	TOTAL_OUTPUT_CHANNELS*sizeof(int)*1,
 	TOTAL_OUTPUT_CHANNELS*sizeof(int)*2,
 	TOTAL_OUTPUT_CHANNELS*sizeof(int)*3,
-	TOTAL_OUTPUT_CHANNELS*sizeof(int)*4
+	TOTAL_OUTPUT_CHANNELS*sizeof(int)*4,
+	TOTAL_OUTPUT_CHANNELS*sizeof(int)*5,
+	TOTAL_OUTPUT_CHANNELS*sizeof(int)*6,
+	TOTAL_OUTPUT_CHANNELS*sizeof(int)*7,
+	TOTAL_OUTPUT_CHANNELS*sizeof(int)*8,
+	TOTAL_OUTPUT_CHANNELS*sizeof(int)*9
 };
 
 void readTrim () {
