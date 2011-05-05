@@ -1,12 +1,12 @@
 #! /usr/bin/env tclsh
 
-if {![file exists backup.hex] || ![file exists txmod.hex]} exit
+if {![file exists backup_hex] || ![file exists txmod.hex]} exit
 
 package require fileparse
 
 set trim_data {}
 
-eachline x backup.hex {
+eachline x backup_hex {
 	if {[string match :104* $x]} {
 		lappend trim_data $x
 	}

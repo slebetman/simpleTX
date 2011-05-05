@@ -11,3 +11,4 @@ funclist
 *.sdb
 *.sym
 *.orig
+backup_hex
