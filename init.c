@@ -47,6 +47,7 @@ void initGlobals (void) {
 	
 	in_sync = 0;
 	input_done = 0;
+	input_calibrated = 0;
 	tick = 0;
 
 	// Init output_pulse array to sane defaults:

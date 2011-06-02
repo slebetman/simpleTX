@@ -10,6 +10,8 @@ bit in_sync;
 bit input_done;
 int input_pulse[TOTAL_INPUT_CHANNELS];
 int output_pulse[TOTAL_OUTPUT_CHANNELS];
+int input_calibration[TOTAL_INPUT_CHANNELS];
+bit input_calibrated;
 
 void syncPPM (void) {
 	/*
@@ -66,6 +68,9 @@ void processInput () {
 		if (channel >= 0) {
 			input_buffer = ((int)CCPR1H << 8) | CCPR1L;
 			input_buffer = input_buffer-PULSE_CENTER;
+			if (channel != CHANNEL3) {
+				input_buffer = input_buffer-input_calibration[channel];
+			}
 			input_pulse[channel] = input_pulse[channel] + input_buffer;
 			input_pulse[channel] /= 2;
 		}
@@ -77,6 +82,15 @@ void processInput () {
 	if (channel == TOTAL_INPUT_CHANNELS) {
 		stopCapture();
 		input_done = 1;
+		
+		if (!input_calibrated) {
+			input_calibrated = 1;
+			for (channel=0;channel<TOTAL_INPUT_CHANNELS;channel++) {
+				if (channel != CHANNEL3) {
+					input_calibration[channel] = input_pulse[channel];
+				}
+			}
+		}
 	}
 	for (delay=100;delay--;) {
 		NOP();
