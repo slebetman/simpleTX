@@ -51,3 +51,8 @@ int scale (int input, unsigned int percent) {
 	
 	return (int)temp;
 }
+
+void limit (int *x, int pos, int neg) {
+	if (*x > pos) *x = pos;
+	if (*x < neg) *x = neg;
+}
