@@ -4,6 +4,7 @@
 
 #include <pic.h>
 #include <htc.h>
+#include <stdlib.h>
 #include "config.h"
 #include "common.h"
 #include "ppmio.h"
@@ -32,7 +33,7 @@ void main(void)
 				output_pulse[CHANNEL3] = THROTTLE;
 				output_pulse[CHANNEL4] = RUDDER;
 				
-				trim(SWITCH4, EXCEPT CHANNEL3);
+				trim(TRIM_SWITCH, EXCEPT CHANNEL3);
 				
 				startPPM(10, BEGIN);
 			}
