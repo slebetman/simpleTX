@@ -19,7 +19,7 @@
                        /* accidentally broke off DIGITAL1
                         * so now we have only 3 ports
                         */
-#define TRIM_SWITCH !RC2
+#define TRIM_SWITCH RC2
 
 #define MODEL_0 RA2&&RC1&&RC0
 #define MODEL_1 !RA2&&RC1&&RC0
