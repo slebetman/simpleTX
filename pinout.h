@@ -19,10 +19,15 @@
                        /* accidentally broke off DIGITAL1
                         * so now we have only 3 ports
                         */
-#define SWITCH1  !RC2
-#define SWITCH2  !RC0
-#define SWITCH3  !RC1
-#define SWITCH4  !RA2
+#define TRIM_SWITCH RC2
+
+#define MODEL_0 RA2&&RC1&&RC0
+#define MODEL_1 !RA2&&RC1&&RC0
+#define MODEL_2 RA2&&!RC1&&RC0
+#define MODEL_3 !RA2&&!RC1&&RC0
+#define MODEL_4 RA2&&RC1&&!RC0
+#define MODEL_5 !RA2&&RC1&&!RC0
+#define MODEL_6 RA2&&!RC1&&!RC0
 
 #define LED_DATA DIGITAL1
 #define LED_CLOCK DIGITAL2

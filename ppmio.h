@@ -33,6 +33,8 @@ extern void startCapture (signed char);
 
 extern bit in_sync;
 extern bit input_done;
+extern bit input_calibrated;
 
 extern int input_pulse[TOTAL_INPUT_CHANNELS];
 extern int output_pulse[TOTAL_OUTPUT_CHANNELS];
+
