@@ -69,10 +69,10 @@ void trim (unsigned char on_switch, signed char exception) {
 			for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
 				if (i != exception) {
 	
-					if (output_pulse[i]-stick_center[i] > 200) output_trim[i] += 1;
-					if (output_pulse[i]-stick_center[i] > 1000) output_trim[i] += 15;
-					if (output_pulse[i]-stick_center[i] < -200) output_trim[i] -= 1;
-					if (output_pulse[i]-stick_center[i] < -1000) output_trim[i] -= 15;
+					if (output_pulse[i]-stick_center[i] > 150) output_trim[i] += 1;
+					if (output_pulse[i]-stick_center[i] > 600) output_trim[i] += 15;
+					if (output_pulse[i]-stick_center[i] < -150) output_trim[i] -= 1;
+					if (output_pulse[i]-stick_center[i] < -600) output_trim[i] -= 15;
 		
 					output_pulse[i] = stick_center[i];
 				}
