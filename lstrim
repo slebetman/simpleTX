@@ -57,7 +57,7 @@ eachline x backup_hex {
 		incr hex(address) 0
 		foreach {lo - hi -} $hex(data) {
 			set eeprom($hex(address)) [signed_short 0x${hi}${lo}]
-			incr hex(address) 2
+			incr hex(address) 4
 		}
 	}
 }
@@ -73,7 +73,7 @@ for {set model 0} {$model < 7} {incr model} {
 	for {set chan 0} {$chan < $total_channels} {incr chan} {
 		puts [
 			format "    channel%d =% 5d" [expr {$chan+1}] $eeprom([
-				expr {$model*$total_channels+$chan*2+0x4200}
+				expr {$model*$total_channels*4+$chan*4+0x4200}
 			])
 		]
 	}
