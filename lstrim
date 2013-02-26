@@ -1,0 +1,82 @@
+#! /usr/bin/env tclsh
+
+package require fileparse
+
+proc gethex {line} {
+
+	set HEX {[0-9a-fA-F]}
+	set x [regexp -inline -all \
+		"^.(${HEX}{2})(${HEX}{4})${HEX}{2}(${HEX}+)${HEX}{2}\$" \
+		$line
+	]
+	if {$x != ""} {
+		set count 0x[lindex $x 1]
+		set address 0x[lindex $x 2]
+		set data [regexp -inline -all "${HEX}{2}" [lindex $x 3]]
+	
+		if {[llength $data] != $count} {
+			puts $x
+			puts $data
+			error "Expected [expr $count] bytes but found [llength $data] instead."
+		}
+	
+		return [dict create address $address data $data]
+	}
+	return {address {} data {}}
+}
+
+proc get_total_channels {} {
+	eachline x ppmio.h {
+		if {[regexp {TOTAL_OUTPUT_CHANNELS\s+(\d+)} $x -> c]} {
+			return $c
+		}
+	}
+}
+
+proc get_model_name {} {
+	set models {}
+	eachline x main.c {
+		if {[regexp {MODEL_(\d+).*//\s*====+\s*(.+)$} $x -> num name]} {
+			lappend models $num $name
+		}
+	}
+	return $models
+}
+
+proc signed_short {number} {
+	if {$number & 0x8000} {
+		return [expr {$number-0x10000}]
+	}
+	return [expr $number]
+}
+
+array set eeprom {}
+eachline x backup_hex {
+	array set hex [gethex $x]
+	if {$hex(address) >= 0x4200 && $hex(address) < 0x5000} {
+		incr hex(address) 0
+		foreach {lo hi} $hex(data) {
+			set eeprom($hex(address)) [signed_short 0x${hi}${lo}]
+			incr hex(address) 2
+		}
+	}
+}
+
+set total_channels [get_total_channels]
+array set model_names [get_model_name]
+for {set model 0} {$model < 7} {incr model} {
+	if {[info exists model_names($model)]} {
+		puts "MODEL ${model} ($model_names($model)):"
+	} else {
+		puts "MODEL ${model}:"
+	}
+	for {set chan 0} {$chan < $total_channels} {incr chan} {
+		puts [
+			format "    channel%d =% 5d" [expr {$chan+1}] $eeprom([
+				expr {$model*$total_channels+$chan*2+0x4200}
+			])
+		]
+	}
+	puts ""
+}
+
