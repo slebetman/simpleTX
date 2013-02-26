@@ -55,7 +55,7 @@ eachline x backup_hex {
 	array set hex [gethex $x]
 	if {$hex(address) >= 0x4200 && $hex(address) < 0x5000} {
 		incr hex(address) 0
-		foreach {lo hi} $hex(data) {
+		foreach {lo - hi -} $hex(data) {
 			set eeprom($hex(address)) [signed_short 0x${hi}${lo}]
 			incr hex(address) 2
 		}
