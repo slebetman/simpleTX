@@ -1,0 +1,61 @@
+#! /usr/bin/env tclsh
+
+package require fileparse
+
+set output_hex {:020000040000FA}
+
+proc eedata {words} {
+	set data {}
+
+	foreach x $words {
+		if {$x != ""} {
+			set hi [expr {($x>>8)&0xff}]
+			set lo [expr {$x&0xff}]
+		
+			lappend data $lo 0 $hi 0
+		} else {
+			lappend data 0 0 0 0
+		}
+	}
+	
+	return $data
+}
+
+proc hex {address type data} {
+	set checksum 0
+	set hex_string ":"
+	
+	set len [llength $data]
+	incr checksum $len
+	append hex_string [format %02X $len]
+	incr checksum [expr {($address&0xff) + (($address>>8)&0xff)}]
+	append hex_string [format %04X $address]
+	incr checksum $type
+	append hex_string [format %02X $type]
+	
+	foreach x $data {
+		incr checksum $x
+		append hex_string [format %02X $x]
+	}
+	append hex_string [format %02X [expr {((~$checksum)+1)&0xff}]]
+	return $hex_string
+}
+
+set addr 0x4200
+
+set trims {}
+
+while {![eof stdin]} {
+	set x [gets stdin]
+	if {[regexp {channel.*=\s*([-\d]+)} $x -> y]} {
+		lappend trims $y
+	}
+}
+
+foreach {a b c d} $trims {
+	lappend output_hex [hex $addr 0 [eedata [list $a $b $c $d]]]
+	incr addr [expr {4*4}]
+}
+
+puts [join $output_hex \n]
+
