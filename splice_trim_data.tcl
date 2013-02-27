@@ -4,7 +4,7 @@ if {![file exists backup_hex] || ![file exists txmod.hex]} exit
 
 package require fileparse
 
-set trim_data {}
+set trim_data {:020000040000FA}
 
 eachline x backup_hex {
 	if {[string match :104* $x]} {
