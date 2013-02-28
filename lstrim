@@ -38,9 +38,9 @@ proc get_model_name {} {
 	set current_model ""
 	eachline x main.c {
 		if {[regexp {MODEL_(\d+).*//\s*====+\s*(.+)$} $x -> num name]} {
-			set current_model $name
-		} elseif {[regexp {MODEL_(\d+)} $x]} {
-			set current_model ""
+			set current_model "MODEL_$num - $name"
+		} elseif {[regexp {MODEL_(\d+)} $x -> num]} {
+			set current_model "MODEL_$num"
 		}
 		if {[regexp {setTrimSlot\s*\(\s*(\d+)\s*\)} $x -> slot]} {
 			lappend models $slot $current_model
