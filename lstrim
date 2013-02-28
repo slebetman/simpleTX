@@ -35,9 +35,15 @@ proc get_total_channels {} {
 
 proc get_model_name {} {
 	set models {}
+	set current_model ""
 	eachline x main.c {
 		if {[regexp {MODEL_(\d+).*//\s*====+\s*(.+)$} $x -> num name]} {
-			lappend models $num $name
+			set current_model $name
+		} elseif {[regexp {MODEL_(\d+)} $x]} {
+			set current_model ""
+		}
+		if {[regexp {setTrimSlot\s*\(\s*(\d+)\s*\)} $x -> slot]} {
+			lappend models $slot $current_model
 		}
 	}
 	return $models
@@ -64,11 +70,14 @@ eachline x backup_hex {
 
 set total_channels [get_total_channels]
 array set model_names [get_model_name]
-for {set model 0} {$model < 7} {incr model} {
+
+set max_slot [lindex [lsort -integer [array names model_names]] end]
+
+for {set model 0} {$model <= $max_slot} {incr model} {
 	if {[info exists model_names($model)]} {
-		puts "MODEL ${model} ($model_names($model)):"
+		puts "SLOT ${model} ($model_names($model)):"
 	} else {
-		puts "MODEL ${model}:"
+		puts "SLOT ${model}:"
 	}
 	for {set chan 0} {$chan < $total_channels} {incr chan} {
 		puts [
