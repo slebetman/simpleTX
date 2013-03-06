@@ -6,6 +6,7 @@
 #define TOTAL_TRIM_SLOTS 10
 
 bit trim_mode;
+bit safeguard;
 int output_trim[TOTAL_OUTPUT_CHANNELS];
 int stick_center[TOTAL_OUTPUT_CHANNELS];
 char trim_slot;
@@ -43,6 +44,7 @@ void setTrimSlot (char slot) {
 void initTrim () {
 	trim_mode = 0;
 	trim_slot = 0;
+	safeguard = 0;
 	readTrim();
 }
 
@@ -60,12 +62,13 @@ void trim (unsigned char on_switch, signed char exception) {
 		}
 	
 		// Left switch clears trim values:
-		if (DIGITAL2) {
+		if (DIGITAL2 && safeguard) {
 			for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
 				output_trim[i] = 0;
 			}
 		}
 		else {
+			safeguard = 1;
 			for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
 				if (i != exception) {
 	
@@ -82,6 +85,7 @@ void trim (unsigned char on_switch, signed char exception) {
 	else if (trim_mode) {
 		disableInterrupts();
 		trim_mode = 0;
+		safeguard = 0;
 	
 		for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
 			temp = output_trim[i] & 0x00ff;
