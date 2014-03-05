@@ -7,9 +7,9 @@ HEADERS = $(shell ls *.h)
 
 ####### modifications should not be necessary below this line #######
 
-CC = /usr/hitech/picc/9.80/bin/picc
+CC = xc8
 HEXFILE = $(PROJECT).hex
-CFLAGS = --CHIP=$(CPU) -O$(HEXFILE) --OUTPUT=intel
+CFLAGS = --chip=$(CPU) -O$(HEXFILE) --output=intel
 PROGRAMMER = usbpicprog
 
 $(HEXFILE): $(SOURCES) $(HEADERS)
@@ -38,4 +38,4 @@ clean: tidy
 
 tidy:
 	-rm -f *.o *.asm *.p *.cod *.lst *.adb *.as *.sym *.p1
-	-rm -f *.hxl *.pre *.obj *.rlf *.sdb funclist
+	-rm -f *.hxl *.pre *.obj *.rlf *.sdb funclist *.cmf *.d

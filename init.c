@@ -23,7 +23,7 @@ void initTimers (void) {
 	TMR1CS = 0; // use internal clock
 	T1CKPS0 = 0;
 	T1CKPS1 = 0; // disable prescaler
-	T1SYNC = 1;
+	nT1SYNC = 1;
 	PEIE = 1;
 	
 	// Clear timer interrupts:
@@ -37,7 +37,7 @@ void initIO (void) {
 	TRISC = 0xEF;
 	ANSEL = 0x00;
 	ANSELH = 0x00;
-	RABPU = 0;
+	nRABPU = 0;
 	WPUB = 0xF0;
 	WPUA = 0x04;
 }

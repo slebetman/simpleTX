@@ -11,3 +11,5 @@ funclist
 *.sdb
 *.sym
 *.orig
+*.cmf
+*.d
