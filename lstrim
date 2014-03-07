@@ -1,6 +1,16 @@
 #! /usr/bin/env tclsh
 
-package require fileparse
+proc eachline {var filename script} {
+	set f [open $filename]
+	set txt [read $f]
+	close $f
+	
+	upvar 1 $var line
+	
+	foreach line [split $txt "\n"] {
+		uplevel 1 $script
+	}
+}
 
 proc gethex {line} {
 

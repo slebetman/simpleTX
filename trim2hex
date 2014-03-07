@@ -1,7 +1,5 @@
 #! /usr/bin/env tclsh
 
-package require fileparse
-
 set output_hex {:020000040000FA}
 
 proc eedata {words} {

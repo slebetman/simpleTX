@@ -2,9 +2,25 @@
 
 if {![file exists backup_hex] || ![file exists txmod.hex]} exit
 
-package require fileparse
-
 set trim_data {:020000040000FA}
+
+proc eachline {var filename script} {
+	set f [open $filename]
+	set txt [read $f]
+	close $f
+	
+	upvar 1 $var line
+	
+	foreach line [split $txt "\n"] {
+		uplevel 1 $script
+	}
+}
+
+proc burp {filename data} {
+	set f [open $filename w]
+	puts -nonewline $f $data
+	close $f
+}
 
 eachline x backup_hex {
 	if {[string match :104* $x]} {
