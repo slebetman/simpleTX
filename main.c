@@ -2,8 +2,7 @@
 
 #define _XTAL_FREQ 24000000
 
-#include <pic.h>
-#include <htc.h>
+#include <xc.h>
 #include <stdlib.h>
 #include "config.h"
 #include "common.h"
