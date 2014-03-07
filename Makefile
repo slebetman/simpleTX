@@ -31,7 +31,7 @@ stop:
 	$(PROGRAMMER) --stop
 
 backup:
-	$(PROGRAMMER) --read -f=backup_hex --silent
+	$(PROGRAMMER) -p$(CPU) --read -f=backup_hex --silent
 
 clean: tidy
 	-rm -f *.hex
