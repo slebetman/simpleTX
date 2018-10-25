@@ -8,42 +8,38 @@
 #include "ppmio.h"
 
 void initTimers (void) {
-/*
 	// Set up timer 0 for 1ms tick:
 	T0CS = 0;
 	
-	PS2 = 1;
-	PS1 = 0; // set prescaler to 32
-	PS0 = 0;
+	T0PS2 = 1;
+	T0PS1 = 0; // set prescaler to 32
+	T0PS0 = 0;
 	
 	PSA = 0;
-	T0IE = 1; // initialise timer interrupt.
+	TMR0IE = 1; // initialise timer interrupt.
 	
 	// Set up timer 1 for servo control:
-	TMR1GE = 0;
+	// TMR1GE = 0;
 	TMR1CS = 0; // use internal clock
 	T1CKPS0 = 0;
 	T1CKPS1 = 0; // disable prescaler
-	nT1SYNC = 1;
+	T1SYNC = 1;
 	PEIE = 1;
+
+	// Enable timers
+	TMR0ON = 1;	
+	TMR1ON = 1;
 	
 	// Clear timer interrupts:
-	T0IF = 0;
+	TMR0IF = 0;
 	TMR1IF = 0;
-*/
 }
 
 void initIO (void) {
-/*
 	TRISA = 0xFC;
 	TRISB = 0xF0;
 	TRISC = 0xEF;
-	ANSEL = 0x00;
-	ANSELH = 0x00;
-	nRABPU = 0;
-	WPUB = 0xF0;
-	WPUA = 0x04;
-*/
+	RBPU = 0;
 }
 
 void initGlobals (void) {
@@ -62,10 +58,8 @@ void initGlobals (void) {
 }
 
 void init (void) {
-/*
 	initTimers();
 	initIO();
 	initGlobals();
 	enableInterrupts();
-*/
 }

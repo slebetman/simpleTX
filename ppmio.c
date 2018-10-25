@@ -139,10 +139,10 @@ void interrupt HANDLER(void)
 		processOutput();
 		TMR1IF = 0;
 	}
-	if(T0IF)
+	if(TMR0IF)
 	{
 		TMR0 = TICK_1MS;
-		T0IF = 0;   // reset timer interrupt
+		TMR0IF = 0;   // reset timer interrupt
 		tick ++;
 		frameTimer ++;
 	}
