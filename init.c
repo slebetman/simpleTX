@@ -49,6 +49,7 @@ void initGlobals (void) {
 	input_done = 0;
 	input_calibrated = 0;
 	tick = 0;
+	frameTimer = 0;
 
 	// Init output_pulse array to sane defaults:
 	for (i=0;i<TOTAL_OUTPUT_CHANNELS;i++) {	

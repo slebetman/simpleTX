@@ -144,6 +144,7 @@ void interrupt HANDLER(void)
 		TMR0 = TICK_1MS;
 		T0IF = 0;   // reset timer interrupt
 		tick ++;
+		frameTimer ++;
 	}
 }
 

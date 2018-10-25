@@ -1,4 +1,4 @@
-PROJECT = txmod
+PROJECT = toy-car
 
 CPU    = 16F690
 
