@@ -1,4 +1,4 @@
-#include <pic.h>
+#include <xc.h>
 #include "ppmio.h"
 #include "common.h"
 #include "trim.h"
@@ -62,7 +62,7 @@ void processInput () {
 	int input_buffer;
 	unsigned char delay;
 
-	RA1 = 0;
+	PORTAbits.RA1 = 0;
 	if (channel < TOTAL_INPUT_CHANNELS) {
 		startCapture(CONTINUE);
 		if (channel >= 0) {
@@ -95,14 +95,14 @@ void processInput () {
 	for (delay=100;delay--;) {
 		NOP();
 	}
-	RA1 = 1;
+	PORTAbits.RA1 = 1;
 }
 
 void processOutput () {
 	unsigned char delay;
 	
 	PPM_OUT = 0;
-	RA0 = 0;
+	PORTAbits.RA0 = 0;
 	if (channel < TOTAL_OUTPUT_CHANNELS) {
 		startPPM(
 			output_pulse[channel] + output_trim[channel] + PULSE_CENTER,
@@ -124,7 +124,7 @@ void processOutput () {
 		NOP();
 	}
 	PPM_OUT = 1;
-	RA0 = 1;
+	PORTAbits.RA0 = 1;
 }
 
 void interrupt HANDLER(void)

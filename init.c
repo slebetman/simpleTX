@@ -2,12 +2,13 @@
 
 #define _XTAL_FREQ 24000000
 
-#include <pic.h>
+#include <xc.h>
 #include <htc.h>
 #include "common.h"
 #include "ppmio.h"
 
 void initTimers (void) {
+/*
 	// Set up timer 0 for 1ms tick:
 	T0CS = 0;
 	
@@ -29,9 +30,11 @@ void initTimers (void) {
 	// Clear timer interrupts:
 	T0IF = 0;
 	TMR1IF = 0;
+*/
 }
 
 void initIO (void) {
+/*
 	TRISA = 0xFC;
 	TRISB = 0xF0;
 	TRISC = 0xEF;
@@ -40,6 +43,7 @@ void initIO (void) {
 	nRABPU = 0;
 	WPUB = 0xF0;
 	WPUA = 0x04;
+*/
 }
 
 void initGlobals (void) {
@@ -58,8 +62,10 @@ void initGlobals (void) {
 }
 
 void init (void) {
+/*
 	initTimers();
 	initIO();
 	initGlobals();
 	enableInterrupts();
+*/
 }

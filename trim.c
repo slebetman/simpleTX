@@ -1,4 +1,4 @@
-#include <pic.h>
+#include <xc.h>
 #include <htc.h>
 #include "common.h"
 #include "ppmio.h"
@@ -24,6 +24,7 @@ char trim_offset[TOTAL_TRIM_SLOTS] = {
 };
 
 void readTrim () {
+/*
 	unsigned char i;
 	int temp;
 	
@@ -32,6 +33,7 @@ void readTrim () {
 		temp |= (int)eeprom_read(i*2+trim_offset[trim_slot]+1) << 8;
 		output_trim[i] = temp;
 	}
+*/
 }
 
 void setTrimSlot (char slot) {
@@ -50,6 +52,7 @@ void initTrim () {
 
 #define NO_EXCEPTIONS -1
 void trim (unsigned char on_switch, signed char exception) {
+/*
 	unsigned char i;
 	int temp;
 
@@ -97,4 +100,5 @@ void trim (unsigned char on_switch, signed char exception) {
 		
 		in_sync = 0;
 	}
+*/
 }

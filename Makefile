@@ -1,6 +1,6 @@
 PROJECT = toy-car
 
-CPU    = 16F690
+CPU    = 18F2520
 
 SOURCES = $(shell ls *.c)
 HEADERS = $(shell ls *.h)
