@@ -24,16 +24,14 @@ char trim_offset[TOTAL_TRIM_SLOTS] = {
 };
 
 void readTrim () {
-/*
 	unsigned char i;
 	int temp;
 	
 	for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
-		temp = eeprom_read(i*2+trim_offset[trim_slot]);
-		temp |= (int)eeprom_read(i*2+trim_offset[trim_slot]+1) << 8;
+		// temp = eeprom_read(i*2+trim_offset[trim_slot]);
+		// temp |= (int)eeprom_read(i*2+trim_offset[trim_slot]+1) << 8;
 		output_trim[i] = temp;
 	}
-*/
 }
 
 void setTrimSlot (char slot) {
@@ -52,7 +50,6 @@ void initTrim () {
 
 #define NO_EXCEPTIONS -1
 void trim (unsigned char on_switch, signed char exception) {
-/*
 	unsigned char i;
 	int temp;
 
@@ -92,13 +89,12 @@ void trim (unsigned char on_switch, signed char exception) {
 	
 		for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
 			temp = output_trim[i] & 0x00ff;
-			eeprom_write(i*2+trim_offset[trim_slot],(unsigned char)temp);
+			// eeprom_write(i*2+trim_offset[trim_slot],(unsigned char)temp);
 			temp = output_trim[i] >> 8;
-			eeprom_write(i*2+trim_offset[trim_slot]+1,(unsigned char)temp);
+			// eeprom_write(i*2+trim_offset[trim_slot]+1,(unsigned char)temp);
 		}
 		enableInterrupts();
 		
 		in_sync = 0;
 	}
-*/
 }
