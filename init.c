@@ -24,15 +24,28 @@ void initTimers (void) {
 	T1CKPS0 = 0;
 	T1CKPS1 = 0; // disable prescaler
 	T1SYNC = 1;
+	
+	// Set up timer 3 for microsecond async timings.
+	TMR3CS = 0; // use internal clock
+	T3CKPS0 = 0;
+	T3CKPS1 = 0; // disable prescaler
+	T3SYNC = 1;
+	T3CCP1 = 0;
+	T3CCP2 = 0;
+	
+	TMR3IE = 1; // initialise timer 3 interrupt.
+
 	PEIE = 1;
 
 	// Enable timers
 	TMR0ON = 1;	
 	TMR1ON = 1;
+	TMR3ON = 1;
 	
 	// Clear timer interrupts:
 	TMR0IF = 0;
 	TMR1IF = 0;
+	TMR3IF = 1;
 }
 
 void initIO (void) {
@@ -45,9 +58,6 @@ void initIO (void) {
 void initGlobals (void) {
 	unsigned char i;
 	
-	in_sync = 0;
-	input_done = 0;
-	input_calibrated = 0;
 	tick = 0;
 	frameTimer = 0;
 

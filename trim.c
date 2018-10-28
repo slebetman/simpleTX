@@ -95,7 +95,5 @@ void trim (unsigned char on_switch, signed char exception) {
 			writeEeprom(i*2+trim_offset[trim_slot]+1,(unsigned char)temp);
 		}
 		enableInterrupts();
-		
-		in_sync = 0;
 	}
 }

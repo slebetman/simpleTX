@@ -10,6 +10,7 @@
 #include "calculations.h"
 #include "trim.h"
 #include "init.h"
+#include "oled.h"
 
 unsigned char tick; // timer tick (roughly 1ms using 24 MHz XTAL)
 unsigned char frameTimer;
@@ -21,6 +22,11 @@ unsigned char frameTimer;
 
 void main(void)
 {
+	oled_init();
+	oled_goto(0,0);
+	oled_clear();
+	oled_write_string("Hello world!");
+
 	init();
 	initTrim();
 

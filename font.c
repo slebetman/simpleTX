@@ -1,7 +1,7 @@
 
 extern const unsigned char smallFont[95*5];
 
-#include "font-small.h"
+#include "font-regular.h"
 
 const unsigned char* getFontIndex (unsigned char ch) {
 	signed char idx;
@@ -14,5 +14,25 @@ const unsigned char* getFontIndex (unsigned char ch) {
 	
 	idx *= 5;
 	
-	return smallFont + idx;
+	return &smallFont[idx];
+}
+
+int string2pixels (const char* txt, unsigned char* buffer, int bufferLength) {
+	int i, j;
+	const unsigned char* font;
+	
+	for (i=0;i<bufferLength;) {
+		if (*txt == 0x00) break;
+		
+		font = getFontIndex(*txt);
+		txt++;
+		
+		for (j=0;j<5;j++) {
+			if (font[j] == 0xff) break;
+			buffer[i] = font[j];
+			i++;
+		}
+	}
+	
+	return i;
 }
