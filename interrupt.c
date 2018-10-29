@@ -1,6 +1,7 @@
 #include <xc.h>
 #include "ppmio.h"
 #include "common.h"
+#include "analog.h"
 
 void interrupt HANDLER(void)
 {
@@ -12,8 +13,8 @@ void interrupt HANDLER(void)
 	if (TMR3IF)
 	{
 		TMR3 = TICK_5US;
+		analog_timer_interrupt_handler();
 		TMR3IF = 0;
-		// call callbacks here
 	}
 	if (TMR0IF)
 	{

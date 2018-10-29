@@ -12,7 +12,7 @@ unsigned char stateFlag;
 void i2c_init(void) {
 	stateFlag = 0;
 
-	// Initial PIC18F14K22 I2C bus Ports: RB4 - SDA and RB6 - SCL, Set as Input
+	// Set SDA and SCL  as Input
 	TRISCbits.TRISC3 = 1;
 	TRISCbits.TRISC4 = 1;	
 
@@ -24,11 +24,6 @@ void i2c_init(void) {
 	SSPADD = 39;      // Standard I2C Clock speed: 100 kHz	
 
 	PIR1bits.SSPIF=0; // Clear MSSP Interrupt Flag
-}
-
-bool i2c_is_idle ()
-{
-	return (( SSPCON2 & 0x1F ) || ( SSPSTATbits.R_nW));
 }
 
 void i2c_idle ()

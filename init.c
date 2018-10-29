@@ -6,6 +6,7 @@
 #include <htc.h>
 #include "common.h"
 #include "ppmio.h"
+#include "i2c.h"
 
 void initTimers (void) {
 	// Set up timer 0 for 1ms tick:
@@ -71,5 +72,6 @@ void init (void) {
 	initTimers();
 	initIO();
 	initGlobals();
+	i2c_init();
 	enableInterrupts();
 }

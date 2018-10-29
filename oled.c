@@ -103,4 +103,66 @@ void oled_write_string (const char *str) {
 	i2c_OLED_send_data(buffer, pixels);
 }
 
+void oled_print_hex (int n) {
+	int pixels = 0;
+	const char* hexchars = "0123456789abcdef";
+	char hexbuf[5];
+	unsigned char buffer[4*6];
+	
+	hexbuf[0] = hexchars[(n >> 12) & 0x000f];
+	hexbuf[1] = hexchars[(n >> 8) & 0x000f];
+	hexbuf[2] = hexchars[(n >> 4) & 0x000f];
+	hexbuf[3] = hexchars[n & 0x000f];
+	hexbuf[4] = 0x00; // NUL terminator
+
+	pixels = string2pixels(hexbuf, buffer, 4*6);
+	i2c_OLED_send_data(buffer, pixels);
+}
+
+void oled_print_signed_number (int n) {
+	int pixels = 0;
+	char m;
+	char idx = 0;
+	static bit started = 0;
+	const char* numbers = "0123456789";
+	char numbuf[7] = {0,0,0,0,0,0,0};
+	unsigned char buffer[6*6];
+	
+	if (n < 0) {
+		numbuf[idx] = '-';
+		idx++;
+	}
+	if (n >= 10000) {
+		started = 1;
+		m = n/10000;
+		n = n%10000;
+		numbuf[idx] = numbers[m];
+		idx++;
+	}
+	if (n >= 1000 || started) {
+		started = 1;
+		m = n/1000;
+		n = n%1000;
+		numbuf[idx] = numbers[m];
+		idx++;
+	}
+	if (n >= 100 || started) {
+		started = 1;
+		m = n/100;
+		n = n%100;
+		numbuf[idx] = numbers[m];
+		idx++;
+	}
+	if (n >= 10 || started) {
+		started = 1;
+		m = n/10;
+		n = n%10;
+		numbuf[idx] = numbers[m];
+		idx++;
+	}
+	numbuf[idx] = numbers[n];
+	
+	pixels = string2pixels(numbuf, buffer, 4*6);
+	i2c_OLED_send_data(buffer, pixels);
+}
 
