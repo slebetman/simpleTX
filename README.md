@@ -1,5 +1,6 @@
-# PIC-TXmod
-PPM to PPM encoder for adding features to cheap RC transmitters
+# Simple TX
+
+Simple open RC transmitter. Inspired by OpenTX mixer. Based on Pic-txmod.
 
 ## Development Environment
 
@@ -7,7 +8,6 @@ This project assumes the following set-up:
 
 - [Microchip XC8](http://www.microchip.com/mplab/compilers) compiler
 - [usbpicprog](http://usbpicprog.org/) programmer
-- [Tcl](http://tcl.tk/software/tcltk/) scripting language (for script to extract trim data from hexfile)
 - GNU make
 
 ## Build, Install etc.
