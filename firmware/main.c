@@ -1,4 +1,4 @@
-/* Assumes PIC16F690 running at 24MHz */
+/* Assumes PIC18F2520 running at 24MHz */
 
 #define _XTAL_FREQ 24000000
 
