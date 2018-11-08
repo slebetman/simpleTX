@@ -1,7 +1,8 @@
-#include <pic.h>
+#include <xc.h>
 #include <htc.h>
 #include "common.h"
 #include "ppmio.h"
+#include "eeprom.h"
 
 #define TOTAL_TRIM_SLOTS 10
 
@@ -25,11 +26,11 @@ char trim_offset[TOTAL_TRIM_SLOTS] = {
 
 void readTrim () {
 	unsigned char i;
-	int temp;
+	int temp = 0;
 	
 	for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
-		temp = eeprom_read(i*2+trim_offset[trim_slot]);
-		temp |= (int)eeprom_read(i*2+trim_offset[trim_slot]+1) << 8;
+		temp = readEeprom(i*2+trim_offset[trim_slot]);
+		temp |= (int)readEeprom(i*2+trim_offset[trim_slot]+1) << 8;
 		output_trim[i] = temp;
 	}
 }
@@ -89,12 +90,10 @@ void trim (unsigned char on_switch, signed char exception) {
 	
 		for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
 			temp = output_trim[i] & 0x00ff;
-			eeprom_write(i*2+trim_offset[trim_slot],(unsigned char)temp);
+			writeEeprom(i*2+trim_offset[trim_slot],(unsigned char)temp);
 			temp = output_trim[i] >> 8;
-			eeprom_write(i*2+trim_offset[trim_slot]+1,(unsigned char)temp);
+			writeEeprom(i*2+trim_offset[trim_slot]+1,(unsigned char)temp);
 		}
 		enableInterrupts();
-		
-		in_sync = 0;
 	}
 }

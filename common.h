@@ -9,7 +9,9 @@
 #define disableInterrupts() GIE=0
 
 extern unsigned char tick;
+extern unsigned char frameTimer;
 #define TICK_1MS 70
+#define TICK_5US 30
 #define resetTick() tick=0;TMR0=TICK_1MS
 
 #endif

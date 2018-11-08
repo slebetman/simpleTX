@@ -1,0 +1,48 @@
+4 channel TX
+============
+
+
+Mixing data:
+     _ _ _ _ _ _ _ _
+    [_ _ _|_ _ _|_ _]   mix setup
+	   ^     ^    ^
+	   |     |    '---- config bits = reverse scale, reverse expo
+	   |     '--------- output channel
+	   '--------------- input channel
+	 _ _ _ _ _ _ _ _
+	[_ _ _ _|_ _ _ _]   scaling
+	    ^       ^
+		|       '------ expo  \ both in 10% increments, so numbers 0-10
+		'-------------- scale /
+	
+
+Model data:
+     _ _ _ _ _ _ _ _
+    [_ _ _ _ _ _ _ _]  \
+            .          |
+            .           > name - 10 bytes 
+	 _ _ _ _ _ _ _ _   |
+    [_ _ _ _ _ _ _ _]  /
+	
+  	 _ _ _ _ _ _ _ _
+	[_ _ _ _ _ _ _ _]  \
+	[_ _ _ _ _ _ _ _]  |
+    [_ _ _ _ _ _ _ _]   > trim data for joystick 4 bytes
+    [_ _ _ _ _ _ _ _]  /
+	
+	 _ _ _ _ _ _ _ _
+    [_ _ _|_ _ _|_ _]  \
+    [_ _ _ _|_ _ _ _]  |
+	        .          |
+            .           > mix data - 8 mixes - 16 bytes
+     _ _ _ _ _ _ _ _   |
+    [_ _ _|_ _ _|_ _]  |
+    [_ _ _ _|_ _ _ _]  /
+
+
+total 30 bytes
+
+8 models = 240 bytes
+15 bytes remaining
+
+

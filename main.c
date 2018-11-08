@@ -10,32 +10,38 @@
 #include "calculations.h"
 #include "trim.h"
 #include "init.h"
+#include "oled.h"
 
 unsigned char tick; // timer tick (roughly 1ms using 24 MHz XTAL)
+unsigned char frameTimer;
+
+#define LEFT    DIGITAL1
+#define RIGHT   DIGITAL2
+#define FORWARD DIGITAL3
+#define REVERSE DIGITAL4
 
 void main(void)
 {
+	oled_init();
+	oled_goto(0,0);
+	oled_clear();
+	oled_write_string("Hello world!");
+
 	init();
 	initTrim();
 
 	while(1)
 	{
-		syncPPM();
-	
-		while(in_sync)
-		{
-			if (input_done) {
-				input_done = 0;
+		if (frameTimer > 20) {
+			frameTimer = 0;
 
-				output_pulse[CHANNEL1] = AILERON;
-				output_pulse[CHANNEL2] = ELEVATOR;
-				output_pulse[CHANNEL3] = THROTTLE;
-				output_pulse[CHANNEL4] = RUDDER;
-				
-				trim(TRIM_SWITCH, EXCEPT CHANNEL3);
-				
-				startPPM(10, BEGIN);
-			}
+			output_pulse[CHANNEL1] = 0;
+			output_pulse[CHANNEL2] = 0;
+			output_pulse[CHANNEL3] = 0;
+			
+			trim(TRIM_SWITCH, NO_EXCEPTIONS);
+			
+			startPPM(10, BEGIN);
 		}
 	}
 }
