@@ -16,7 +16,6 @@ $(HEXFILE): $(SOURCES) $(HEADERS)
 	$(CC) $(CFLAGS) $(SOURCES)
 
 install: $(HEXFILE)
-	./splice_trim_data.tcl
 	$(PROGRAMMER) -p$(CPU) -e
 	$(PROGRAMMER) -p$(CPU) -w -f=$(HEXFILE) --silent
 	$(PROGRAMMER) -p$(CPU) -v -f=$(HEXFILE) --silent
