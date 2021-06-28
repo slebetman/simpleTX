@@ -2,9 +2,10 @@
 
 #define _XTAL_FREQ 24000000
 
+#include "config.h"
+
 #include <xc.h>
 #include <stdlib.h>
-#include "config.h"
 #include "common.h"
 #include "ppmio.h"
 #include "calculations.h"
