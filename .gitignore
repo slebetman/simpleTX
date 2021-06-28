@@ -1,4 +1,5 @@
 nbproject
+.vscode
 funclist
 *.lst
 *.p1
