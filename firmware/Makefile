@@ -1,4 +1,4 @@
-PROJECT = toy-car
+PROJECT = simpleTX
 
 CPU    = 18F2520
 
