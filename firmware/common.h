@@ -1,4 +1,4 @@
-/* Assumes PIC16F690 running at 24MHz */
+/* Assumes PIC18F2520 running at 32MHz */
 
 #include "pinout.h"
 
@@ -10,7 +10,7 @@
 
 extern unsigned char tick;
 extern unsigned char frameTimer;
-#define TICK_1MS 70
+#define TICK_1MS 6
 #define TICK_5US 30
 #define resetTick() tick=0;TMR0=TICK_1MS
 

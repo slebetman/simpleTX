@@ -23,7 +23,7 @@ install: $(HEXFILE)
 verify:
 	$(PROGRAMMER) -p$(CPU) -v -f=$(HEXFILE) --silent
 
-run: $(HEXFILE)
+run:
 	$(PROGRAMMER) --run
 
 stop:

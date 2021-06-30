@@ -16,12 +16,11 @@ void i2c_init(void) {
 	TRISCbits.TRISC3 = 1;
 	TRISCbits.TRISC4 = 1;	
 
-	// Initial the PIC18F14K22 MSSP Peripheral I2C Master Mode
-	// I2C Master Clock Speed: 16000000 / ((4 * (SSPADD + 1)) = 16000000 / (4 * (39 + 1))
+	// I2C Master Clock Speed: 32000000 / ((4 * (SSPADD + 1)) = 32000000 / (4 * (79 + 1))
 	SSPSTAT = 0x80;   // Slew Rate is disable for 100 kHz mode
 	SSPCON1 = 0x28;   // Enable SDA and SCL, I2C Master mode, clock = FOSC/(4 * (SSPADD + 1))
 	SSPCON2 = 0x00;   // Reset MSSP Control Register
-	SSPADD = 39;      // Standard I2C Clock speed: 100 kHz	
+	SSPADD = 79;      // Standard I2C Clock speed: 100 kHz	
 
 	PIR1bits.SSPIF=0; // Clear MSSP Interrupt Flag
 }

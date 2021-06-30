@@ -1,6 +1,6 @@
-/* Assumes PIC16F690 running at 24MHz */
+/* Assumes PIC18F2520 running at 32MHz */
 
-#define _XTAL_FREQ 24000000
+#define _XTAL_FREQ 32000000
 
 #include <xc.h>
 #include <htc.h>
@@ -11,10 +11,14 @@
 void initTimers (void) {
 	// Set up timer 0 for 1ms tick:
 	T0CS = 0;
+
+	T0SE = 0;
 	
 	T0PS2 = 1;
 	T0PS1 = 0; // set prescaler to 32
 	T0PS0 = 0;
+
+	T08BIT = 1;
 	
 	PSA = 0;
 	TMR0IE = 1; // initialise timer interrupt.
@@ -23,14 +27,14 @@ void initTimers (void) {
 	// TMR1GE = 0;
 	TMR1CS = 0; // use internal clock
 	T1CKPS0 = 0;
-	T1CKPS1 = 0; // disable prescaler
-	T1SYNC = 1;
+	T1CKPS1 = 0; // 1:4 prescale
+	T1SYNC = 1; // disable external sync
 	
 	// Set up timer 3 for microsecond async timings.
 	TMR3CS = 0; // use internal clock
 	T3CKPS0 = 0;
 	T3CKPS1 = 0; // disable prescaler
-	T3SYNC = 1;
+	T3SYNC = 1; // disable external sync
 	T3CCP1 = 0;
 	T3CCP2 = 0;
 	
@@ -50,7 +54,7 @@ void initTimers (void) {
 }
 
 void initIO (void) {
-	TRISA = 0xFC;
+	TRISA = 0x00;
 	TRISB = 0xF0;
 	TRISC = 0xEF;
 	RBPU = 0;
@@ -72,6 +76,6 @@ void init (void) {
 	initTimers();
 	initIO();
 	initGlobals();
-	i2c_init();
+	// i2c_init();
 	enableInterrupts();
 }
