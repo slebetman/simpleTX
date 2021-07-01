@@ -14,13 +14,17 @@ void i2c_init(void) {
 
 	// Set SDA and SCL  as Input
 	TRISCbits.TRISC3 = 1;
-	TRISCbits.TRISC4 = 1;	
+	TRISCbits.TRISC4 = 1;
 
 	// I2C Master Clock Speed: 32000000 / ((4 * (SSPADD + 1)) = 32000000 / (4 * (79 + 1))
-	SSPSTAT = 0x80;   // Slew Rate is disable for 100 kHz mode
+	//SSPSTAT = 0x80;   // Slew Rate is disable for 100 kHz mode
+	SSPSTAT = 0x00;
 	SSPCON1 = 0x28;   // Enable SDA and SCL, I2C Master mode, clock = FOSC/(4 * (SSPADD + 1))
 	SSPCON2 = 0x00;   // Reset MSSP Control Register
-	SSPADD = 79;      // Standard I2C Clock speed: 100 kHz	
+	SSPADD = 19;      // I2C Clock speed: 400 kHz
+	//SSPADD = 39;      // I2C Clock speed: 200 kHz
+	//SSPADD = 79;      // Standard I2C Clock speed: 100 kHz
+	//SSPADD = 249;      // I2C Clock speed: 32 kHz
 
 	PIR1bits.SSPIF=0; // Clear MSSP Interrupt Flag
 }
@@ -28,7 +32,7 @@ void i2c_init(void) {
 void i2c_idle ()
 {
 	// Wait I2C Bus and Status Idle (i.e. ACKEN, RCEN, PEN, RSEN, SEN)
-	while (( SSPCON2 & 0x1F ) || ( SSPSTATbits.R_nW));
+	while (( SSPCON2 & 0x1F ) || ( SSPSTAT & 0x04 ));
 }
 
 void i2c_start ()
@@ -47,8 +51,8 @@ void i2c_restart ()
 
 void i2c_stop ()
 {
-	// Stop I2C Transmission
-	SSPCON2bits.PEN = 1;
+	i2c_idle(); // Ensure the I2C module is idle
+	SSPCON2bits.PEN = 1; // Stop I2C Transmission
 	while(SSPCON2bits.PEN);
 }
 
@@ -61,12 +65,14 @@ unsigned char i2c_slave_ack ()
 
 void i2c_write (unsigned char data)
 {
+	// Ensure the I2C module is idle
+	i2c_idle();
+
 	// Send the Data to I2C Bus
 	SSPBUF = data;
 	if (SSPCON1bits.WCOL) return; // Check for write collision
 
 	while(SSPSTATbits.BF); // Wait until write cycle is complete
-	i2c_idle();            // Ensure the I2C module is idle
 }
 
 void i2c_master_ack (unsigned char ack_type)
@@ -79,10 +85,11 @@ void i2c_master_ack (unsigned char ack_type)
 unsigned char i2c_read ()
 {
 	// Ensure the I2C module is idle
-	i2c_idle();												 
+	i2c_idle();
 
 	// Enable Receive Mode
 	SSPCON2bits.RCEN = 1;   // Enable master for 1 byte reception
+	i2c_idle();
 	while(!SSPSTATbits.BF); // Wait until buffer is full
 	return(SSPBUF);
 }

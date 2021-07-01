@@ -76,6 +76,6 @@ void init (void) {
 	initTimers();
 	initIO();
 	initGlobals();
-	// i2c_init();
+	i2c_init();
 	enableInterrupts();
 }

@@ -27,17 +27,20 @@ bit led_state = 0;
 void main(void)
 {
 	unsigned char tickTracker = tick;
+	unsigned char buffer[4];
+
 	int x = 0;
+	int seconds = 0;
 
 	initCpuClock();
 
-	// oled_init();
-	// oled_goto(0,0);
-	// oled_clear();
-	// oled_write_string("Hello world!");
-
 	init();
 	// initTrim();
+
+	oled_clear();
+	oled_init();
+	oled_goto(0,0);
+	oled_write_string("Test Program");
 
 	PORTAbits.RA4 = 1;
 
@@ -56,11 +59,10 @@ void main(void)
 		// }
 
 		if (tickTracker !=  tick) {
-			tickTracker = tick;
-
-			x++;
-			if (x == 500) { // blink period == 1 second: 0.5 on, 0.5 off
+			x += (tick - tickTracker) & 0xff;
+			if (x >= 500) { // blink period == 1 second: 0.5 on, 0.5 off
 				x = 0;
+				seconds ++;
 
 				if (led_state == 0) {
 					led_state = 1;
@@ -70,7 +72,13 @@ void main(void)
 					led_state = 0;
 					PORTAbits.RA4 = 0;
 				}
+
+				oled_goto(2,3);
+				oled_print_signed_number(seconds/2);
+				oled_write_string("     ");
 			}
+
+			tickTracker = tick;
 		}
 	}
 }

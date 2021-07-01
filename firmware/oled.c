@@ -43,13 +43,14 @@ void oled_init () {
 	i2c_OLED_send_cmd(0xD3); // Set Display Offset
 	i2c_OLED_send_cmd(0x00); // Display Offset
 
-	i2c_OLED_send_cmd(0x40); // Set Display Start Line
+	// i2c_OLED_send_cmd(0x40); // Set Display Start Line
+	i2c_OLED_send_cmd(0x00); // Set Display Start Line
 
 	i2c_OLED_send_cmd(0x8D); // Set Charge Pump
 	i2c_OLED_send_cmd(0x14); // Charge Pump (0x10 External, 0x14 Internal DC/DC)
 
-	i2c_OLED_send_cmd(0x20);
-	i2c_OLED_send_cmd(0x00);
+	i2c_OLED_send_cmd(0x20); // Set Memory Mode
+	i2c_OLED_send_cmd(0x00); // Horizontal Addressing
 
 	i2c_OLED_send_cmd(0xA1); // Set Segment Re-Map
 	i2c_OLED_send_cmd(0xC8); // Set Com Output Scan Direction
@@ -123,12 +124,15 @@ void oled_print_signed_number (int n) {
 	int pixels = 0;
 	char m;
 	char idx = 0;
-	static bit started = 0;
+	static bit started;
 	const char* numbers = "0123456789";
 	char numbuf[7] = {0,0,0,0,0,0,0};
 	unsigned char buffer[6*6];
+
+	started = 0;
 	
 	if (n < 0) {
+		n = -n;
 		numbuf[idx] = '-';
 		idx++;
 	}
@@ -162,7 +166,7 @@ void oled_print_signed_number (int n) {
 	}
 	numbuf[idx] = numbers[n];
 	
-	pixels = string2pixels(numbuf, buffer, 4*6);
+	pixels = string2pixels(numbuf, buffer, 6*6);
 	i2c_OLED_send_data(buffer, pixels);
 }
 
