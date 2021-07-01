@@ -21,7 +21,8 @@ void i2c_init(void) {
 	SSPSTAT = 0x00;
 	SSPCON1 = 0x28;   // Enable SDA and SCL, I2C Master mode, clock = FOSC/(4 * (SSPADD + 1))
 	SSPCON2 = 0x00;   // Reset MSSP Control Register
-	SSPADD = 19;      // I2C Clock speed: 400 kHz
+	SSPADD = 9;      // I2C Clock speed: 800 kHz
+	//SSPADD = 19;      // I2C Clock speed: 400 kHz
 	//SSPADD = 39;      // I2C Clock speed: 200 kHz
 	//SSPADD = 79;      // Standard I2C Clock speed: 100 kHz
 	//SSPADD = 249;      // I2C Clock speed: 32 kHz

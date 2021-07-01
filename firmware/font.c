@@ -1,7 +1,7 @@
 
 extern const unsigned char smallFont[95*5];
 
-#include "font-regular.h"
+#include "font-fixed.h"
 
 const unsigned char* getFontIndex (unsigned char ch) {
 	int idx;
