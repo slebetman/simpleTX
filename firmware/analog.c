@@ -35,18 +35,13 @@ void analog_init () {
 	analog_mutex = 0;
 	current_channel = 0;
 	intervalTimer = 0;
-	//ADCON1 = 0x0d; // enable AN0 and AN1
-	ADCON1 = 0x0e; // enable AN0
-
-	ADCON2bits.ADCS2 = 0;
-	ADCON2bits.ADCS1 = 1;
-	ADCON2bits.ADCS0 = 0;
-
-	ADCON2bits.ACQT2 = 0;
-	ADCON2bits.ACQT1 = 0;
-	ADCON2bits.ACQT0 = 1;
-
-	ADCON2bits.ADFM = 1; // right justified
+	
+	TRISAbits.TRISA0 = 1; /*set as input port*/
+	TRISAbits.TRISA1 = 1; /*set as input port*/
+	ADCON1 = 0x0e; /*ref vtg is VDD and Configure pin as analog pin*/
+	ADCON2 = 0x92; /*Right Justified, 4Tad and Fosc/32. */
+	ADRESH = 0; /*Flush ADC output Register*/
+	ADRESL = 0;
 	
 	analogState = STATE_IDLE;
 }

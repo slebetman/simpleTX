@@ -24,17 +24,9 @@ unsigned char frameTimer;
 #define REVERSE DIGITAL4
 
 #define BAND_FILTER 4
+#define DEADBAND 10
 
 bit led_state = 0;
-
-void ADC_Init()
-{
-	TRISA = 0x03; /*set as input port*/
-	ADCON1 = 0x0e; /*ref vtg is VDD and Configure pin as analog pin*/
-	ADCON2 = 0x8a; /*Right Justified, 4Tad and Fosc/32. */
-	ADRESH = 0; /*Flush ADC output Register*/
-	ADRESL = 0;
-}
 
 int ADC_Read(int channel)
 {
@@ -47,10 +39,15 @@ int ADC_Read(int channel)
 	return(digital);
 }
 
+void analog_process () {
+
+}
+
 void main(void)
 {
 	unsigned char tickTracker = tick;
 	unsigned char buffer[4];
+	int center[2];
 
 	int x = 0;
 	int seconds = 0;
@@ -61,15 +58,18 @@ void main(void)
 
 	init();
 	// initTrim();
+	analog_init();
 
 	oled_clear();
 	oled_init();
 	oled_goto(0,0);
 	oled_write_string("Test Program");
 
-	ADC_Init();
-
 	PORTAbits.RA4 = 1;
+
+	center[0] = ADC_Read(0);
+	center[1] = ADC_Read(1);
+	center[0] = ADC_Read(0);
 
 	while(1)
 	{
@@ -109,23 +109,29 @@ void main(void)
 				tmp = (ADC_Read(0) + analog_values[0]) / 2;
 				comp = analog_values[0] - tmp;
 				if (comp > BAND_FILTER || comp < -BAND_FILTER) {
+					if (tmp < DEADBAND && tmp > -DEADBAND) {
+						tmp = 0;
+					}
 					analog_values[0] = tmp;
 				}
 
 				tmp = (ADC_Read(1) + analog_values[1]) / 2;
 				comp = analog_values[1] - tmp;
 				if (comp > BAND_FILTER || comp < -BAND_FILTER) {
+					if (tmp < DEADBAND && tmp > -DEADBAND) {
+						tmp = 0;
+					}
 					analog_values[1] = tmp;
 				}
 
 				oled_goto(0,3);
 				oled_write_string("Analog 0: ");
-				oled_print_signed_number(analog_values[0]-512);
+				oled_print_signed_number(analog_values[0]-center[0]);
 				oled_write_string("        ");
 
 				oled_goto(0,4);
 				oled_write_string("Analog 1: ");
-				oled_print_signed_number(analog_values[1]-512);
+				oled_print_signed_number(analog_values[1]-center[1]);
 				oled_write_string("        ");
 			}
 
