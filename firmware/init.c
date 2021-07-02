@@ -7,6 +7,7 @@
 #include "common.h"
 #include "ppmio.h"
 #include "i2c.h"
+#include "analog.h"
 
 void initTimers (void) {
 	// Set up timer 0 for 1ms tick:
@@ -54,7 +55,7 @@ void initTimers (void) {
 }
 
 void initIO (void) {
-	TRISA = 0x00;
+	TRISA = 0x03;
 	TRISB = 0xF0;
 	TRISC = 0xEF;
 	RBPU = 0;
@@ -73,6 +74,7 @@ void initGlobals (void) {
 }
 
 void init (void) {
+	// analog_init();
 	initTimers();
 	initIO();
 	initGlobals();

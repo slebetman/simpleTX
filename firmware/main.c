@@ -13,6 +13,7 @@
 #include "trim.h"
 #include "init.h"
 #include "oled.h"
+#include "analog.h"
 
 unsigned char tick; // timer tick (roughly 1ms using 24 MHz XTAL)
 unsigned char frameTimer;
@@ -22,7 +23,29 @@ unsigned char frameTimer;
 #define FORWARD DIGITAL3
 #define REVERSE DIGITAL4
 
+#define BAND_FILTER 4
+
 bit led_state = 0;
+
+void ADC_Init()
+{
+	TRISA = 0x03; /*set as input port*/
+	ADCON1 = 0x0e; /*ref vtg is VDD and Configure pin as analog pin*/
+	ADCON2 = 0x8a; /*Right Justified, 4Tad and Fosc/32. */
+	ADRESH = 0; /*Flush ADC output Register*/
+	ADRESL = 0;
+}
+
+int ADC_Read(int channel)
+{
+	int digital;
+	ADCON0 =(ADCON0 & 0b11000011)|((channel<<2) & 0b00111100); /*channel 0 is selected i.e (CHS3CHS2CHS1CHS0=0000)
+	and ADC is disabled i.e ADON=0*/
+	ADCON0 |= ((1<<ADON)|(1<<GO)); /*Enable ADC and start conversion*/
+	while(ADCON0bits.GO_nDONE==1); /*wait for End of conversion i.e. Go/done'=0 conversion completed*/
+	digital = (ADRESH*256) | (ADRESL); /*Combine 8-bit LSB and 2-bit MSB*/
+	return(digital);
+}
 
 void main(void)
 {
@@ -31,6 +54,8 @@ void main(void)
 
 	int x = 0;
 	int seconds = 0;
+	int tmp;
+	int comp;
 
 	initCpuClock();
 
@@ -41,6 +66,8 @@ void main(void)
 	oled_init();
 	oled_goto(0,0);
 	oled_write_string("Test Program");
+
+	ADC_Init();
 
 	PORTAbits.RA4 = 1;
 
@@ -73,12 +100,38 @@ void main(void)
 					PORTAbits.RA4 = 0;
 				}
 
-				oled_goto(2,3);
+				oled_goto(0,7);
 				oled_print_signed_number(seconds/2);
 				oled_write_string("     ");
 			}
 
+			if (x%20 == 0) {
+				tmp = (ADC_Read(0) + analog_values[0]) / 2;
+				comp = analog_values[0] - tmp;
+				if (comp > BAND_FILTER || comp < -BAND_FILTER) {
+					analog_values[0] = tmp;
+				}
+
+				tmp = (ADC_Read(1) + analog_values[1]) / 2;
+				comp = analog_values[1] - tmp;
+				if (comp > BAND_FILTER || comp < -BAND_FILTER) {
+					analog_values[1] = tmp;
+				}
+
+				oled_goto(0,3);
+				oled_write_string("Analog 0: ");
+				oled_print_signed_number(analog_values[0]-512);
+				oled_write_string("        ");
+
+				oled_goto(0,4);
+				oled_write_string("Analog 1: ");
+				oled_print_signed_number(analog_values[1]-512);
+				oled_write_string("        ");
+			}
+
 			tickTracker = tick;
 		}
+
+		// analog_timer_interrupt_handler();
 	}
 }

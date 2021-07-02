@@ -35,7 +35,18 @@ void analog_init () {
 	analog_mutex = 0;
 	current_channel = 0;
 	intervalTimer = 0;
-	ADCON1 = 0x0d; // enable AN0 and AN1
+	//ADCON1 = 0x0d; // enable AN0 and AN1
+	ADCON1 = 0x0e; // enable AN0
+
+	ADCON2bits.ADCS2 = 0;
+	ADCON2bits.ADCS1 = 1;
+	ADCON2bits.ADCS0 = 0;
+
+	ADCON2bits.ACQT2 = 0;
+	ADCON2bits.ACQT1 = 0;
+	ADCON2bits.ACQT0 = 1;
+
+	ADCON2bits.ADFM = 1; // right justified
 	
 	analogState = STATE_IDLE;
 }
@@ -60,18 +71,18 @@ void analog_timer_interrupt_handler () {
 			}
 			break;
 		case STATE_START:
-			if (current_channel == 0) {
-				current_channel = 1;
-				ADCON0 = ANALOG_CHANNEL1;
-			}
-			else {
-				current_channel = 0;
+			// if (current_channel == 0) {
+			// 	current_channel = 1;
+			// 	ADCON0 = ANALOG_CHANNEL1;
+			// }
+			// else {
+			// 	current_channel = 0;
 				ADCON0 = ANALOG_CHANNEL0;
-			}
+			// }
 			
 			// 16Tosc conversion clock, 6Tad acquisition time, 
 			// ADC Result Right Justified
-			ADCON2 = 0b10011101;
+			// ADCON2 = 0b10011101;
 			ADCON0 = ADCON0 | 0x01;    // ADCON0.ADON = 1
 			analogState = STATE_WAIT_AQU;
 			break;
@@ -84,12 +95,12 @@ void analog_timer_interrupt_handler () {
 			analogState = STATE_DONE;
 			break;
 		case STATE_DONE:
-			if (current_channel == 0) {
-				analog_values[0] = ADRES;
-			}
-			else {
-				analog_values[1] = ADRES;
-			}
+			// if (current_channel == 0) {
+				analog_values[0] = (ADRESH << 8) | ADRESL;
+			// }
+			// else {
+			// 	analog_values[1] = (ADRESH << 8) | ADRESL;
+			// }
 			analogState = STATE_IDLE;
 			break;
 		default:
