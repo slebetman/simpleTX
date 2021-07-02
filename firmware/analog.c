@@ -14,7 +14,7 @@
 #define ANALOG_CHANNEL11 0x2c
 #define ANALOG_CHANNEL12 0x30
 
-#define SAMPLE_RATE 1000
+#define SAMPLE_RATE 2
 
 #define STATE_IDLE     0
 #define STATE_START    1
@@ -39,7 +39,7 @@ void analog_init () {
 	TRISAbits.TRISA0 = 1; /*set as input port*/
 	TRISAbits.TRISA1 = 1; /*set as input port*/
 	ADCON1 = 0x0e; /*ref vtg is VDD and Configure pin as analog pin*/
-	ADCON2 = 0x92; /*Right Justified, 4Tad and Fosc/32. */
+	ADCON2 = 0b10001010; /*Right Justified, 4Tad and Fosc/32. */
 	ADRESH = 0; /*Flush ADC output Register*/
 	ADRESL = 0;
 	
@@ -57,11 +57,10 @@ unsigned short analog_get (unsigned char channel) {
 unsigned short analog_get_sync (unsigned int channel)
 {
 	int digital;
-	ADCON0 =(ADCON0 & 0b11000011)|((channel<<2) & 0b00111100); /*channel 0 is selected i.e (CHS3CHS2CHS1CHS0=0000)
-	and ADC is disabled i.e ADON=0*/
+	ADCON0 =(ADCON0 & 0b11000011)|((channel<<2) & 0b00111100); // Select channel
 	ADCON0 |= ((1<<ADON)|(1<<GO)); /*Enable ADC and start conversion*/
 	while(ADCON0bits.GO_nDONE==1); /*wait for End of conversion i.e. Go/done'=0 conversion completed*/
-	digital = (ADRESH*256) | (ADRESL); /*Combine 8-bit LSB and 2-bit MSB*/
+	digital = (ADRESH << 8) | ADRESL; /*Combine 8-bit LSB and 2-bit MSB*/
 	return(digital);
 }
 
@@ -96,6 +95,7 @@ void analog_timer_interrupt_handler () {
 			analogState = STATE_DONE;
 			break;
 		case STATE_DONE:
+			if (analog_mutex == 1) break;
 			if (current_channel == 0) {
 				analog_values[0] = (ADRESH << 8) | ADRESL;
 			}

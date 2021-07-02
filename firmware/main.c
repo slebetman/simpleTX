@@ -23,8 +23,8 @@ unsigned char frameTimer;
 #define FORWARD DIGITAL3
 #define REVERSE DIGITAL4
 
-#define BAND_FILTER 4
-#define DEADBAND 10
+#define BAND_FILTER 2
+#define DEADBAND 5
 
 bit led_state = 0;
 
@@ -95,8 +95,8 @@ void main(void)
 				tmp = (analog_get(0) + stick_values[0]) / 2;
 				comp = stick_values[0] - tmp;
 				if (comp > BAND_FILTER || comp < -BAND_FILTER) {
-					if (tmp < DEADBAND && tmp > -DEADBAND) {
-						tmp = 0;
+					if ((tmp - center[0]) < DEADBAND && (tmp - center[0]) > -DEADBAND) {
+						tmp = center[0];
 					}
 					stick_values[0] = tmp;
 				}
@@ -104,8 +104,8 @@ void main(void)
 				tmp = (analog_get(1) + stick_values[1]) / 2;
 				comp = stick_values[1] - tmp;
 				if (comp > BAND_FILTER || comp < -BAND_FILTER) {
-					if (tmp < DEADBAND && tmp > -DEADBAND) {
-						tmp = 0;
+					if ((tmp - center[1]) < DEADBAND && (tmp - center[1]) > -DEADBAND) {
+						tmp = center[1];
 					}
 					stick_values[1] = tmp;
 				}
@@ -123,7 +123,5 @@ void main(void)
 
 			tickTracker = tick;
 		}
-
-		analog_timer_interrupt_handler();
 	}
 }
