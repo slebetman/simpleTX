@@ -28,5 +28,6 @@ extern bit analog_mutex;
 
 extern void analog_init ();
 extern unsigned short analog_get (unsigned char channel);
+extern unsigned short analog_get_sync (unsigned int channel);
 extern void analog_timer_interrupt_handler ();
 

@@ -28,26 +28,12 @@ unsigned char frameTimer;
 
 bit led_state = 0;
 
-int ADC_Read(int channel)
-{
-	int digital;
-	ADCON0 =(ADCON0 & 0b11000011)|((channel<<2) & 0b00111100); /*channel 0 is selected i.e (CHS3CHS2CHS1CHS0=0000)
-	and ADC is disabled i.e ADON=0*/
-	ADCON0 |= ((1<<ADON)|(1<<GO)); /*Enable ADC and start conversion*/
-	while(ADCON0bits.GO_nDONE==1); /*wait for End of conversion i.e. Go/done'=0 conversion completed*/
-	digital = (ADRESH*256) | (ADRESL); /*Combine 8-bit LSB and 2-bit MSB*/
-	return(digital);
-}
-
-void analog_process () {
-
-}
-
 void main(void)
 {
 	unsigned char tickTracker = tick;
 	unsigned char buffer[4];
 	int center[2];
+	int stick_values[2];
 
 	int x = 0;
 	int seconds = 0;
@@ -67,9 +53,9 @@ void main(void)
 
 	PORTAbits.RA4 = 1;
 
-	center[0] = ADC_Read(0);
-	center[1] = ADC_Read(1);
-	center[0] = ADC_Read(0);
+	analog_get_sync(0);
+	center[1] = analog_get_sync(1);
+	center[0] = analog_get_sync(0);
 
 	while(1)
 	{
@@ -106,38 +92,38 @@ void main(void)
 			}
 
 			if (x%20 == 0) {
-				tmp = (ADC_Read(0) + analog_values[0]) / 2;
-				comp = analog_values[0] - tmp;
+				tmp = (analog_get(0) + stick_values[0]) / 2;
+				comp = stick_values[0] - tmp;
 				if (comp > BAND_FILTER || comp < -BAND_FILTER) {
 					if (tmp < DEADBAND && tmp > -DEADBAND) {
 						tmp = 0;
 					}
-					analog_values[0] = tmp;
+					stick_values[0] = tmp;
 				}
 
-				tmp = (ADC_Read(1) + analog_values[1]) / 2;
-				comp = analog_values[1] - tmp;
+				tmp = (analog_get(1) + stick_values[1]) / 2;
+				comp = stick_values[1] - tmp;
 				if (comp > BAND_FILTER || comp < -BAND_FILTER) {
 					if (tmp < DEADBAND && tmp > -DEADBAND) {
 						tmp = 0;
 					}
-					analog_values[1] = tmp;
+					stick_values[1] = tmp;
 				}
 
 				oled_goto(0,3);
 				oled_write_string("Analog 0: ");
-				oled_print_signed_number(analog_values[0]-center[0]);
+				oled_print_signed_number(stick_values[0]-center[0]);
 				oled_write_string("        ");
 
 				oled_goto(0,4);
 				oled_write_string("Analog 1: ");
-				oled_print_signed_number(analog_values[1]-center[1]);
+				oled_print_signed_number(stick_values[1]-center[1]);
 				oled_write_string("        ");
 			}
 
 			tickTracker = tick;
 		}
 
-		// analog_timer_interrupt_handler();
+		analog_timer_interrupt_handler();
 	}
 }

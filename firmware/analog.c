@@ -54,6 +54,17 @@ unsigned short analog_get (unsigned char channel) {
 	return val;
 }
 
+unsigned short analog_get_sync (unsigned int channel)
+{
+	int digital;
+	ADCON0 =(ADCON0 & 0b11000011)|((channel<<2) & 0b00111100); /*channel 0 is selected i.e (CHS3CHS2CHS1CHS0=0000)
+	and ADC is disabled i.e ADON=0*/
+	ADCON0 |= ((1<<ADON)|(1<<GO)); /*Enable ADC and start conversion*/
+	while(ADCON0bits.GO_nDONE==1); /*wait for End of conversion i.e. Go/done'=0 conversion completed*/
+	digital = (ADRESH*256) | (ADRESL); /*Combine 8-bit LSB and 2-bit MSB*/
+	return(digital);
+}
+
 void analog_timer_interrupt_handler () {
 	intervalTimer++;
 	if (analog_mutex) return; // wait until analog_values are free
@@ -66,36 +77,31 @@ void analog_timer_interrupt_handler () {
 			}
 			break;
 		case STATE_START:
-			// if (current_channel == 0) {
-			// 	current_channel = 1;
-			// 	ADCON0 = ANALOG_CHANNEL1;
-			// }
-			// else {
-			// 	current_channel = 0;
-				ADCON0 = ANALOG_CHANNEL0;
-			// }
-			
-			// 16Tosc conversion clock, 6Tad acquisition time, 
-			// ADC Result Right Justified
-			// ADCON2 = 0b10011101;
-			ADCON0 = ADCON0 | 0x01;    // ADCON0.ADON = 1
+			if (current_channel == 0) {
+				current_channel = 1;
+				ADCON0 =(ADCON0 & 0b11000011)|(ANALOG_CHANNEL1 & 0b00111100);
+			}
+			else {
+				current_channel = 0;
+				ADCON0 =(ADCON0 & 0b11000011)|(ANALOG_CHANNEL0 & 0b00111100);
+			}
 			analogState = STATE_WAIT_AQU;
 			break;
 		case STATE_WAIT_AQU:
-			ADCON0 = ADCON0 | 0x02;   // ADCON0.GODONE = 1
+			ADCON0 |= ((1<<ADON)|(1<<GO)); /*Enable ADC and start conversion*/
 			analogState = STATE_CONV;
 			break;
 		case STATE_CONV:
-			if (ADCON0||0x02) break;  // wait till GODONE bit is zero
+			if (ADCON0bits.GO_nDONE==1) break;  // wait till GODONE bit is zero
 			analogState = STATE_DONE;
 			break;
 		case STATE_DONE:
-			// if (current_channel == 0) {
+			if (current_channel == 0) {
 				analog_values[0] = (ADRESH << 8) | ADRESL;
-			// }
-			// else {
-			// 	analog_values[1] = (ADRESH << 8) | ADRESL;
-			// }
+			}
+			else {
+				analog_values[1] = (ADRESH << 8) | ADRESL;
+			}
 			analogState = STATE_IDLE;
 			break;
 		default:
