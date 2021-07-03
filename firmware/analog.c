@@ -5,9 +5,9 @@ unsigned short analog_buffer[TOTAL_ANALOG_CHANNELS];
 unsigned short analog_values[TOTAL_ANALOG_CHANNELS];
 bit analog_mutex;
 unsigned char current_channel;
-int intervalTimer;
+short intervalTimer;
 unsigned char analogState;
-int analog_count;
+short analog_count;
 
 void analog_init () {
 	analog_mutex = 0;
@@ -35,7 +35,7 @@ unsigned short analog_get (unsigned char channel) {
 
 unsigned short analog_get_sync (unsigned char channel)
 {
-	int digital;
+	short digital;
 	ADCON0 =(ADCON0 & 0b11000011)|((channel<<2) & 0b00111100); // Select channel
 	ADCON0 |= ((1<<ADON)|(1<<GO)); /*Enable ADC and start conversion*/
 	while(ADCON0bits.GO_nDONE==1); /*wait for End of conversion i.e. Go/done'=0 conversion completed*/
@@ -44,7 +44,7 @@ unsigned short analog_get_sync (unsigned char channel)
 }
 
 void analog_timer_interrupt_handler () {
-	int tmp;
+	short tmp;
 
 	if (analog_mutex) return; // wait until analog_values are free
 	

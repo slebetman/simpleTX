@@ -6,9 +6,9 @@
 #define PPM_BLANK_CHECK 9 /* milliseconds */
 
 signed char channel;
-int output_pulse[TOTAL_OUTPUT_CHANNELS];
+short output_pulse[TOTAL_OUTPUT_CHANNELS];
 
-void startPPM (unsigned int duration,signed char mode) {
+void startPPM (unsigned short duration,signed char mode) {
 	if (mode == BEGIN) {
 		channel = 0;
 	}

@@ -27,12 +27,12 @@ unsigned char frameTimer;
 #define DEADBAND 12
 
 bit led_state = 0;
-int center[TOTAL_ANALOG_CHANNELS];
-int stick_values[TOTAL_ANALOG_CHANNELS];
+short center[TOTAL_ANALOG_CHANNELS];
+short stick_values[TOTAL_ANALOG_CHANNELS];
 
-int read_stick(unsigned char channel) {
-	int tmp;
-	int comp;
+short read_stick(unsigned char channel) {
+	short tmp;
+	short comp;
 
 	tmp = analog_get(channel);
 	comp = stick_values[channel] - tmp;
@@ -66,11 +66,11 @@ void main(void)
 {
 	unsigned char tickTracker = tick;
 	unsigned char buffer[4];
-	int stick_position[TOTAL_ANALOG_CHANNELS];
+	short stick_position[TOTAL_ANALOG_CHANNELS];
 
-	int x = 0;
-	int seconds = 0;
-	int tmp;
+	short x = 0;
+	short seconds = 0;
+	short tmp;
 
 	initCpuClock();
 

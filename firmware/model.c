@@ -84,12 +84,12 @@ void formatModelToEeprom (unsigned char *eeprom_data) {
 }
 
 void loadModel (unsigned char model_id) {
-	int eeprom_offset;
+	short eeprom_offset;
 	unsigned char eeprom_buffer[MODEL_SIZE];
 
 	eeprom_offset = MODEL_SIZE * model_id;
 
-	for (int i = 0; i < MODEL_SIZE; i++) {
+	for (short i = 0; i < MODEL_SIZE; i++) {
 		eeprom_buffer[i] = readEeprom(eeprom_offset+i);
 	}
 
@@ -97,27 +97,27 @@ void loadModel (unsigned char model_id) {
 }
 
 void saveModel (unsigned char model_id) {
-	int eeprom_offset;
+	short eeprom_offset;
 	unsigned char eeprom_buffer[MODEL_SIZE];
 
 	eeprom_offset = MODEL_SIZE * model_id;
 
 	formatModelToEeprom(eeprom_buffer);
 
-	for (int i = 0; i < MODEL_SIZE; i++) {
+	for (short i = 0; i < MODEL_SIZE; i++) {
 		writeEeprom(eeprom_offset+i, eeprom_buffer[i]);
 	}
 }
 
 void saveTrim (unsigned char model_id) {
-	int eeprom_offset;
+	short eeprom_offset;
 	unsigned char eeprom_buffer[MODEL_SIZE];
 
 	eeprom_offset = MODEL_SIZE * model_id;
 
 	formatTrimToEeprom(eeprom_buffer);
 
-	for (int i = TRIM_OFFSET; i < SCALE_OFFSET; i++) {
+	for (short i = TRIM_OFFSET; i < SCALE_OFFSET; i++) {
 		writeEeprom(eeprom_offset+i, eeprom_buffer[i]);
 	}
 }

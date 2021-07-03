@@ -1,7 +1,7 @@
 #include "common.h"
 #include "ppmio.h"
 
-int expo (int input, unsigned char percent /* 0-100 */) {
+short expo (short input, unsigned char percent /* 0-100 */) {
 	#define X_RANGE 512L
 	#define P_RANGE 100L
 
@@ -23,15 +23,15 @@ int expo (int input, unsigned char percent /* 0-100 */) {
 	
 	x = x*(SERVO_RANGE/2)/X_RANGE;
 	
-	return (int)x;
+	return (short)x;
 }
 
-void mix (int proportional, int differential, int* a, int* b) {
+void mix (short proportional, short differential, short* a, short* b) {
 	*a = (proportional+differential)/2;
 	*b = (proportional-differential)/2;
 }
 
-void slowdown (int input, int* output, int increment) {
+void slowdown (short input, short* output, short increment) {
 	if (increment > 0) {
 		if (*output	< input) {
 			*output += increment;
@@ -44,15 +44,15 @@ void slowdown (int input, int* output, int increment) {
 	}
 }
 
-int scale (int input, unsigned int percent) {
+short scale (short input, unsigned short percent) {
 	long temp;
 	
 	temp = (long)input*percent/100;
 	
-	return (int)temp;
+	return (short)temp;
 }
 
-void limit (int *x, int pos, int neg) {
+void limit (short *x, short pos, short neg) {
 	if (*x > pos) *x = pos;
 	if (*x < neg) *x = neg;
 }

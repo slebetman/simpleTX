@@ -1,2 +1,2 @@
-extern unsigned char readEeprom (unsigned int address);
-extern void writeEeprom (unsigned int address, unsigned char data);
+extern unsigned char readEeprom (unsigned short address);
+extern void writeEeprom (unsigned short address, unsigned char data);

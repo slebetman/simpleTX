@@ -29,5 +29,5 @@
 extern void startPPM (unsigned int,signed char);
 extern void processOutput ();
 
-extern int output_pulse[TOTAL_OUTPUT_CHANNELS];
+extern short output_pulse[TOTAL_OUTPUT_CHANNELS];
 

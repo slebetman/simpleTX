@@ -19,8 +19,8 @@ struct mix {
 
 struct model {
 	unsigned char name[10];
-	unsigned int trim[4];
-	unsigned int scale[4];
+	unsigned short trim[4];
+	unsigned short scale[4];
 	unsigned char output_map[8];
 	struct mix mix[8];
 };

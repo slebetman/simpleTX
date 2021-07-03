@@ -97,15 +97,15 @@ void oled_clear () {
 }
 
 void oled_write_string (const char *str) {
-	int pixels = 0;
+	short pixels = 0;
 	unsigned char buffer[128];
 	
 	pixels = string2pixels(str, buffer, 128);
 	i2c_OLED_send_data(buffer, pixels);
 }
 
-void oled_print_hex (int n) {
-	int pixels = 0;
+void oled_print_hex (short n) {
+	short pixels = 0;
 	const char* hexchars = "0123456789abcdef";
 	char hexbuf[5];
 	unsigned char buffer[4*6];
@@ -120,8 +120,8 @@ void oled_print_hex (int n) {
 	i2c_OLED_send_data(buffer, pixels);
 }
 
-void oled_print_signed_number (int n) {
-	int pixels = 0;
+void oled_print_signed_number (short n) {
+	short pixels = 0;
 	char m;
 	char idx = 0;
 	static bit started;

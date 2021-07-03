@@ -7,13 +7,13 @@
 
 bit trim_mode;
 bit safeguard;
-int output_trim[TOTAL_OUTPUT_CHANNELS];
-int stick_center[TOTAL_OUTPUT_CHANNELS];
+short output_trim[TOTAL_OUTPUT_CHANNELS];
+short stick_center[TOTAL_OUTPUT_CHANNELS];
 
 #define NO_EXCEPTIONS -1
 void trim (unsigned char on_switch, signed char exception)
 	unsigned char i;
-	int temp;
+	short temp;
 
 	if (on_switch) {
 		if (!trim_mode) {

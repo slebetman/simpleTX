@@ -1,6 +1,6 @@
 #include <xc.h>
 
-unsigned char readEeprom (unsigned int address) {
+unsigned char readEeprom (unsigned short address) {
 	EEADR = (address & 0x0ff);
 	EECON1bits.CFGS = 0;
 	EECON1bits.EEPGD = 0;
@@ -8,7 +8,7 @@ unsigned char readEeprom (unsigned int address) {
 	return (EEDATA);  // return with read byte
 }
 
-void writeEeprom (unsigned int address, unsigned char data) {
+void writeEeprom (unsigned short address, unsigned char data) {
 	EEADR = (address & 0x0ff);
 	EEDATA = data;
 	EECON1bits.EEPGD = 0;

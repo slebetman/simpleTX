@@ -1,6 +1,6 @@
 #include "analog-const.h"
 
-extern int analog_count;
+extern short analog_count;
 
 extern void analog_init ();
 extern unsigned short analog_get (unsigned char channel);
