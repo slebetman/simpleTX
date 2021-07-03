@@ -3,54 +3,15 @@
 #include "common.h"
 #include "ppmio.h"
 #include "eeprom.h"
-
-#define TOTAL_TRIM_SLOTS 10
+#include "model.h"
 
 bit trim_mode;
 bit safeguard;
 int output_trim[TOTAL_OUTPUT_CHANNELS];
 int stick_center[TOTAL_OUTPUT_CHANNELS];
-char trim_slot;
-char trim_offset[TOTAL_TRIM_SLOTS] = {
-	TOTAL_OUTPUT_CHANNELS*sizeof(int)*0,
-	TOTAL_OUTPUT_CHANNELS*sizeof(int)*1,
-	TOTAL_OUTPUT_CHANNELS*sizeof(int)*2,
-	TOTAL_OUTPUT_CHANNELS*sizeof(int)*3,
-	TOTAL_OUTPUT_CHANNELS*sizeof(int)*4,
-	TOTAL_OUTPUT_CHANNELS*sizeof(int)*5,
-	TOTAL_OUTPUT_CHANNELS*sizeof(int)*6,
-	TOTAL_OUTPUT_CHANNELS*sizeof(int)*7,
-	TOTAL_OUTPUT_CHANNELS*sizeof(int)*8,
-	TOTAL_OUTPUT_CHANNELS*sizeof(int)*9
-};
-
-void readTrim () {
-	unsigned char i;
-	int temp = 0;
-	
-	for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
-		temp = readEeprom(i*2+trim_offset[trim_slot]);
-		temp |= (int)readEeprom(i*2+trim_offset[trim_slot]+1) << 8;
-		output_trim[i] = temp;
-	}
-}
-
-void setTrimSlot (char slot) {
-	if (trim_slot != slot) {
-		trim_slot =	 slot;
-		readTrim();
-	}
-}
-
-void initTrim () {
-	trim_mode = 0;
-	trim_slot = 0;
-	safeguard = 0;
-	readTrim();
-}
 
 #define NO_EXCEPTIONS -1
-void trim (unsigned char on_switch, signed char exception) {
+void trim (unsigned char on_switch, signed char exception)
 	unsigned char i;
 	int temp;
 
@@ -88,12 +49,7 @@ void trim (unsigned char on_switch, signed char exception) {
 		trim_mode = 0;
 		safeguard = 0;
 	
-		for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
-			temp = output_trim[i] & 0x00ff;
-			writeEeprom(i*2+trim_offset[trim_slot],(unsigned char)temp);
-			temp = output_trim[i] >> 8;
-			writeEeprom(i*2+trim_offset[trim_slot]+1,(unsigned char)temp);
-		}
+		// save trim here
 		enableInterrupts();
 	}
 }

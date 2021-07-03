@@ -96,3 +96,16 @@ void saveModel (unsigned char model_id) {
 		writeEeprom(eeprom_offset+i, eeprom_buffer[i]);
 	}
 }
+
+void saveTrim (unsigned char model_id) {
+	int eeprom_offset;
+	unsigned char eeprom_buffer[MODEL_SIZE];
+
+	eeprom_offset = MODEL_SIZE * model_id;
+
+	formatModelToEeprom(eeprom_buffer);
+
+	for (int i = TRIM_OFFSET; i < SCALE_OFFSET; i++) {
+		writeEeprom(eeprom_offset+i, eeprom_buffer[i]);
+	}
+}
