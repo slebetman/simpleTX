@@ -3,6 +3,45 @@
 
 struct model current_model;
 
+unsigned char mixIsDisabled(unsigned char i) {
+	if (current_model.mix[i].output == 0x0f) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
+}
+
+void newModel () {
+	unsigned char i;
+
+	for (i=0; i<NAME_SIZE; i++) {
+		current_model.name[i] = 0;
+	}
+
+	for (i=0; i<4; i++) {
+		current_model.trim[i] = 0;
+	}
+
+	for (i=0; i<4; i++) {
+		current_model.scale[i] = 100;
+	}
+
+	for (i=0; i<8; i++) {
+		current_model.output_map[i] = 0;
+	}
+	
+	for (i=0; i<8; i++) {
+		current_model.mix[i].input = 0;
+		current_model.mix[i].output = 0x0f; // disabled
+		
+		current_model.mix[i].scale = 100;
+		current_model.mix[i].expo = 0;
+		
+		current_model.mix[i].reverse = 0;
+	}
+}
+
 void parseModelFromEeprom (unsigned char *eeprom_data) {
 	unsigned char i;
 	unsigned char raw_mix;
@@ -10,7 +49,7 @@ void parseModelFromEeprom (unsigned char *eeprom_data) {
 	unsigned char expo;
 	unsigned char raw_map;
 	
-	for (i=0; i<10; i++) {
+	for (i=0; i<NAME_SIZE; i++) {
 		current_model.name[i] = eeprom_data[NAME_OFFSET + i];
 	}
 	
@@ -56,7 +95,7 @@ void formatModelToEeprom (unsigned char *eeprom_data) {
 	unsigned char raw_mix = 0;
 	unsigned char raw_scaling = 0;
 	
-	for (i=0; i<10; i++) {
+	for (i=0; i<NAME_SIZE; i++) {
 		eeprom_data[NAME_OFFSET + i] = current_model.name[i];
 	}
 	

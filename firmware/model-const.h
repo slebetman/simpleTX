@@ -1,11 +1,14 @@
-#define MODEL_SIZE 48
-#define MAX_MODELS 5
+#define NAME_SIZE          12
+#define NAME_OFFSET        0
+#define TRIM_OFFSET        NAME_OFFSET+NAME_SIZE
+#define SCALE_OFFSET       TRIM_OFFSET+4
+#define OUTPUT_MAP_OFFSET  SCALE_OFFSET+4
+#define MIX_OFFSET         OUTPUT_MAP_OFFSET+4
 
-#define NAME_OFFSET 0
-#define TRIM_OFFSET 10
-#define SCALE_OFFSET 14
-#define OUTPUT_MAP_OFFSET 18
-#define MIX_OFFSET  22
+#define MAX_MIXES   8
+#define MIX_SIZE    3
+#define MODEL_SIZE  MIX_OFFSET+(MIX_SIZE*MAX_MIXES)
+#define MAX_MODELS  5
 
 #define REVERSE_MASK 0x80
 
