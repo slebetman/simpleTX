@@ -11,7 +11,7 @@ short output_trim[TOTAL_OUTPUT_CHANNELS];
 short stick_center[TOTAL_OUTPUT_CHANNELS];
 
 #define NO_EXCEPTIONS -1
-void trim (unsigned char on_switch, signed char exception)
+void trim (unsigned char on_switch, signed char exception) {
 	unsigned char i;
 	short temp;
 

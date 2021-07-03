@@ -26,7 +26,7 @@
 #define BEGIN 0
 #define CONTINUE 1
 
-extern void startPPM (unsigned int,signed char);
+extern void startPPM (unsigned short, signed char);
 extern void processOutput ();
 
 extern short output_pulse[TOTAL_OUTPUT_CHANNELS];

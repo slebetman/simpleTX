@@ -17,5 +17,5 @@ extern void oled_init ();
 extern void oled_goto (unsigned char x, unsigned char y);
 extern void oled_clear ();
 extern void oled_write_string (const char *str);
-extern void oled_print_signed_number (int);
-extern void oled_print_hex (int);
+extern void oled_print_signed_number (short);
+extern void oled_print_hex (short);
