@@ -1,0 +1,3 @@
+#define TOTAL_CHANNELS 15
+#define TOTAL_OUTPUT_CHANNELS 8
+

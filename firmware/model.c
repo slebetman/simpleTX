@@ -3,18 +3,12 @@
 
 struct model current_model;
 
-#define NAME_OFFSET 0
-#define TRIM_OFFSET 10
-#define SCALE_OFFSET 14
-#define MIX_OFFSET  18
-
-#define REVERSE_MASK 0x80
-
 void parseModelFromEeprom (unsigned char *eeprom_data) {
 	unsigned char i;
 	unsigned char raw_mix;
 	unsigned char raw_scaling;
 	unsigned char expo;
+	unsigned char raw_map;
 	
 	for (i=0; i<10; i++) {
 		current_model.name[i] = eeprom_data[NAME_OFFSET + i];
@@ -26,6 +20,12 @@ void parseModelFromEeprom (unsigned char *eeprom_data) {
 
 	for (i=0; i<4; i++) {
 		current_model.scale[i] = eeprom_data[SCALE_OFFSET + i];
+	}
+
+	for (i=0; i<4; i++) {
+		raw_map = eeprom_data[OUTPUT_MAP_OFFSET + i];
+		current_model.output_map[i*2] = (raw_map & 0xf0) >> 4;
+		current_model.output_map[(i*2) + 1] = raw_map & 0x0f;
 	}
 	
 	for (i=0; i<8; i++) {
@@ -43,6 +43,14 @@ void parseModelFromEeprom (unsigned char *eeprom_data) {
 	}
 }
 
+void formatTrimToEeprom (unsigned char *eeprom_data) {
+	unsigned char i;
+	
+	for (i=0; i<4; i++) {
+		eeprom_data[TRIM_OFFSET + i] = current_model.trim[i];
+	}
+}
+
 void formatModelToEeprom (unsigned char *eeprom_data) {
 	unsigned char i;
 	unsigned char raw_mix = 0;
@@ -52,12 +60,16 @@ void formatModelToEeprom (unsigned char *eeprom_data) {
 		eeprom_data[NAME_OFFSET + i] = current_model.name[i];
 	}
 	
-	for (i=0; i<4; i++) {
-		eeprom_data[TRIM_OFFSET + i] = current_model.trim[i];
-	}
+	formatTrimToEeprom(eeprom_data);
 
 	for (i=0; i<4; i++) {
 		eeprom_data[SCALE_OFFSET + i] = current_model.scale[i];
+	}
+
+	for (i=0; i<4; i++) {
+		eeprom_data[OUTPUT_MAP_OFFSET + i] =
+			((current_model.output_map[i*2] << 4) & 0xf0) |
+			(current_model.output_map[(i*2) + 1] & 0x0f);
 	}
 	
 	for (i=0; i<8; i++) {
@@ -103,7 +115,7 @@ void saveTrim (unsigned char model_id) {
 
 	eeprom_offset = MODEL_SIZE * model_id;
 
-	formatModelToEeprom(eeprom_buffer);
+	formatTrimToEeprom(eeprom_buffer);
 
 	for (int i = TRIM_OFFSET; i < SCALE_OFFSET; i++) {
 		writeEeprom(eeprom_offset+i, eeprom_buffer[i]);

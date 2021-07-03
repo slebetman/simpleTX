@@ -23,7 +23,7 @@ Model data:
      _ _ _ _ _ _ _ _
     [_ _ _ _ _ _ _ _]  \
             .          |
-            .           > name - 10 bytes 
+            .           > name - 12 bytes 
      _ _ _ _ _ _ _ _   |
     [_ _ _ _ _ _ _ _]  /
     
@@ -38,7 +38,13 @@ Model data:
     [_ _ _ _ _ _ _ _]  |
     [_ _ _ _ _ _ _ _]   > scaling for joystick 4 bytes
     [_ _ _ _ _ _ _ _]  /
-    
+
+     _ _ _ _ _ _ _ _
+    [_ _ _ _|_ _ _ _]  \
+    [_ _ _ _|_ _ _ _]  |
+    [_ _ _ _|_ _ _ _]   > output channel map
+    [_ _ _ _|_ _ _ _]  /
+
      _ _ _ _ _ _ _ _
     [_ _ _ _|_ _ _ _]  \
     [_ _ _ _ _ _ _ _]  |
@@ -51,9 +57,9 @@ Model data:
     [_ _ _ _ _ _ _ _]  /
 
 
-total 42 bytes
+total 48 bytes
 
-6 models = 252 bytes
-4 bytes remaining
+5 models = 240 bytes
+16 bytes remaining
 
 
