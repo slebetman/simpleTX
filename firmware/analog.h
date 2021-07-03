@@ -1,4 +1,4 @@
-#include "analog_const.h"
+#include "analog-const.h"
 
 extern int analog_count;
 

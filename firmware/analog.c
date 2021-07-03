@@ -1,5 +1,5 @@
 #include <xc.h>
-#include "analog_const.h"
+#include "analog-const.h"
 
 unsigned short analog_buffer[TOTAL_ANALOG_CHANNELS];
 unsigned short analog_values[TOTAL_ANALOG_CHANNELS];

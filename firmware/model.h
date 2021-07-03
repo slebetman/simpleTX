@@ -1,15 +1,6 @@
-struct mix {
-	unsigned char input;
-	unsigned char output;
-	signed char scale;
-	signed char expo;
-}
-
-struct model {
-	unsigned char name[10];
-	unsigned int trim[4];
-	struct mix mix[8];
-}
+#include "model-const.h"
 
 extern struct model current_model;
+extern void loadModel ();
+extern void saveModel ();
 
