@@ -1,6 +1,8 @@
+#include "channels.h"
+
 extern bit trim_mode;
-extern short output_trim[TOTAL_OUTPUT_CHANNELS];
-extern short stick_center[TOTAL_OUTPUT_CHANNELS];
+extern short input_trim[TOTAL_ANALOG_CHANNELS];
+extern short stick_center[TOTAL_ANALOG_CHANNELS];
 
 #define NO_EXCEPTIONS -1
 #define EXCEPT

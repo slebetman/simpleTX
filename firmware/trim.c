@@ -1,14 +1,14 @@
 #include <xc.h>
 #include <htc.h>
 #include "common.h"
-#include "ppmio.h"
 #include "eeprom.h"
 #include "model.h"
+#include "channels.h"
 
 bit trim_mode;
 bit safeguard;
-short output_trim[TOTAL_OUTPUT_CHANNELS];
-short stick_center[TOTAL_OUTPUT_CHANNELS];
+short input_trim[TOTAL_ANALOG_CHANNELS];
+short stick_center[TOTAL_ANALOG_CHANNELS];
 
 #define NO_EXCEPTIONS -1
 void trim (unsigned char on_switch, signed char exception) {
@@ -18,28 +18,28 @@ void trim (unsigned char on_switch, signed char exception) {
 	if (on_switch) {
 		if (!trim_mode) {
 			trim_mode = 1;
-			for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
-				stick_center[i] = output_pulse[i];
+			for (i=0; i<TOTAL_ANALOG_CHANNELS;i++) {
+				stick_center[i] = ANALOG_CHANNEL(i);
 			}
 		}
 	
 		// Left switch clears trim values:
 		if (DIGITAL2 && safeguard) {
-			for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
-				output_trim[i] = 0;
+			for (i=0; i<TOTAL_ANALOG_CHANNELS;i++) {
+				input_trim[i] = 0;
 			}
 		}
 		else {
 			safeguard = 1;
-			for (i=0; i<TOTAL_OUTPUT_CHANNELS;i++) {
+			for (i=0; i<TOTAL_ANALOG_CHANNELS;i++) {
 				if (i != exception) {
 	
-					if (output_pulse[i]-stick_center[i] > 150) output_trim[i] += 1;
-					if (output_pulse[i]-stick_center[i] > 600) output_trim[i] += 15;
-					if (output_pulse[i]-stick_center[i] < -150) output_trim[i] -= 1;
-					if (output_pulse[i]-stick_center[i] < -600) output_trim[i] -= 15;
+					if (ANALOG_CHANNEL(i)-stick_center[i] > 150) input_trim[i] += 1;
+					if (ANALOG_CHANNEL(i)-stick_center[i] > 600) input_trim[i] += 15;
+					if (ANALOG_CHANNEL(i)-stick_center[i] < -150) input_trim[i] -= 1;
+					if (ANALOG_CHANNEL(i)-stick_center[i] < -600) input_trim[i] -= 15;
 		
-					output_pulse[i] = stick_center[i];
+					ANALOG_CHANNEL(i) = stick_center[i];
 				}
 			}
 		}

@@ -8,6 +8,7 @@
 #include "ppmio.h"
 #include "i2c.h"
 #include "analog.h"
+#include "channels.h"
 
 void initTimers (void) {
 	// Set up timer 0 for 1ms tick:
@@ -69,7 +70,7 @@ void initGlobals (void) {
 
 	// Init output_pulse array to sane defaults:
 	for (i=0;i<TOTAL_OUTPUT_CHANNELS;i++) {	
-		output_pulse[i] = SERVO_MIN;
+		output_channels[i] = SERVO_MIN;
 	}
 }
 

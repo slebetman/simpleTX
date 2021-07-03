@@ -5,7 +5,7 @@
 #include "config.h"
 
 #include <xc.h>
-#include <stdlib.h>
+// #include <stdlib.h>
 #include "common.h"
 #include "cpuclock.h"
 #include "ppmio.h"
@@ -14,6 +14,7 @@
 #include "init.h"
 #include "oled.h"
 #include "analog.h"
+#include "channels.h"
 
 unsigned char tick; // timer tick (roughly 1ms using 24 MHz XTAL)
 unsigned char frameTimer;
@@ -26,8 +27,6 @@ unsigned char frameTimer;
 #define BAND_FILTER 2
 #define DEADBAND 12
 
-bit led_state = 0;
-short center[TOTAL_ANALOG_CHANNELS];
 short stick_values[TOTAL_ANALOG_CHANNELS];
 
 short read_stick(unsigned char channel) {
@@ -66,7 +65,6 @@ void main(void)
 {
 	unsigned char tickTracker = tick;
 	unsigned char buffer[4];
-	short stick_position[TOTAL_ANALOG_CHANNELS];
 
 	short x = 0;
 	short seconds = 0;
@@ -114,17 +112,17 @@ void main(void)
 
 			if (x%20 == 0) {
 				for (unsigned char i=0; i<TOTAL_ANALOG_CHANNELS; i++) {
-					stick_position[i] = read_stick(i);
+					ANALOG_CHANNEL(i) = read_stick(i);
 				}
 
 				oled_goto(0,3);
 				oled_write_string("Analog 0: ");
-				oled_print_signed_number(stick_position[0]);
+				oled_print_signed_number(ANALOG_CHANNEL(0));
 				oled_write_string("        ");
 
 				oled_goto(0,4);
 				oled_write_string("Analog 1: ");
-				oled_print_signed_number(stick_position[1]);
+				oled_print_signed_number(ANALOG_CHANNEL(1));
 				oled_write_string("        ");
 			}
 
