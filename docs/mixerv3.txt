@@ -10,20 +10,32 @@ Mixing data:
         |       '------ output channel (0x0f = mix disabled)
         '-------------- input channel (channels 12-15 reserved for joysticks)
      _ _ _ _ _ _ _ _
-    [_|_ _ _ _ _ _ _]   scaling
-     ^        ^
-     |        |
-     |        '-------- scaling, numbers 0-100
-     '----------------- reverse input direction
+    [_ _ _ _|_ _ _ _]   scaling / expo
+        ^       ^
+        |       |
+        |       '------ scaling, numbers 0-100 in increments of 4 (shif left by 2 bits)
+        |                   value = scaling << 2
+        '-------------- expo, numbers 0-100 same as scaling
      _ _ _ _ _ _ _ _
-    [_ _ _ _ _ _ _ _]   expo, numbers  0-100 (0 = no expo)
-    
+    [_|_|_ _|_ _|_ _]   conditions
+     ^ ^      ^   ^
+     | |      |   |
+     | |      |   '---- digital A
+     | |      |             00=no condition,
+     | |      |             01=active when up,
+     | |      |             10=active when down,
+     | |      |             11=active when middle
+     | |      '-------- digital B, same as A
+     | '--------------- constant, treat input and scaling/expo as 12 bit number input
+     |                      value = (input << 4) | scaling_expo
+     '----------------- reverse input direction
+
 
 Model data:
      _ _ _ _ _ _ _ _
     [_ _ _ _ _ _ _ _]  \
             .          |
-            .           > name - 12 bytes 
+            .           > name - 12 bytes (if first byte is 0x00 model is disabled)
      _ _ _ _ _ _ _ _   |
     [_ _ _ _ _ _ _ _]  /
     
