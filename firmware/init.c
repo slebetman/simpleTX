@@ -74,10 +74,10 @@ void initGlobals (void) {
 }
 
 void init (void) {
-	// analog_init();
 	initTimers();
 	initIO();
 	initGlobals();
 	i2c_init();
+	analog_init();
 	enableInterrupts();
 }

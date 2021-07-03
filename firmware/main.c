@@ -24,38 +24,65 @@ unsigned char frameTimer;
 #define REVERSE DIGITAL4
 
 #define BAND_FILTER 2
-#define DEADBAND 5
+#define DEADBAND 12
 
 bit led_state = 0;
+int center[TOTAL_ANALOG_CHANNELS];
+int stick_values[TOTAL_ANALOG_CHANNELS];
+
+int read_stick(unsigned char channel) {
+	int tmp;
+	int comp;
+
+	tmp = analog_get(channel);
+	comp = stick_values[channel] - tmp;
+	if (comp > BAND_FILTER || comp < -BAND_FILTER) {
+		if ((tmp - center[channel]) < DEADBAND && (tmp - center[0]) > -DEADBAND) {
+			tmp = center[channel];
+		}
+		stick_values[channel] = tmp;
+	}
+
+	return stick_values[channel] - center[channel];
+}
+
+void init_center () {
+	unsigned char i;
+
+	for (i=0; i<TOTAL_ANALOG_CHANNELS; i++) {
+		analog_get_sync(i); // do a dummy read to clear rubbish values
+	}
+
+	for (i=0; i<TOTAL_ANALOG_CHANNELS; i++) {
+		center[i] = analog_get_sync(i);
+	}
+
+	for (i=0; i<TOTAL_ANALOG_CHANNELS; i++) {
+		center[i] = (center[i] + analog_get_sync(i)) / 2;
+	}
+}
 
 void main(void)
 {
 	unsigned char tickTracker = tick;
 	unsigned char buffer[4];
-	int center[2];
-	int stick_values[2];
+	int stick_position[TOTAL_ANALOG_CHANNELS];
 
 	int x = 0;
 	int seconds = 0;
 	int tmp;
-	int comp;
 
 	initCpuClock();
 
 	init();
 	// initTrim();
-	analog_init();
 
 	oled_clear();
 	oled_init();
 	oled_goto(0,0);
 	oled_write_string("Test Program");
 
-	PORTAbits.RA4 = 1;
-
-	analog_get_sync(0);
-	center[1] = analog_get_sync(1);
-	center[0] = analog_get_sync(0);
+	init_center();
 
 	while(1)
 	{
@@ -73,51 +100,31 @@ void main(void)
 
 		if (tickTracker !=  tick) {
 			x += (tick - tickTracker) & 0xff;
-			if (x >= 500) { // blink period == 1 second: 0.5 on, 0.5 off
+			if (x >= 1000) { // blink period == 1 second: 0.5 on, 0.5 off
 				x = 0;
 				seconds ++;
-
-				if (led_state == 0) {
-					led_state = 1;
-					PORTAbits.RA4 = 1;
-				}
-				else {
-					led_state = 0;
-					PORTAbits.RA4 = 0;
-				}
+				tmp = analog_count;
+				analog_count = 0;
 
 				oled_goto(0,7);
-				oled_print_signed_number(seconds/2);
-				oled_write_string("     ");
+				oled_write_string("Samples/second: ");
+				oled_print_signed_number(tmp);
+				oled_write_string("        ");
 			}
 
 			if (x%20 == 0) {
-				tmp = (analog_get(0) + stick_values[0]) / 2;
-				comp = stick_values[0] - tmp;
-				if (comp > BAND_FILTER || comp < -BAND_FILTER) {
-					if ((tmp - center[0]) < DEADBAND && (tmp - center[0]) > -DEADBAND) {
-						tmp = center[0];
-					}
-					stick_values[0] = tmp;
-				}
-
-				tmp = (analog_get(1) + stick_values[1]) / 2;
-				comp = stick_values[1] - tmp;
-				if (comp > BAND_FILTER || comp < -BAND_FILTER) {
-					if ((tmp - center[1]) < DEADBAND && (tmp - center[1]) > -DEADBAND) {
-						tmp = center[1];
-					}
-					stick_values[1] = tmp;
+				for (unsigned char i=0; i<TOTAL_ANALOG_CHANNELS; i++) {
+					stick_position[i] = read_stick(i);
 				}
 
 				oled_goto(0,3);
 				oled_write_string("Analog 0: ");
-				oled_print_signed_number(stick_values[0]-center[0]);
+				oled_print_signed_number(stick_position[0]);
 				oled_write_string("        ");
 
 				oled_goto(0,4);
 				oled_write_string("Analog 1: ");
-				oled_print_signed_number(stick_values[1]-center[1]);
+				oled_print_signed_number(stick_position[1]);
 				oled_write_string("        ");
 			}
 

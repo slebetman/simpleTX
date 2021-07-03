@@ -1,45 +1,24 @@
 #include <xc.h>
+#include "analog_const.h"
 
-#define ANALOG_CHANNEL0  0x00
-#define ANALOG_CHANNEL1  0x04
-#define ANALOG_CHANNEL2  0x08
-#define ANALOG_CHANNEL3  0x0c
-#define ANALOG_CHANNEL4  0x10
-#define ANALOG_CHANNEL5  0x14
-#define ANALOG_CHANNEL6  0x18
-#define ANALOG_CHANNEL7  0x1c
-#define ANALOG_CHANNEL8  0x20
-#define ANALOG_CHANNEL9  0x24
-#define ANALOG_CHANNEL10 0x28
-#define ANALOG_CHANNEL11 0x2c
-#define ANALOG_CHANNEL12 0x30
-
-#define SAMPLE_RATE 2
-
-#define STATE_IDLE     0
-#define STATE_START    1
-#define STATE_WAIT_AQU 2
-#define STATE_CONV     3
-#define STATE_DONE     4
-
-#define ADFM_JUSTIFY_RIGHT 0x80
-
-
-unsigned short analog_values[2];
+unsigned short analog_buffer[TOTAL_ANALOG_CHANNELS];
+unsigned short analog_values[TOTAL_ANALOG_CHANNELS];
 bit analog_mutex;
-bit current_channel;
+unsigned char current_channel;
 int intervalTimer;
 unsigned char analogState;
+int analog_count;
 
 void analog_init () {
 	analog_mutex = 0;
 	current_channel = 0;
 	intervalTimer = 0;
+	analog_count = 0;
 	
 	TRISAbits.TRISA0 = 1; /*set as input port*/
 	TRISAbits.TRISA1 = 1; /*set as input port*/
 	ADCON1 = 0x0e; /*ref vtg is VDD and Configure pin as analog pin*/
-	ADCON2 = 0b10001010; /*Right Justified, 4Tad and Fosc/32. */
+	ADCON2 = 0b10000010; /*Right Justified, 0Tad and Fosc/32. */
 	ADRESH = 0; /*Flush ADC output Register*/
 	ADRESL = 0;
 	
@@ -54,39 +33,35 @@ unsigned short analog_get (unsigned char channel) {
 	return val;
 }
 
-unsigned short analog_get_sync (unsigned int channel)
+unsigned short analog_get_sync (unsigned char channel)
 {
 	int digital;
 	ADCON0 =(ADCON0 & 0b11000011)|((channel<<2) & 0b00111100); // Select channel
 	ADCON0 |= ((1<<ADON)|(1<<GO)); /*Enable ADC and start conversion*/
 	while(ADCON0bits.GO_nDONE==1); /*wait for End of conversion i.e. Go/done'=0 conversion completed*/
-	digital = (ADRESH << 8) | ADRESL; /*Combine 8-bit LSB and 2-bit MSB*/
+	digital = (ADRESH << 9) | (ADRESL << 1); /*Combine 8-bit LSB and 2-bit MSB*/
 	return(digital);
 }
 
 void analog_timer_interrupt_handler () {
-	intervalTimer++;
+	int tmp;
+
 	if (analog_mutex) return; // wait until analog_values are free
 	
 	switch (analogState) {
 		case STATE_IDLE:
-			if (intervalTimer > SAMPLE_RATE) {
-				intervalTimer = 0;
-				analogState = STATE_START; 
-			}
-			break;
 		case STATE_START:
 			if (current_channel == 0) {
-				current_channel = 1;
-				ADCON0 =(ADCON0 & 0b11000011)|(ANALOG_CHANNEL1 & 0b00111100);
+				analog_count++;
+				PORTAbits.RA4 = 1;
 			}
-			else {
-				current_channel = 0;
-				ADCON0 =(ADCON0 & 0b11000011)|(ANALOG_CHANNEL0 & 0b00111100);
+			if (current_channel == 2) {
+				PORTAbits.RA4 = 0;
 			}
-			analogState = STATE_WAIT_AQU;
-			break;
-		case STATE_WAIT_AQU:
+
+			current_channel = (current_channel+1) % TOTAL_ANALOG_CHANNELS;
+
+			ADCON0 =(ADCON0 & 0b11000011)|((current_channel<<2) & 0b00111100);
 			ADCON0 |= ((1<<ADON)|(1<<GO)); /*Enable ADC and start conversion*/
 			analogState = STATE_CONV;
 			break;
@@ -96,12 +71,9 @@ void analog_timer_interrupt_handler () {
 			break;
 		case STATE_DONE:
 			if (analog_mutex == 1) break;
-			if (current_channel == 0) {
-				analog_values[0] = (ADRESH << 8) | ADRESL;
-			}
-			else {
-				analog_values[1] = (ADRESH << 8) | ADRESL;
-			}
+			tmp = (ADRESH << 9) | (ADRESL << 1);
+			analog_values[current_channel] = (analog_buffer[current_channel] + tmp) / 2;
+			analog_buffer[current_channel] = tmp;
 			analogState = STATE_IDLE;
 			break;
 		default:

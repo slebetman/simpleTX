@@ -12,7 +12,7 @@ void interrupt HANDLER(void)
 	}
 	if (TMR3IF)
 	{
-		TMR3 = TICK_5US;
+		TMR3 = TICK_ANALOG_SAMPLE;
 		analog_timer_interrupt_handler();
 		TMR3IF = 0;
 	}
