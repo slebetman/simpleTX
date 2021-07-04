@@ -16,6 +16,7 @@ extern void i2c_OLED_send_data (const unsigned char *data, unsigned char length)
 extern void oled_init ();
 extern void oled_goto (unsigned char x, unsigned char y);
 extern void oled_clear ();
-extern void oled_write_string (const char *str);
-extern void oled_print_signed_number (short);
-extern void oled_print_hex (short);
+extern short oled_write_string (const char *str);
+extern short oled_print_signed_number (short);
+extern short oled_print_hex (short);
+extern void oled_blank (short length);

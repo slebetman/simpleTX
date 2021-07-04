@@ -75,8 +75,8 @@ void oled_init () {
 }
 
 void oled_goto (unsigned char x, unsigned char y) {
-	i2c_OLED_send_cmd(x & 0xff); // set x coordinates
-	i2c_OLED_send_cmd(0x10 | ((x >> 4) & 0xff) ); // set x coordinates
+	i2c_OLED_send_cmd(x & 0x0f); // set x coordinates
+	i2c_OLED_send_cmd(0x10 | ((x >> 4) & 0x0f) ); // set x coordinates
 	i2c_OLED_send_cmd(0xb0 | y); // set y coordinates
 }
 
@@ -96,15 +96,32 @@ void oled_clear () {
 	}
 }
 
-void oled_write_string (const char *str) {
+void oled_blank (short length) {
+	short i;
+
+	i2c_start();
+	i2c_write(OLED_ADDRESS | I2C_WRITE_CMD);
+	i2c_write(OLED_DATA);
+	
+	for (i=0; i<length; i++) {
+		i2c_write(0x00);
+	}
+	
+	i2c_master_ack(I2C_DATA_NOACK);
+	i2c_stop();
+}
+
+short oled_write_string (const char *str) {
 	short pixels = 0;
 	unsigned char buffer[128];
 	
 	pixels = string2pixels(str, buffer, 128);
 	i2c_OLED_send_data(buffer, pixels);
+
+	return pixels;
 }
 
-void oled_print_hex (short n) {
+short oled_print_hex (short n) {
 	short pixels = 0;
 	const char* hexchars = "0123456789abcdef";
 	char hexbuf[5];
@@ -118,9 +135,11 @@ void oled_print_hex (short n) {
 
 	pixels = string2pixels(hexbuf, buffer, 4*6);
 	i2c_OLED_send_data(buffer, pixels);
+
+	return pixels;
 }
 
-void oled_print_signed_number (short n) {
+short oled_print_signed_number (short n) {
 	short pixels = 0;
 	char m;
 	char idx = 0;
@@ -168,5 +187,6 @@ void oled_print_signed_number (short n) {
 	
 	pixels = string2pixels(numbuf, buffer, 6*6);
 	i2c_OLED_send_data(buffer, pixels);
+	return pixels;
 }
 
