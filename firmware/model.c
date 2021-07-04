@@ -1,10 +1,11 @@
 #include "model-const.h"
 #include "eeprom.h"
+#include "channels.h"
 
 struct model current_model;
 
 unsigned char mixIsDisabled(unsigned char i) {
-	if (current_model.mix[i].output == 0x0f) {
+	if (current_model.mix[i].output >= USER_CHANNELS) {
 		return 1;
 	}
 	else {
