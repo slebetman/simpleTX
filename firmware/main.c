@@ -25,7 +25,7 @@ unsigned char frameTimer;
 #define REVERSE DIGITAL4
 
 #define BAND_FILTER 2
-#define DEADBAND 12
+#define DEADBAND 10
 
 short stick_values[TOTAL_ANALOG_CHANNELS];
 
@@ -45,19 +45,26 @@ short read_stick(unsigned char channel) {
 	return stick_values[channel] - center[channel];
 }
 
+#define CENTER_SAMPLES 16
+
 void init_center () {
 	unsigned char i;
+	unsigned char j;
 
 	for (i=0; i<TOTAL_ANALOG_CHANNELS; i++) {
+		center[i] = 0;
 		analog_get_sync(i); // do a dummy read to clear rubbish values
 	}
 
-	for (i=0; i<TOTAL_ANALOG_CHANNELS; i++) {
-		center[i] = analog_get_sync(i);
+	for (j=0; j<CENTER_SAMPLES; j++) {
+		for (i=0; i<TOTAL_ANALOG_CHANNELS; i++) {
+			center[i] += analog_get_sync(i);
+		}
+		for (i=255; i>0; i--) {} // short delay
 	}
 
 	for (i=0; i<TOTAL_ANALOG_CHANNELS; i++) {
-		center[i] = (center[i] + analog_get_sync(i)) / 2;
+		center[i] = center[i] / CENTER_SAMPLES;
 	}
 }
 
