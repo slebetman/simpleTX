@@ -16,16 +16,22 @@ Mixing data:
         |       '------ scaling, numbers 0-100 in increments of 4 (shif left by 2 bits)
         |                   value = scaling << 2
         '-------------- expo, numbers 0-100 same as scaling
+
+
      _ _ _ _ _ _ _ _
-    [_|_|_ _|_ _|_ _]   conditions
-     ^ ^      ^   ^
-     | |      |   |
-     | |      |   '---- digital A
-     | |      |             00=no condition,
-     | |      |             01=active when up,
-     | |      |             10=active when down,
-     | |      |             11=active when middle
-     | |      '-------- digital B, same as A
+    [_|_|_ _|_ _|_|_]   conditions
+     ^ ^  ^   ^  ^ ^
+     | |  |   |  | |
+     | |  |   |  | '--- scaling 5th bit
+     | |  |   |  '----- expo 5th bit
+     | |  |   |
+     | |  |   '-------- digital A
+     | |  |                 00=no condition,
+     | |  |                 01=active when up,
+     | |  |                 10=active when down,
+     | |  |                 11=active when middle
+     | |  '------------ digital B, same as A
+     | |
      | '--------------- constant, treat input and scaling/expo as 12 bit number input
      |                      value = (input << 4) | scaling_expo
      '----------------- reverse input direction
