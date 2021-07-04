@@ -1,10 +1,9 @@
 #include <xc.h>
 #include "analog-const.h"
 
-unsigned short analog_buffer[TOTAL_ANALOG_CHANNELS][3];
+unsigned short analog_buffer[TOTAL_ANALOG_CHANNELS];
 unsigned short analog_values[TOTAL_ANALOG_CHANNELS];
 bit analog_mutex;
-unsigned char current_buffer;
 unsigned char current_channel;
 short intervalTimer;
 unsigned char analogState;
@@ -25,9 +24,7 @@ void init_analog () {
 	ADRESL = 0;
 
 	for (i=0; i<TOTAL_ANALOG_CHANNELS; i++) {
-		for (current_buffer=0;current_buffer<2;current_buffer++) {
-			analog_buffer[i][current_buffer] = 0;
-		}
+		analog_buffer[i] = 0;
 	}
 	
 	analogState = STATE_IDLE;
@@ -57,17 +54,31 @@ void analog_timer_interrupt_handler () {
 	if (analog_mutex) return; // wait until analog_values are free
 	
 	switch (analogState) {
+		case STATE_CONV:
+			if (ADCON0bits.GO_nDONE==1) break;  // wait till GODONE bit is zero
+			analogState = STATE_DONE;
+			// no break
+		case STATE_DONE:
+			if (analog_mutex == 1) break;
+
+			tmp = (ADRESH << 9) | (ADRESL << 1);
+
+			// Low pass filter from:
+			// https://www.edn.com/a-simple-software-lowpass-filter-suits-embedded-system-applications/
+			#define FILTER_SHIFT 4
+
+			analog_buffer[current_channel] =
+				analog_buffer[current_channel] -
+				(analog_buffer[current_channel] >> FILTER_SHIFT) +
+				tmp;
+			analog_values[current_channel] = analog_buffer[current_channel] >> FILTER_SHIFT;
+
+			analogState = STATE_IDLE;
+			// no break
 		case STATE_IDLE:
 		case STATE_START:
 			if (current_channel == 0) {
 				analog_count++;
-
-				switch (current_buffer)
-				{
-					case 0: current_buffer = 1; break;
-					case 1: current_buffer = 2; break;
-					default: current_buffer = 0;
-				}
 			}
 
 			current_channel = (current_channel+1) % TOTAL_ANALOG_CHANNELS;
@@ -75,22 +86,6 @@ void analog_timer_interrupt_handler () {
 			ADCON0 =(ADCON0 & 0b11000011)|((current_channel<<2) & 0b00111100);
 			ADCON0 |= ((1<<ADON)|(1<<GO)); /*Enable ADC and start conversion*/
 			analogState = STATE_CONV;
-			break;
-		case STATE_CONV:
-			if (ADCON0bits.GO_nDONE==1) break;  // wait till GODONE bit is zero
-			analogState = STATE_DONE;
-			break;
-		case STATE_DONE:
-			if (analog_mutex == 1) break;
-			tmp = (ADRESH << 9) | (ADRESL << 1);
-			analog_values[current_channel] = (
-				analog_buffer[current_channel][0] +
-				analog_buffer[current_channel][1] +
-				analog_buffer[current_channel][2] +
-				tmp
-			) / 4;
-			analog_buffer[current_channel][current_buffer] = tmp;
-			analogState = STATE_IDLE;
 			break;
 		default:
 			analogState = STATE_IDLE;

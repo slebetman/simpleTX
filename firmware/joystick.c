@@ -2,7 +2,7 @@
 #include "channels.h"
 
 #define BAND_FILTER 2
-#define DEADBAND 10
+#define DEADBAND 8
 
 short stick_values[TOTAL_ANALOG_CHANNELS];
 
