@@ -23,7 +23,7 @@ Model data:
      _ _ _ _ _ _ _ _
     [_ _ _ _ _ _ _ _]  \
             .          |
-            .           > name - 12 bytes 
+            .           > name - 10 bytes 
      _ _ _ _ _ _ _ _   |
     [_ _ _ _ _ _ _ _]  /
     
@@ -41,8 +41,7 @@ Model data:
 
      _ _ _ _ _ _ _ _
     [_ _ _ _|_ _ _ _]  \
-    [_ _ _ _|_ _ _ _]  |
-    [_ _ _ _|_ _ _ _]   > output channel map
+    [_ _ _ _|_ _ _ _]   > output channel map 3 bytes
     [_ _ _ _|_ _ _ _]  /
 
      _ _ _ _ _ _ _ _
@@ -50,16 +49,16 @@ Model data:
     [_ _ _ _ _ _ _ _]  |
     [_ _ _ _ _ _ _ _]  |
             .          |
-            .           > mix data - 8 mixes - 24 bytes
+            .           > mix data - 10 mixes - 30 bytes
      _ _ _ _ _ _ _ _   |
     [_ _ _ _|_ _ _ _]  |
     [_ _ _ _ _ _ _ _]  |
     [_ _ _ _ _ _ _ _]  /
 
 
-total 48 bytes
+total 51 bytes
 
-5 models = 240 bytes
-16 bytes remaining
+5 models = 255 bytes
+1 byte remaining
 
 

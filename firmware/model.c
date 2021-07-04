@@ -28,11 +28,11 @@ void newModel () {
 		current_model.scale[i] = 100;
 	}
 
-	for (i=0; i<8; i++) {
+	for (i=0; i<TOTAL_OUTPUT_CHANNELS; i++) {
 		current_model.output_map[i] = 0;
 	}
 	
-	for (i=0; i<8; i++) {
+	for (i=0; i<MAX_MIXES; i++) {
 		current_model.mix[i].input = 0;
 		current_model.mix[i].output = 0x0f; // disabled
 		
@@ -62,13 +62,13 @@ void parseModelFromEeprom (unsigned char *eeprom_data) {
 		current_model.scale[i] = eeprom_data[SCALE_OFFSET + i];
 	}
 
-	for (i=0; i<4; i++) {
+	for (i=0; i<(TOTAL_OUTPUT_CHANNELS/2); i++) {
 		raw_map = eeprom_data[OUTPUT_MAP_OFFSET + i];
 		current_model.output_map[i*2] = (raw_map & 0xf0) >> 4;
 		current_model.output_map[(i*2) + 1] = raw_map & 0x0f;
 	}
 	
-	for (i=0; i<8; i++) {
+	for (i=0; i<MAX_MIXES; i++) {
 		raw_mix = eeprom_data[MIX_OFFSET + (i*3)];
 		raw_scaling = eeprom_data[MIX_OFFSET + (i*3) + 1];
 		expo = eeprom_data[MIX_OFFSET + (i*3) + 2];
@@ -106,13 +106,13 @@ void formatModelToEeprom (unsigned char *eeprom_data) {
 		eeprom_data[SCALE_OFFSET + i] = current_model.scale[i];
 	}
 
-	for (i=0; i<4; i++) {
+	for (i=0; i<(TOTAL_OUTPUT_CHANNELS/2); i++) {
 		eeprom_data[OUTPUT_MAP_OFFSET + i] =
 			((current_model.output_map[i*2] << 4) & 0xf0) |
 			(current_model.output_map[(i*2) + 1] & 0x0f);
 	}
 	
-	for (i=0; i<8; i++) {
+	for (i=0; i<MAX_MIXES; i++) {
 		raw_mix = ((current_model.mix[i].input & 0x0f) << 4) | (current_model.mix[i].output & 0x0f);
 		
 		raw_scaling = (current_model.mix[i].scale & 0x7f) | (current_model.mix[i].reverse << 7);
