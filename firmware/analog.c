@@ -10,7 +10,7 @@ short intervalTimer;
 unsigned char analogState;
 short analog_count;
 
-void analog_init () {
+void init_analog () {
 	unsigned char i;
 	analog_mutex = 0;
 	current_channel = 0;
