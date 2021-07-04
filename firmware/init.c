@@ -10,6 +10,7 @@
 #include "analog.h"
 #include "channels.h"
 #include "joystick.h"
+#include "mixer.h"
 
 void initTimers (void) {
 	// Set up timer 0 for 1ms tick:
@@ -82,5 +83,6 @@ void init (void) {
 	i2c_init();
 	init_analog();
 	init_joystick();
+	initMixer();
 	enableInterrupts();
 }
