@@ -18,6 +18,8 @@ void init_analog () {
 	
 	TRISAbits.TRISA0 = 1; /*set as input port*/
 	TRISAbits.TRISA1 = 1; /*set as input port*/
+	TRISAbits.TRISA2 = 1; /*set as input port*/
+	TRISAbits.TRISA3 = 1; /*set as input port*/
 	ADCON1 = 0x0e; /*ref vtg is VDD and Configure pin as analog pin*/
 	ADCON2 = 0b10001010; /*Right Justified, 2Tad and Fosc/32. */
 	ADRESH = 0; /*Flush ADC output Register*/
