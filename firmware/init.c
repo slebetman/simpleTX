@@ -72,7 +72,7 @@ void initGlobals (void) {
 
 	// Init output_pulse array to sane defaults:
 	for (i=0;i<TOTAL_OUTPUT_CHANNELS;i++) {	
-		output_channels[i] = SERVO_MIN;
+		output_channels[i] = 0;
 	}
 }
 

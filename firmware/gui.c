@@ -31,10 +31,14 @@ void initGUI () {
 	oled_write_string("CH0:");
 	oled_goto(0,3);
 	oled_write_string("CH1:");
-	oled_goto(64,2);
+	oled_goto(0,4);
 	oled_write_string("CH2:");
-	oled_goto(64,3);
+	oled_goto(64,2);
 	oled_write_string("CH3:");
+	oled_goto(64,3);
+	oled_write_string("CH4:");
+	oled_goto(64,4);
+	oled_write_string("CH5:");
 }
 
 unsigned char updateGUI () {
@@ -51,12 +55,6 @@ unsigned char updateGUI () {
 			tmp = analog_count;
 			analog_count = 0;
 
-			oled_goto(0,6);
-			oled_write_string("Updates/s: ");
-			xCursor = oled_print_signed_number(update_count);
-			oled_blank((5*6)-xCursor);
-			update_count = 0;
-
 			oled_goto(0,7);
 			oled_write_string("Samples/s: ");
 			xCursor = oled_print_signed_number(tmp);
@@ -65,21 +63,29 @@ unsigned char updateGUI () {
 
 		if (guiCount%50 == 1) {
 			oled_goto(6*4,2);
-			xCursor = oled_print_signed_number(channels[0]);
+			xCursor = oled_print_signed_number(output_channels[0]);
 			oled_blank((5*6)-xCursor);
 
 			oled_goto(6*4,3);
-			xCursor = oled_print_signed_number(channels[1]);
+			xCursor = oled_print_signed_number(output_channels[1]);
+			oled_blank((5*6)-xCursor);
+
+			oled_goto(6*4,4);
+			xCursor = oled_print_signed_number(output_channels[2]);
 			oled_blank((5*6)-xCursor);
 		}
 
 		if (guiCount%50 == 2) {
 			oled_goto(64+(6*4),2);
-			xCursor = oled_print_signed_number(channels[2]);
+			xCursor = oled_print_signed_number(output_channels[3]);
 			oled_blank((5*6)-xCursor);
 
 			oled_goto(64+(6*4),3);
-			xCursor = oled_print_signed_number(channels[3]);
+			xCursor = oled_print_signed_number(output_channels[4]);
+			oled_blank((5*6)-xCursor);
+
+			oled_goto(64+(6*4),4);
+			xCursor = oled_print_signed_number(output_channels[5]);
 			oled_blank((5*6)-xCursor);
 		}
 
