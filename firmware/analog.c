@@ -42,9 +42,9 @@ unsigned short analog_get_sync (unsigned char channel)
 {
 	short digital;
 	ADCON0 =(ADCON0 & 0b11000011)|((channel<<2) & 0b00111100); // Select channel
-	ADCON0 |= ((1<<ADON)|(1<<GO)); /*Enable ADC and start conversion*/
-	while(ADCON0bits.GO_nDONE==1); /*wait for End of conversion i.e. Go/done'=0 conversion completed*/
-	digital = (ADRESH << 9) | (ADRESL << 1); /*Combine 8-bit LSB and 2-bit MSB*/
+	ADCON0 |= ((1<<ADON)|(1<<GO)); // Enable ADC and start conversion
+	while(ADCON0bits.GO_nDONE==1); // wait for End of conversion i.e. Go/done'=0 conversion completed
+	digital = (ADRESH << 9) | (ADRESL << 1); // Treat analog value as 11 bit instead of 10.
 	return(digital);
 }
 
@@ -61,6 +61,8 @@ void analog_timer_interrupt_handler () {
 		case STATE_DONE:
 			if (analog_mutex == 1) break;
 
+			// Treat analog value as 11 bit instead of 10.
+			// The low pass filter below will average the readings giving us extra resolution.
 			tmp = (ADRESH << 9) | (ADRESL << 1);
 
 			// Low pass filter from:
