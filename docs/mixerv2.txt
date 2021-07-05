@@ -29,9 +29,9 @@ Model data:
     
      _ _ _ _ _ _ _ _
     [_ _ _ _ _ _ _ _]  \
-    [_ _ _ _ _ _ _ _]  |
     [_ _ _ _ _ _ _ _]   > trim data for joystick 4 bytes
-    [_ _ _ _ _ _ _ _]  /
+    [_ _ _ _ _ _ _ _]  |  values are +511/-512 but divided by 4
+    [_ _ _ _ _ _ _ _]  /  to get +127/-128
 
      _ _ _ _ _ _ _ _
     [_ _ _ _ _ _ _ _]  \
@@ -59,6 +59,6 @@ Model data:
 total 51 bytes
 
 5 models = 255 bytes
-1 byte remaining
+1 byte remaining = current model (0xff)
 
 

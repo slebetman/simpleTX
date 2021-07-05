@@ -55,7 +55,7 @@ void parseModelFromEeprom (unsigned char *eeprom_data) {
 	}
 	
 	for (i=0; i<4; i++) {
-		current_model.trim[i] = eeprom_data[TRIM_OFFSET + i];
+		current_model.trim[i] = (char)(eeprom_data[TRIM_OFFSET + i] * 4);
 	}
 
 	for (i=0; i<4; i++) {
@@ -87,7 +87,7 @@ void formatTrimToEeprom (unsigned char *eeprom_data) {
 	unsigned char i;
 	
 	for (i=0; i<4; i++) {
-		eeprom_data[TRIM_OFFSET + i] = current_model.trim[i];
+		eeprom_data[TRIM_OFFSET + i] = (char)(current_model.trim[i] / 4); // sacrifice last two bits to get +512/-512
 	}
 }
 
