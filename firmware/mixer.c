@@ -10,6 +10,7 @@
 #define MIX_STATE_MIX   2
 #define MIX_STATE_AVG1  3
 #define MIX_STATE_AVG2  4
+#define MIX_STATE_OUT   5
 
 unsigned char mixer_state;
 unsigned char channel_mix_count[USER_CHANNELS];
@@ -117,7 +118,7 @@ unsigned char processMixer () {
 			}
 			break;
 		case MIX_STATE_AVG2:
-			mixer_state = MIX_STATE_IDLE;
+			mixer_state = MIX_STATE_OUT;
 
 			for (i=(USER_CHANNELS/2); i<USER_CHANNELS; i++) {
 				if (channel_mix_count[i] > 1) {
@@ -125,6 +126,12 @@ unsigned char processMixer () {
 				}
 			}
 			break;
+		case MIX_STATE_OUT:
+			mixer_state = MIX_STATE_IDLE;
+
+			for (i=0; i<TOTAL_OUTPUT_CHANNELS; i++) {
+				output_channels[i] = channels[current_model.output_map[i]];
+			}
 		default:
 			mixer_state = MIX_STATE_IDLE;
 	}
