@@ -32,6 +32,11 @@ stop:
 backup:
 	$(PROGRAMMER) -p$(CPU) --read -f=backup_hex --silent
 
+restore:
+	$(PROGRAMMER) -p$(CPU) -e
+	$(PROGRAMMER) -p$(CPU) -w -f=backup_hex --silent
+	$(PROGRAMMER) -p$(CPU) -v -f=backup_hex --silent
+
 clean: tidy
 	-rm -f *.hex
 
