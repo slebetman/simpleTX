@@ -130,7 +130,10 @@ unsigned char processMixer () {
 			mixer_state = MIX_STATE_IDLE;
 
 			for (i=0; i<TOTAL_OUTPUT_CHANNELS; i++) {
-				output_channels[i] = channels[current_model.output_map[i]];
+				tmp = current_model.output_map[i];
+				if (tmp != 0xf) {
+					output_channels[i] = channels[tmp];
+				}
 			}
 		default:
 			mixer_state = MIX_STATE_IDLE;
