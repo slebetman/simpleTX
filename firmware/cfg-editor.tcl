@@ -64,7 +64,6 @@ proc main {} {
 				set ::currentModel $i
 				lset ::data 255 $i
 				parseModel \$::data
-				#after 1 displayHex
 			}]
 		}
 
@@ -161,12 +160,16 @@ proc main {} {
 				-textvariable ::mixInputs($i)
 			] -row $i -column 2 -sticky w
 
+			trace add variable ::mixInputs($i) write displayHex
+
 			grid [label .cfg.mix.loutput$i -text " Out:"] \
 				-row $i -column 3 -sticky e
 
 			grid [entry .cfg.mix.output$i -width 2 \
 				-textvariable ::mixOutputs($i)
 			] -row $i -column 4 -sticky w
+
+			trace add variable ::mixOutputs($i) write displayHex
 
 			grid [label .cfg.mix.lscale$i -text " Scale:"] \
 				-row $i -column 5 -sticky e
@@ -175,6 +178,8 @@ proc main {} {
 				-textvariable ::mixScaling($i)
 			] -row $i -column 6 -sticky w
 
+			trace add variable ::mixScaling($i) write displayHex
+
 			grid [label .cfg.mix.lexpo$i -text " Expo:"] \
 				-row $i -column 7 -sticky e
 
@@ -182,9 +187,13 @@ proc main {} {
 				-textvariable ::mixExpo($i)
 			] -row $i -column 8 -sticky w
 
+			trace add variable ::mixExpo($i) write displayHex
+
 			grid [checkbutton .cfg.mix.lreverse$i -text "Reverse" \
 				-variable ::mixReverse($i)
 			] -row $i -column 9 -sticky e
+
+			trace add variable ::mixReverse($i) write displayHex
 		}
 	}
 }
@@ -346,6 +355,37 @@ proc displayHex {args} {
 				($a & 0x0f) | 
 				(($b << 4) & 0xf0)
 			}]
+		}
+	}
+
+	# copy mixes
+	for {set m 0} {$m < 10} {incr m} {
+		set offset [expr {($m*3)+21}]
+
+		set in $::mixInputs($m)
+		set out $::mixOutputs($m)
+		if {$out == "-"} {
+			set out 0xf
+		}
+
+		if {
+			[string is integer -strict $in] &&
+			[string is integer -strict $out]
+		} {
+			set ch [expr {(($in << 4) | ($out & 0xf)) & 0xff}]
+			setDataByte $offset $ch
+		}
+
+		if {[string is integer -strict $::mixScaling($m)]} {
+			set scaling [expr {$::mixScaling($m) & 0xff}]
+			if {$::mixReverse($m)} {
+				set scaling [expr {$scaling | 0x80}]
+			}
+			setDataByte [expr {$offset+1}] $scaling
+		}
+
+		if {[string is integer -strict $::mixExpo($m)]} {
+			setDataByte [expr {$offset+2}] $::mixExpo($m)
 		}
 	}
 
