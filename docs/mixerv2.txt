@@ -42,7 +42,7 @@ Model data:
      _ _ _ _ _ _ _ _
     [_ _ _ _|_ _ _ _]  \
     [_ _ _ _|_ _ _ _]   > output channel map 3 bytes
-    [_ _ _ _|_ _ _ _]  /
+    [_ _ _ _|_ _ _ _]  /  0xf = disable channel
 
      _ _ _ _ _ _ _ _
     [_ _ _ _|_ _ _ _]  \
