@@ -61,44 +61,30 @@ unsigned char updateGUI () {
 			oled_blank((5*6)-xCursor);
 		}
 
-		if (guiCount%50 == 1) {
-			oled_goto(6*4,2);
+		if (guiCount%50 == 25) {
+			oled_goto(24,2);
 			xCursor = oled_print_signed_number(output_channels[0]);
-			if (xCursor > (36)) xCursor = 36;
-			else xCursor = 36-xCursor;
-			oled_blank(xCursor);
+			oled_blank(36-xCursor);
 
-			oled_goto(6*4,3);
+			oled_goto(24,3);
 			xCursor = oled_print_signed_number(output_channels[1]);
-			if (xCursor > (36)) xCursor = 36;
-			else xCursor = 36-xCursor;
-			oled_blank(xCursor);
+			oled_blank(36-xCursor);
 
-			oled_goto(6*4,4);
+			oled_goto(24,4);
 			xCursor = oled_print_signed_number(output_channels[2]);
-			if (xCursor > (36)) xCursor = 36;
-			else xCursor = 36-xCursor;
-			oled_blank(xCursor);
-		}
+			oled_blank(36-xCursor);
 
-		if (guiCount%50 == 2) {
-			oled_goto(64+(6*4),2);
+			oled_goto(64+24,2);
 			xCursor = oled_print_signed_number(output_channels[3]);
-			if (xCursor > (36)) xCursor = 36;
-			else xCursor = 36-xCursor;
-			oled_blank(xCursor);
+			oled_blank(36-xCursor);
 
-			oled_goto(64+(6*4),3);
+			oled_goto(64+24,3);
 			xCursor = oled_print_signed_number(output_channels[4]);
-			if (xCursor > (36)) xCursor = 36;
-			else xCursor = 36-xCursor;
-			oled_blank(xCursor);
+			oled_blank(36-xCursor);
 
-			oled_goto(64+(6*4),4);
+			oled_goto(64+24,4);
 			xCursor = oled_print_signed_number(output_channels[5]);
-			if (xCursor > (36)) xCursor = 36;
-			else xCursor = 36-xCursor;
-			oled_blank(xCursor);
+			oled_blank(36-xCursor);
 		}
 
 		return 1;
