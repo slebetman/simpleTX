@@ -134,6 +134,11 @@ void loadModel (unsigned char model_id) {
 	}
 
 	parseModelFromEeprom(eeprom_buffer);
+
+	if (current_model.name[0] > '~' || current_model.name[0] < ' ') {
+		// Invalid name, assume uninitialized:
+		newModel();
+	}
 }
 
 void saveModel (unsigned char model_id) {

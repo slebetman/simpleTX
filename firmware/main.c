@@ -6,44 +6,67 @@
 
 #include <xc.h>
 // #include <stdlib.h>
+#include "button.h"
 #include "common.h"
 #include "cpuclock.h"
 #include "ppmio.h"
-#include "calculations.h"
 #include "trim.h"
 #include "init.h"
 #include "oled.h"
-#include "analog.h"
 #include "channels.h"
-#include "joystick.h"
 #include "model.h"
 #include "gui.h"
 #include "mixer.h"
 #include "eeprom.h"
 
-unsigned char tick; // timer tick (roughly 1ms using 24 MHz XTAL)
+unsigned char tick; // timer tick (roughly 1ms)
 unsigned char frameTimer;
+
+button btn1;
+button btn2;
+button btn3;
+
+button *button1 = &btn1;
+button *button2 = &btn2;
+button *button3 = &btn3;
+
+#define SAVED_MODEL 0xff
+unsigned char getModelFromEeprom (unsigned char id) {
+	if (id == SAVED_MODEL) {
+		id = readEeprom(0xff);
+		if (id >= MAX_MODELS) {
+			id = 0;
+		}
+	} else {
+		if (id >= MAX_MODELS) {
+			id = 0;
+		}
+		writeEeprom(0xff, id);
+	}
+
+	loadModel(id);
+	loadChannelsPage(id);
+
+	return id;
+}
 
 void main(void)
 {
-	unsigned char modelID;
+	short modelID;
+	unsigned char tickTracker;
+	tickTracker = tick;
 
 	initCpuClock();
 
+	button_init(button1,1);
+	button_init(button2,2);
+	button_init(button3,3);
+
 	init();
 	// initTrim();
-	modelID = readEeprom(0xff);
-	if (modelID >= MAX_MODELS) {
-		modelID = 0;
-	}
-	loadModel(modelID);
-
-	if (current_model.name[0] > '~' || current_model.name[0] < ' ') {
-		// Invalid name, assume uninitialized:
-		newModel();
-	}
-
 	initGUI();
+
+	modelID = getModelFromEeprom(SAVED_MODEL);
 
 	while(1)
 	{
@@ -65,5 +88,23 @@ void main(void)
 		if (updateGUI()) continue;
 
 		processMixer();
+
+		if (tickTracker != tick) {
+			tickTracker = tick;
+			if (button_click(button1)) {
+				modelID--;
+				if (modelID < 0) {
+					modelID = MAX_MODELS-1;
+				}
+				getModelFromEeprom(modelID);
+			}
+			if (button_click(button2)) {
+				modelID++;
+				if (modelID >= MAX_MODELS) {
+					modelID = 0;
+				}
+				getModelFromEeprom(modelID);
+			}
+		}
 	}
 }

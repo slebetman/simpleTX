@@ -6,16 +6,19 @@
 #include "model.h"
 
 unsigned char guiTracker;
-short seconds;
 short guiCount;
 
 void initGUI () {
+	oled_clear();
+	oled_init();
+}
+
+void loadChannelsPage (short modelId) {
 	unsigned char i;
 	char modelName[NAME_SIZE+1];
 
 	guiTracker = tick;
-	seconds = 0;
-	guiCount = 0;
+	guiCount = 2000;
 	modelName[NAME_SIZE] = 0x00;
 
 	for (i=0;i<NAME_SIZE;i++) {
@@ -23,8 +26,10 @@ void initGUI () {
 	}
 
 	oled_clear();
-	oled_init();
 	oled_goto(0,0);
+	oled_write_string("[");
+	oled_print_signed_number(modelId);
+	oled_write_string("] ");
 	oled_write_string(modelName);
 
 	oled_goto(0,2);
@@ -51,7 +56,6 @@ unsigned char updateGUI () {
 
 		if (guiCount >= 1000) { // blink period == 1 second: 0.5 on, 0.5 off
 			guiCount -= 1000;
-			seconds ++;
 			tmp = analog_count;
 			analog_count = 0;
 
