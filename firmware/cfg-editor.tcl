@@ -25,6 +25,7 @@ proc main {} {
 		close $f
 
 		set ::data [parseHexFile $raw]
+		set ::currentModel [expr [lindex $::data 255]]
 		parseModel $::data
 
 		pack [frame .bottom -pady 5] -side bottom -fill x
