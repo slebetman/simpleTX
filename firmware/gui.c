@@ -18,7 +18,7 @@ void loadChannelsPage (short modelId) {
 	char modelName[NAME_SIZE+1];
 
 	guiTracker = tick;
-	guiCount = 2000;
+	guiCount = 0;
 	modelName[NAME_SIZE] = 0x00;
 
 	for (i=0;i<NAME_SIZE;i++) {
