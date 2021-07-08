@@ -1,7 +1,6 @@
 4 channel TX
 ============
 
-
 Mixing data:
      _ _ _ _ _ _ _ _
     [_ _ _ _|_ _ _ _]   channels
@@ -65,6 +64,20 @@ Model data:
     [_ _ _ _|_ _ _ _]  /
 
      _ _ _ _ _ _ _ _
+    [_ _ _ _ _ _ _ _]  \
+    [_ _ _ _ _ _ _ _]  |
+    [_ _ _ _ _ _ _ _]  |
+    [_ _ _ _ _ _ _ _]  |
+    [_ _ _ _ _ _ _ _]  |
+    [_ _ _ _ _ _ _ _]  |
+    [_ _ _ _ _ _ _ _]  |
+    [_ _ _ _ _ _ _ _]  |
+    [_ _ _ _ _ _ _ _]   > output endpoint adjustment 12 bytes
+    [_ _ _ _ _ _ _ _]  |
+    [_ _ _ _ _ _ _ _]  |
+    [_ _ _ _ _ _ _ _]  /
+
+     _ _ _ _ _ _ _ _
     [_ _ _ _|_ _ _ _]  \
     [_ _ _ _ _ _ _ _]  |
     [_ _ _ _ _ _ _ _]  |
@@ -76,9 +89,10 @@ Model data:
     [_ _ _ _ _ _ _ _]  /
 
 
-total 51 bytes
+total 63 bytes
 
-5 models = 255 bytes
-1 byte remaining = current model (0xff)
+4 models = 252 bytes
+4 bytes remaining
+current model = (0xff)
 
 

@@ -1,7 +1,6 @@
 4 channel TX
 ============
 
-
 Mixing data:
      _ _ _ _ _ _ _ _
     [_ _ _ _|_ _ _ _]   channels
