@@ -32,6 +32,7 @@ proc main {} {
 		pack [button .bottom.save -text "Save" -command [subst -nocommands {
 			set rawSave [formatHexFile "$raw" \$::data]
 			saveFile \$rawSave
+			exit
 		}]] -anchor e
 		
 		pack [frame .cfg -padx 10 -pady 2] \
