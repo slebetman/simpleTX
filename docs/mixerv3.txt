@@ -20,7 +20,7 @@ Mixing data:
       |  |     '------- scaling, numbers 0-100 in increments of 4 (shif left by 2 bits)
       |  |                  value = scaling << 2
       |  '------------- reverse input direction
-      '---------------- digital A
+      '---------------- switch A
                             00=no condition,
                             01=active when up,
                             10=active when down,
@@ -32,7 +32,7 @@ Mixing data:
       |        '------- expo, numbers 0-100 in increments of 4 (shif left by 2 bits)
       |                     value = expo << 2
       |
-      '---------------- digital B
+      '---------------- switch B
                             00=no condition,
                             01=active when up,
                             10=active when down,
