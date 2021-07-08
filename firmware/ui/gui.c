@@ -50,7 +50,7 @@ unsigned char updateGUI () {
 		guiCount += (tick-guiTracker) & 0xff;
 		guiTracker = tick;
 
-		if (guiCount >= 1000) { // blink period == 1 second: 0.5 on, 0.5 off
+		if (guiCount >= 1000) { // update every second
 			guiCount -= 1000;
 			tmp = analog_count;
 			analog_count = 0;
