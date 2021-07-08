@@ -7,6 +7,7 @@
 #include "gui.h"
 
 #define ARROW "~"
+#define CHECK "}"
 
 void getModelFromEeprom (unsigned char id) {
 	if (id == SAVED_MODEL) {
@@ -27,6 +28,8 @@ void getModelFromEeprom (unsigned char id) {
 
 void loadModelSelectPage() {
 	unsigned char name[11];
+	unsigned char xCursor;
+
 	name[10] = 0;
 
 	oled_clear();
@@ -35,16 +38,20 @@ void loadModelSelectPage() {
 	for (unsigned char i=0; i<MAX_MODELS; i++) {
 		getModelName(i,name);
 		oled_goto(8,i+2);
-		oled_write_string("[");
 		oled_print_signed_number(i);
-		oled_write_string("] ");
+		oled_write_string(": ");
 
 		if (current_model.name[0] > '~' || current_model.name[0] < ' ') {
 			// Invalid name, assume uninitialized:
-			oled_write_string("-");
+			xCursor = oled_write_string("-");
 		}
 		else {
-			oled_write_string(name);
+			xCursor = oled_write_string(name);
+		}
+
+		if (current_model.id == i) {
+			oled_blank(70-xCursor);
+			oled_write_string(CHECK);
 		}
 
 		if (modelID == i) {
@@ -61,22 +68,26 @@ void updateModelSelectPage() {
 
 // Controller:
 unsigned char handleModelSelectPage() {
-	// if (button_click(button1)) {
-	// 	modelID--;
-	// 	if (modelID < 0) {
-	// 		modelID = MAX_MODELS-1;
-	// 	}
-	// 	loadModelSelectPage();
-	// }
 	if (button_click(button1)) {
+		modelID--;
+		if (modelID < 0) {
+			modelID = MAX_MODELS-1;
+		}
+		loadModelSelectPage();
+	}
+	if (button_click(button2)) {
 		modelID++;
 		if (modelID >= MAX_MODELS) {
 			modelID = 0;
 		}
 		loadModelSelectPage();
 	}
-	if (button_click(button2)) {
+	if (button_long_click(button1)) {
 		getModelFromEeprom(modelID);
+		return CHANNELS_PAGE;
+	}
+	if (button_long_click(button2)) { // cancel
+		loadChannelsPage();
 		return CHANNELS_PAGE;
 	}
 

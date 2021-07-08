@@ -3,5 +3,7 @@
 typedef struct button {
 	unsigned char id;
 	short count;
-	short state;
+	short longCount;
+	char state;
+	char longState;
 } button;
