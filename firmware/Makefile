@@ -2,8 +2,8 @@ PROJECT = simpleTX
 
 CPU    = 18F2520
 
-SOURCES = $(shell ls *.c)
-HEADERS = $(shell ls *.h)
+SOURCES = $(shell ls *.c */*.c)
+HEADERS = $(shell ls *.h */*.h)
 
 ####### modifications should not be necessary below this line #######
 

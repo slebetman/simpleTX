@@ -5,12 +5,12 @@
 #include <xc.h>
 #include <htc.h>
 #include "common.h"
-#include "ppmio.h"
-#include "i2c.h"
-#include "analog.h"
-#include "channels.h"
-#include "joystick.h"
-#include "mixer.h"
+#include "drivers/ppmio.h"
+#include "drivers/i2c.h"
+#include "drivers/analog.h"
+#include "model/channels.h"
+#include "drivers/joystick.h"
+#include "model/mixer.h"
 
 void initTimers (void) {
 	// Set up timer 0 for 1ms tick:

@@ -1,5 +1,5 @@
 #include "model-const.h"
-#include "eeprom.h"
+#include "../drivers/eeprom.h"
 #include "channels.h"
 
 struct model current_model;

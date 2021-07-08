@@ -35,7 +35,7 @@ unsigned char button_click (button *btn) {
 				}
 			}
 			else {
-				btn->count = 0; // rejec spurious signals
+				btn->count = 0; // reject spurious signals
 			}
 			break;
 		case 1:

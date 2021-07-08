@@ -1,5 +1,5 @@
-#include "common.h"
-#include "ppmio.h"
+#include "../common.h"
+#include "../drivers/ppmio.h"
 
 short expo (short input, unsigned char percent /* 0-100 */) {
 	#define X_RANGE 512L

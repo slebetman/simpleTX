@@ -1,6 +1,6 @@
 /* Assumes PIC18F2520 running at 32MHz */
 
-#include "pinout.h"
+#include "hardware/pinout.h"
 
 #ifndef _COMMON_H_
 #define _COMMON_H_

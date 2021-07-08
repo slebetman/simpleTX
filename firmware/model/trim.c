@@ -1,7 +1,7 @@
 #include <xc.h>
 #include <htc.h>
-#include "common.h"
-#include "eeprom.h"
+#include "../common.h"
+#include "../drivers/eeprom.h"
 #include "model.h"
 #include "channels.h"
 

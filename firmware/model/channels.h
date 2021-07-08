@@ -2,7 +2,7 @@
 #define _CHANNELS_
 
 #include "channels-const.h"
-#include "analog.h"
+#include "../drivers/analog.h"
 
 extern short channels[TOTAL_CHANNELS];
 extern short output_channels[TOTAL_OUTPUT_CHANNELS];

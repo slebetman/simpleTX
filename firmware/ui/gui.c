@@ -1,9 +1,9 @@
-#include "common.h"
-#include "analog.h"
-#include "channels.h"
-#include "oled.h"
-#include "mixer.h"
-#include "model.h"
+#include "../common.h"
+#include "../drivers/analog.h"
+#include "../model/channels.h"
+#include "../drivers/oled.h"
+#include "../model/mixer.h"
+#include "../model/model.h"
 
 unsigned char guiTracker;
 short guiCount;

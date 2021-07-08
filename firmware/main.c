@@ -2,22 +2,22 @@
 
 #define _XTAL_FREQ 32000000
 
-#include "config.h"
+#include "hardware/config.h"
 
 #include <xc.h>
 // #include <stdlib.h>
-#include "button.h"
+#include "drivers/button.h"
 #include "common.h"
-#include "cpuclock.h"
-#include "ppmio.h"
-#include "trim.h"
+#include "hardware/cpuclock.h"
+#include "drivers/ppmio.h"
+#include "model/trim.h"
 #include "init.h"
-#include "oled.h"
-#include "channels.h"
-#include "model.h"
-#include "gui.h"
-#include "mixer.h"
-#include "eeprom.h"
+#include "drivers/oled.h"
+#include "model/channels.h"
+#include "model/model.h"
+#include "ui/gui.h"
+#include "model/mixer.h"
+#include "drivers/eeprom.h"
 
 unsigned char tick; // timer tick (roughly 1ms)
 unsigned char frameTimer;

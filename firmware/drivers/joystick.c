@@ -1,5 +1,5 @@
 #include "analog.h"
-#include "channels.h"
+#include "../model/channels.h"
 
 #define BAND_FILTER 2
 #define DEADBAND 8

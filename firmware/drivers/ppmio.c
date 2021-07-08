@@ -1,8 +1,8 @@
 #include <xc.h>
 #include "ppmio.h"
-#include "common.h"
-#include "trim.h"
-#include "channels.h"
+#include "../common.h"
+#include "../model/trim.h"
+#include "../model/channels.h"
 
 #define PPM_BLANK_CHECK 9 /* milliseconds */
 

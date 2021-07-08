@@ -1,7 +1,7 @@
 #include <xc.h>
-#include "ppmio.h"
-#include "common.h"
-#include "analog.h"
+#include "../drivers/ppmio.h"
+#include "../common.h"
+#include "../drivers/analog.h"
 
 void interrupt HANDLER(void)
 {
