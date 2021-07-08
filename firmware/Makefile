@@ -30,6 +30,7 @@ stop:
 	$(PROGRAMMER) --stop
 
 backup:
+	$(PROGRAMMER) --stop
 	$(PROGRAMMER) -p$(CPU) --read -f=backup_hex --silent
 
 restore:
