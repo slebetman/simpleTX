@@ -8,8 +8,8 @@
 #include "drivers/ppmio.h"
 #include "drivers/i2c.h"
 #include "drivers/analog.h"
-#include "model/channels.h"
 #include "drivers/joystick.h"
+#include "model/channels.h"
 #include "model/mixer.h"
 
 void initTimers (void) {

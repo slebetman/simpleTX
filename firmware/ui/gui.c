@@ -1,49 +1,45 @@
 #include "../common.h"
 #include "../drivers/analog.h"
-#include "../model/channels.h"
+#include "../drivers/button.h"
 #include "../drivers/oled.h"
+#include "../drivers/eeprom.h"
+#include "../model/channels.h"
 #include "../model/mixer.h"
 #include "../model/model.h"
+#include "gui-const.h"
+#include "splashScreen.h"
+#include "channelsPage.h"
+#include "modelSelectPage.h"
 
 unsigned char guiTracker;
 short guiCount;
 
+button btn1;
+button btn2;
+button btn3;
+
+button *button1 = &btn1;
+button *button2 = &btn2;
+button *button3 = &btn3;
+
+short modelID;
+unsigned char guiState;
+
 void initGUI () {
-	oled_clear();
-	oled_init();
-}
-
-void loadChannelsPage (short modelId) {
-	unsigned char i;
-	char modelName[NAME_SIZE+1];
-
 	guiTracker = tick;
 	guiCount = 0;
-	modelName[NAME_SIZE] = 0x00;
-
-	for (i=0;i<NAME_SIZE;i++) {
-		modelName[i] = current_model.name[i];
-	}
-
+	guiState = CHANNELS_PAGE;
 	oled_clear();
-	oled_goto(0,0);
-	oled_write_string("[");
-	oled_print_signed_number(modelId);
-	oled_write_string("] ");
-	oled_write_string(modelName);
+	oled_init();
 
-	oled_goto(0,2);
-	oled_write_string("CH0:");
-	oled_goto(0,3);
-	oled_write_string("CH1:");
-	oled_goto(0,4);
-	oled_write_string("CH2:");
-	oled_goto(64,2);
-	oled_write_string("CH3:");
-	oled_goto(64,3);
-	oled_write_string("CH4:");
-	oled_goto(64,4);
-	oled_write_string("CH5:");
+	button_init(button1,1);
+	button_init(button2,2);
+	button_init(button3,3);
+
+	loadSplashScreen();
+
+	getModelFromEeprom(SAVED_MODEL);
+	modelID = current_model.id;
 }
 
 unsigned char updateGUI () {
@@ -65,30 +61,28 @@ unsigned char updateGUI () {
 			oled_blank((5*6)-xCursor);
 		}
 
+		// View:
 		if (guiCount%50 == 25) {
-			oled_goto(24,2);
-			xCursor = oled_print_signed_number(output_channels[0]);
-			oled_blank(36-xCursor);
+			switch (guiState) {
+				case CHANNELS_PAGE:
+					updateChannelsPage();
+					break;
+				case MODEL_SELECT_PAGE:
+					updateModelSelectPage();
+					break;
+			}
+		}
 
-			oled_goto(24,3);
-			xCursor = oled_print_signed_number(output_channels[1]);
-			oled_blank(36-xCursor);
-
-			oled_goto(24,4);
-			xCursor = oled_print_signed_number(output_channels[2]);
-			oled_blank(36-xCursor);
-
-			oled_goto(64+24,2);
-			xCursor = oled_print_signed_number(output_channels[3]);
-			oled_blank(36-xCursor);
-
-			oled_goto(64+24,3);
-			xCursor = oled_print_signed_number(output_channels[4]);
-			oled_blank(36-xCursor);
-
-			oled_goto(64+24,4);
-			xCursor = oled_print_signed_number(output_channels[5]);
-			oled_blank(36-xCursor);
+		// Controller:
+		switch (guiState) {
+			case CHANNELS_PAGE:
+				guiState = handleChannelsPage();
+				break;
+			case MODEL_SELECT_PAGE:
+				guiState = handleModelSelectPage();
+				break;
+			default:
+				guiState = CHANNELS_PAGE;
 		}
 
 		return 1;

@@ -9,71 +9,26 @@
 #include "drivers/button.h"
 #include "common.h"
 #include "hardware/cpuclock.h"
-#include "drivers/ppmio.h"
-#include "model/trim.h"
-#include "init.h"
 #include "drivers/oled.h"
+#include "drivers/ppmio.h"
+#include "drivers/eeprom.h"
+#include "model/trim.h"
 #include "model/channels.h"
 #include "model/model.h"
-#include "ui/gui.h"
 #include "model/mixer.h"
-#include "drivers/eeprom.h"
+#include "ui/gui.h"
+#include "init.h"
 
 unsigned char tick; // timer tick (roughly 1ms)
 unsigned char frameTimer;
 
-button btn1;
-button btn2;
-button btn3;
-
-button *button1 = &btn1;
-button *button2 = &btn2;
-button *button3 = &btn3;
-
-#define SAVED_MODEL 0xff
-unsigned char getModelFromEeprom (unsigned char id) {
-	if (id == SAVED_MODEL) {
-		id = readEeprom(0xff);
-		if (id >= MAX_MODELS) {
-			id = 0;
-		}
-	} else {
-		if (id >= MAX_MODELS) {
-			id = 0;
-		}
-		writeEeprom(0xff, id);
-	}
-
-	loadModel(id);
-	loadChannelsPage(id);
-
-	return id;
-}
-
 void main(void)
 {
-	short modelID;
-	unsigned char tickTracker;
-	tickTracker = tick;
-
 	initCpuClock();
-
-	button_init(button1,1);
-	button_init(button2,2);
-	button_init(button3,3);
 
 	init();
 	// initTrim();
 	initGUI();
-
-	for (unsigned short delay = 500;delay;delay--) {
-		oled_goto(37,2);
-		oled_write_string("Simple TX");
-		oled_goto(54,4);
-		oled_write_string("v1.0");
-	}
-	
-	modelID = getModelFromEeprom(SAVED_MODEL);
 
 	while(1)
 	{
@@ -95,23 +50,5 @@ void main(void)
 		if (updateGUI()) continue;
 
 		processMixer();
-
-		if (tickTracker != tick) {
-			tickTracker = tick;
-			if (button_click(button1)) {
-				modelID--;
-				if (modelID < 0) {
-					modelID = MAX_MODELS-1;
-				}
-				getModelFromEeprom(modelID);
-			}
-			if (button_click(button2)) {
-				modelID++;
-				if (modelID >= MAX_MODELS) {
-					modelID = 0;
-				}
-				getModelFromEeprom(modelID);
-			}
-		}
 	}
 }

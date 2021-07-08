@@ -1,6 +1,7 @@
 #include "model-const.h"
 
 extern struct model current_model;
+extern void getModelName (unsigned char model_id, unsigned char *name);
 extern void loadModel (unsigned char model_id);
 extern void saveModel ();
 extern unsigned char mixIsDisabled(unsigned char i);

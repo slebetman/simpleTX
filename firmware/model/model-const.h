@@ -23,6 +23,7 @@ struct mix {
 };
 
 struct model {
+	unsigned char id;
 	unsigned char name[NAME_SIZE];
 	short trim[4];
 	unsigned char scale[4];
