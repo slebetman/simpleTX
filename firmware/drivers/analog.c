@@ -1,18 +1,26 @@
 #include <xc.h>
 #include "analog-const.h"
 
-unsigned short analog_buffer[TOTAL_ANALOG_CHANNELS];
+#define BUFFER_SIZE 8
+#define BUFFER_SIZE_DIV 3
+#define BUFFER_SIZE_MASK 0x07
+
+unsigned short analog_filter[TOTAL_ANALOG_CHANNELS];
+unsigned short analog_buffer[TOTAL_ANALOG_CHANNELS][BUFFER_SIZE];
 unsigned short analog_values[TOTAL_ANALOG_CHANNELS];
 bit analog_mutex;
 unsigned char current_channel;
+unsigned char current_buffer;
 short intervalTimer;
 unsigned char analogState;
 short analog_count;
 
 void init_analog () {
 	unsigned char i;
+	unsigned char j;
 	analog_mutex = 0;
 	current_channel = 0;
+	current_buffer = 0;
 	intervalTimer = 0;
 	analog_count = 0;
 	
@@ -26,7 +34,10 @@ void init_analog () {
 	ADRESL = 0;
 
 	for (i=0; i<TOTAL_ANALOG_CHANNELS; i++) {
-		analog_buffer[i] = 0;
+		analog_filter[i] = 0;
+		for (j=0; j<BUFFER_SIZE; j++) {
+			analog_buffer[i][j] = 0;
+		}
 	}
 	
 	analogState = STATE_IDLE;
@@ -51,6 +62,7 @@ unsigned short analog_get_sync (unsigned char channel)
 }
 
 void analog_timer_interrupt_handler () {
+	unsigned char i;
 	short tmp;
 
 	if (analog_mutex) return; // wait until analog_values are free
@@ -71,11 +83,17 @@ void analog_timer_interrupt_handler () {
 			// https://www.edn.com/a-simple-software-lowpass-filter-suits-embedded-system-applications/
 			#define FILTER_SHIFT 4
 
-			analog_buffer[current_channel] =
-				analog_buffer[current_channel] -
-				(analog_buffer[current_channel] >> FILTER_SHIFT) +
+			analog_filter[current_channel] =
+				analog_filter[current_channel] -
+				(analog_filter[current_channel] >> FILTER_SHIFT) +
 				tmp;
-			analog_values[current_channel] = analog_buffer[current_channel] >> FILTER_SHIFT;
+			analog_buffer[current_channel][current_buffer] = analog_filter[current_channel] >> FILTER_SHIFT;
+
+			tmp = 0;
+			for (i=0;i<BUFFER_SIZE;i++) {
+				tmp += analog_buffer[current_channel][i];
+			}
+			analog_values[current_channel] = tmp >> BUFFER_SIZE_DIV;
 
 			analogState = STATE_IDLE;
 			// no break
@@ -83,6 +101,7 @@ void analog_timer_interrupt_handler () {
 		case STATE_START:
 			if (current_channel == 0) {
 				analog_count++;
+				current_buffer = (current_buffer + 1) & BUFFER_SIZE_MASK;
 			}
 
 			current_channel = (current_channel+1) % TOTAL_ANALOG_CHANNELS;
