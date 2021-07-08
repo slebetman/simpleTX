@@ -27,13 +27,20 @@ unsigned char button_click (button *btn) {
 	switch (btn->state) {
 		case 0:
 			if (value == LOW) { // button clicked
-				btn->count = 0;
-				btn->state = 1;
-				return 1;
+				btn->count++;
+				if (btn->count > 2) {
+					btn->count = 0;
+					btn->state = 1;
+					return 1;
+				}
+			}
+			else {
+				btn->count = 0; // rejec spurious signals
 			}
 			break;
 		case 1:
-			if (value == HIGH) { // button unclicked
+			btn->count ++;
+			if (value == HIGH && btn->count > 2) { // button unclicked
 				btn->count = 0;
 				btn->state = 2;
 			}
