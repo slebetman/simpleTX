@@ -24,7 +24,7 @@ void trim (unsigned char on_switch, signed char exception) {
 		}
 	
 		// Left switch clears trim values:
-		if (DIGITAL2 && safeguard) {
+		if (0 && safeguard) {
 			for (i=0; i<TOTAL_ANALOG_CHANNELS;i++) {
 				input_trim[i] = 0;
 			}
