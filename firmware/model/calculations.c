@@ -7,7 +7,8 @@ short expo (short input, unsigned char percent /* 0-100 */) {
 
 	long x;
 	
-	x = (signed long)input*X_RANGE/(SERVO_RANGE/2); // scale down to -512/512
+	x = (signed long)input*X_RANGE/2; // scale down to -512/512
+	                                  // we're assuming 11 bit input
 	
 	// all calculations from this point on are signed 10 bits:
 
@@ -19,16 +20,11 @@ short expo (short input, unsigned char percent /* 0-100 */) {
 		) /
 		P_RANGE;
 	
-	// now scale it back up to full servo pulse:
+	// now scale it back up to full range:
 	
-	x = x*(SERVO_RANGE/2)/X_RANGE;
+	x = x*2/X_RANGE;
 	
 	return (short)x;
-}
-
-void mix (short proportional, short differential, short* a, short* b) {
-	*a = (proportional+differential)/2;
-	*b = (proportional-differential)/2;
 }
 
 void slowdown (short input, short* output, short increment) {
