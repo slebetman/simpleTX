@@ -55,10 +55,12 @@ unsigned char updateGUI () {
 			tmp = analog_count;
 			analog_count = 0;
 
-			oled_goto(0,7);
-			oled_write_string("Samples/s: ");
-			xCursor = oled_print_signed_number(tmp);
-			oled_blank((5*6)-xCursor);
+			if (guiState == CHANNELS_PAGE) {
+				oled_goto(0,7);
+				oled_write_string("Samples/s: ");
+				xCursor = oled_print_signed_number(tmp);
+				oled_blank((5*6)-xCursor);
+			}
 		}
 
 		// View:
