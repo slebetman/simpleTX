@@ -253,8 +253,6 @@ proc parseModel {data} {
 	forEachDataBytes 18 21 x i {
 		set a [expr {($x >> 4) & 0x0f}]
 		set b [expr {$x & 0x0f}]
-		
-		puts [format %02x $x]
 
 		if {$a == 0xf} {
 			lappend outputMap [expr {$i*2}] -
@@ -268,8 +266,6 @@ proc parseModel {data} {
 			lappend outputMap [expr {($i*2)+1}] [expr $b]
 		}
 	}
-	
-	puts $outputMap
 	
 	for {set m 0} {$m < 10} {incr m} {
 		set offset [expr {($m*3)+21}]
