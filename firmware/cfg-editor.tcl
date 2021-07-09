@@ -72,7 +72,7 @@ proc main {} {
 		grid [label .cfg.lname -text "Model Name:"] \
 			-row 0 -column 2 -sticky w
 
-		grid [entry .cfg.name -width 10 \
+		grid [entry .cfg.name -bg white -width 10 \
 			-validate key \
 			-validatecommand {
 				expr {[string length "%P"] <= 10}
@@ -91,7 +91,7 @@ proc main {} {
 			grid [label .cfg.ltrim$i -text "Trim$i:"] \
 				-row [expr {2+$i}] -column 0 -sticky e
 
-			grid [entry .cfg.trim$i -width 5 \
+			grid [entry .cfg.trim$i -bg white -width 5 \
 				-textvariable ::modelTrim($i)
 			] -row [expr {2+$i}] -column 1 -sticky w
 
@@ -102,7 +102,7 @@ proc main {} {
 			grid [label .cfg.lscale$i -text "Scale$i:"] \
 				-row [expr {2+$i}] -column 2 -sticky e
 
-			grid [entry .cfg.scale$i -width 5 \
+			grid [entry .cfg.scale$i -bg white -width 5 \
 				-textvariable ::modelScaling($i)
 			] -row [expr {2+$i}] -column 3 -sticky w
 
@@ -122,7 +122,7 @@ proc main {} {
 			grid [label .cfg.lout$i -text "CH$i:"] \
 				-row [expr {8+$i}] -column 0 -sticky e
 
-			grid [entry .cfg.out$i -width 5 \
+			grid [entry .cfg.out$i -bg white -width 5 \
 				-textvariable ::outputMap($i)
 			] -row [expr {8+$i}] -column 1 -sticky w
 
@@ -133,7 +133,7 @@ proc main {} {
 			grid [label .cfg.lout$i -text "CH$i:"] \
 				-row [expr {8+$i-3}] -column 2 -sticky e
 
-			grid [entry .cfg.out$i -width 5 \
+			grid [entry .cfg.out$i -bg white -width 5 \
 				-textvariable ::outputMap($i)
 			] -row [expr {8+$i-3}] -column 3 -sticky w
 
@@ -158,7 +158,7 @@ proc main {} {
 			grid [label .cfg.mix.linput$i -text "In:"] \
 				-row $i -column 1 -sticky e
 
-			grid [entry .cfg.mix.input$i -width 2 \
+			grid [entry .cfg.mix.input$i -bg white -width 2 \
 				-textvariable ::mixInputs($i)
 			] -row $i -column 2 -sticky w
 
@@ -167,7 +167,7 @@ proc main {} {
 			grid [label .cfg.mix.loutput$i -text " Out:"] \
 				-row $i -column 3 -sticky e
 
-			grid [entry .cfg.mix.output$i -width 2 \
+			grid [entry .cfg.mix.output$i -bg white -width 2 \
 				-textvariable ::mixOutputs($i)
 			] -row $i -column 4 -sticky w
 
@@ -176,7 +176,7 @@ proc main {} {
 			grid [label .cfg.mix.lscale$i -text " Scale:"] \
 				-row $i -column 5 -sticky e
 
-			grid [entry .cfg.mix.scale$i -width 3 \
+			grid [entry .cfg.mix.scale$i -bg white -width 3 \
 				-textvariable ::mixScaling($i)
 			] -row $i -column 6 -sticky w
 
@@ -185,7 +185,7 @@ proc main {} {
 			grid [label .cfg.mix.lexpo$i -text " Expo:"] \
 				-row $i -column 7 -sticky e
 
-			grid [entry .cfg.mix.expo$i -width 3 \
+			grid [entry .cfg.mix.expo$i -bg white -width 3 \
 				-textvariable ::mixExpo($i)
 			] -row $i -column 8 -sticky w
 
@@ -251,8 +251,10 @@ proc parseModel {data} {
 		lappend modelScaling $i [expr $x]
 	}
 	forEachDataBytes 18 21 x i {
-		set a [expr {$x & 0x0f}]
-		set b [expr {($x >> 4) & 0x0f}]
+		set a [expr {($x >> 4) & 0x0f}]
+		set b [expr {$x & 0x0f}]
+		
+		puts [format %02x $x]
 
 		if {$a == 0xf} {
 			lappend outputMap [expr {$i*2}] -
@@ -266,6 +268,9 @@ proc parseModel {data} {
 			lappend outputMap [expr {($i*2)+1}] [expr $b]
 		}
 	}
+	
+	puts $outputMap
+	
 	for {set m 0} {$m < 10} {incr m} {
 		set offset [expr {($m*3)+21}]
 		set ch [getDataByte $offset]
@@ -354,8 +359,8 @@ proc displayHex {args} {
 			[string is integer -strict $b]
 		} {
 			setDataByte [expr {$i+18}] [expr {
-				($a & 0x0f) | 
-				(($b << 4) & 0xf0)
+				($b & 0x0f) | 
+				(($a << 4) & 0xf0)
 			}]
 		}
 	}
