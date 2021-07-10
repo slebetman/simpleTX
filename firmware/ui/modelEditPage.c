@@ -2,6 +2,7 @@
 #include "../drivers/button.h"
 #include "inputScalingPage.h"
 #include "nameEditPage.h"
+#include "outputMappingPage.h"
 #include "gui.h"
 
 #define MODEL_NAME     0
@@ -44,7 +45,8 @@ unsigned char handleModelEditPage () {
 				loadInputScalingPage();
 				return INPUT_SCALING_PAGE;
 			case OUTPUT_MAP:
-				break;
+				loadOutputMappingPage();
+				return OUTPUT_MAP_PAGE;
 			case MIXING:
 				break;
 		}

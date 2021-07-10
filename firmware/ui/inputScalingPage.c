@@ -55,7 +55,7 @@ void updateInputScalingPage () {
 	}
 }
 
-unsigned char handleSelectMode () {
+unsigned char handleScaleSelectMode () {
 	handleSelection(4);
 
 	if (button_long_press(button2)) {
@@ -74,7 +74,7 @@ unsigned char handleSelectMode () {
 	return INPUT_SCALING_PAGE;
 }
 
-unsigned char handleEditMode () {
+unsigned char handleScaleEditMode () {
 	unsigned char scaling = current_model.scale[selectedInput];
 	if (button_click(button1)) {
 		if (scaling > 0) {
@@ -108,9 +108,9 @@ unsigned char handleEditMode () {
 unsigned char handleInputScalingPage () {
 	switch (mode) {
 		case SELECT_MODE:
-			return handleSelectMode();
+			return handleScaleSelectMode();
 		case EDIT_MODE:
-			return handleEditMode();
+			return handleScaleEditMode();
 	}
 
 	return INPUT_SCALING_PAGE;

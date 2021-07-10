@@ -29,7 +29,7 @@ void newModel () {
 	}
 
 	for (i=0; i<TOTAL_OUTPUT_CHANNELS; i++) {
-		current_model.output_map[i] = 0;
+		current_model.output_map[i] = 0xf; // disabled
 	}
 	
 	for (i=0; i<MAX_MIXES; i++) {
