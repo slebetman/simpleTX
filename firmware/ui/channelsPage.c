@@ -2,6 +2,7 @@
 #include "../drivers/oled.h"
 #include "../model/model.h"
 #include "modelSelectPage.h"
+#include "modelEditPage.h"
 #include "gui.h"
 
 void loadChannelsPage () {
@@ -66,13 +67,13 @@ void updateChannelsPage () {
 
 // Controller:
 unsigned char handleChannelsPage () {
-	if (
-		button_click(button1) ||
-		button_click(button2) ||
-		button_click(button3)
-	) {
+	if (button_click(button1)) {
 		loadModelSelectPage();
 		return MODEL_SELECT_PAGE;
+	}
+	if (button_click(button2)) {
+		loadModelEditPage();
+		return MODEL_EDIT_PAGE;
 	}
 	return CHANNELS_PAGE;
 }

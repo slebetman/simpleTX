@@ -3,11 +3,7 @@
 #include "../drivers/button.h"
 #include "../drivers/eeprom.h"
 #include "../model/model.h"
-#include "channelsPage.h"
 #include "gui.h"
-
-#define ARROW "~"
-#define CHECK "}"
 
 void getModelFromEeprom (unsigned char id) {
 	if (id == SAVED_MODEL) {
@@ -23,7 +19,7 @@ void getModelFromEeprom (unsigned char id) {
 	}
 
 	loadModel(id);
-	loadChannelsPage();
+	loadHomePage();
 }
 
 void loadModelSelectPage() {
@@ -53,17 +49,20 @@ void loadModelSelectPage() {
 			oled_blank(70-xCursor);
 			oled_write_string(CHECK);
 		}
-
-		if (modelID == i) {
-			oled_goto(0,i+2);
-			oled_write_string(ARROW);
-		}
 	}
 }
 
 // View:
 void updateModelSelectPage() {
-	// do nothing
+	for (unsigned char i=0; i<MAX_MODELS; i++) {
+		oled_goto(0,i+2);
+		if (i == modelID) {
+			oled_write_string(ARROW);
+		}
+		else {
+			oled_blank(6);
+		}
+	}
 }
 
 // Controller:
@@ -73,22 +72,20 @@ unsigned char handleModelSelectPage() {
 		if (modelID < 0) {
 			modelID = MAX_MODELS-1;
 		}
-		loadModelSelectPage();
 	}
 	if (button_click(button2)) {
 		modelID++;
 		if (modelID >= MAX_MODELS) {
 			modelID = 0;
 		}
-		loadModelSelectPage();
 	}
-	if (button_long_click(button1)) {
+	if (button_long_click(button2)) {
 		getModelFromEeprom(modelID);
-		return CHANNELS_PAGE;
+		return HOME_PAGE;
 	}
-	if (button_long_click(button2)) { // cancel
-		loadChannelsPage();
-		return CHANNELS_PAGE;
+	if (button_long_click(button1)) { // cancel
+		loadHomePage();
+		return HOME_PAGE;
 	}
 
 	return MODEL_SELECT_PAGE;

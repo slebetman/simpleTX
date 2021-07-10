@@ -1,6 +1,6 @@
 #include <xc.h>
 #include "oled.h"
-#include "font.h"
+#include "../font/font.h"
 
 void i2c_OLED_send (unsigned char cmdOrData, const unsigned char *data, unsigned char length)
 {

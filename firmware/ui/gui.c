@@ -10,6 +10,11 @@
 #include "splashScreen.h"
 #include "channelsPage.h"
 #include "modelSelectPage.h"
+#include "modelEditPage.h"
+#include "inputScalingPage.h"
+#include "nameEditPage.h"
+#include "mixesPage.h"
+#include "mixEditPage.h"
 
 unsigned char guiTracker;
 short guiCount;
@@ -22,7 +27,8 @@ button *button1 = &btn1;
 button *button2 = &btn2;
 button *button3 = &btn3;
 
-short modelID;
+signed char modelID;
+signed char selection;
 unsigned char guiState;
 
 void initGUI () {
@@ -40,6 +46,37 @@ void initGUI () {
 
 	getModelFromEeprom(SAVED_MODEL);
 	modelID = current_model.id;
+}
+
+void handleSelection (unsigned char totalOptions) {
+	if (button_click(button1)) {
+		selection--;
+		if (selection < 0) {
+			selection = totalOptions-1;
+		}
+	}
+	if (button_click(button2)) {
+		selection++;
+		if (selection >= totalOptions) {
+			selection = 0;
+		}
+	}
+}
+
+void updateSelection (unsigned char totalOptions) {
+	for (unsigned char i=0; i<totalOptions; i++) {
+		oled_goto(0,i+2);
+		if (i == selection) {
+			oled_write_string(ARROW);
+		}
+		else {
+			oled_blank(6);
+		}
+	}
+}
+
+void loadHomePage () {
+	loadChannelsPage();
 }
 
 unsigned char updateGUI () {
@@ -72,6 +109,21 @@ unsigned char updateGUI () {
 				case MODEL_SELECT_PAGE:
 					updateModelSelectPage();
 					break;
+				case MODEL_EDIT_PAGE:
+					updateModelEditPage();
+					break;
+				case INPUT_SCALING_PAGE:
+					updateInputScalingPage();
+					break;
+				case NAME_EDIT_PAGE:
+					updateNameEditPage();
+					break;
+				case MIXES_PAGE:
+					updateMixesPage();
+					break;
+				case MIX_EDIT_PAGE:
+					updateMixEditPage();
+					break;
 			}
 		}
 
@@ -82,6 +134,21 @@ unsigned char updateGUI () {
 				break;
 			case MODEL_SELECT_PAGE:
 				guiState = handleModelSelectPage();
+				break;
+			case MODEL_EDIT_PAGE:
+				guiState = handleModelEditPage();
+				break;
+			case INPUT_SCALING_PAGE:
+				guiState = handleInputScalingPage();
+				break;
+			case NAME_EDIT_PAGE:
+				guiState = handleNameEditPage();
+				break;
+			case MIXES_PAGE:
+				guiState = handleMixesPage();
+				break;
+			case MIX_EDIT_PAGE:
+				guiState = handleMixEditPage();
 				break;
 			default:
 				guiState = CHANNELS_PAGE;
