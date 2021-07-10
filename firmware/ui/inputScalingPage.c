@@ -62,6 +62,7 @@ unsigned char handleSelectMode () {
 		mode = EDIT_MODE;
 	}
 	if (button_long_press(button1)) {
+		saveModelScale(current_model.id);
 		loadModelEditPage();
 		return MODEL_EDIT_PAGE;
 	}
@@ -90,7 +91,6 @@ unsigned char handleEditMode () {
 		current_model.scale[selectedInput] = scaling;
 
 		if (button_long_press(button2)) {
-			// should save to eeprom here??
 			selectedInput = -1;
 			mode = SELECT_MODE;
 		}

@@ -113,23 +113,33 @@ void saveTrim (unsigned char model_id) {
 	}
 }
 
-void saveModel (unsigned char model_id) {
+void saveModelName (unsigned char model_id) {
 	short eeprom_offset;
 	unsigned char i;
-	unsigned char raw_mix = 0;
-	unsigned char raw_scaling = 0;
 	
 	eeprom_offset = MODEL_SIZE * model_id;
-	
+
 	for (i=0; i<NAME_SIZE; i++) {
 		writeEeprom(eeprom_offset + NAME_OFFSET + i, current_model.name[i]);
 	}
+}
+
+void saveModelScale (unsigned char model_id) {
+	short eeprom_offset;
+	unsigned char i;
 	
-	saveTrim(model_id);
+	eeprom_offset = MODEL_SIZE * model_id;
 
 	for (i=0; i<4; i++) {
 		writeEeprom(eeprom_offset + SCALE_OFFSET + i, current_model.scale[i]);
 	}
+}
+
+void saveModelOutputMap (unsigned char model_id) {
+	short eeprom_offset;
+	unsigned char i;
+	
+	eeprom_offset = MODEL_SIZE * model_id;
 
 	for (i=0; i<(TOTAL_OUTPUT_CHANNELS/2); i++) {
 		writeEeprom(eeprom_offset + OUTPUT_MAP_OFFSET + i, (
@@ -137,7 +147,16 @@ void saveModel (unsigned char model_id) {
 			(current_model.output_map[(i*2) + 1] & 0x0f)
 		));
 	}
+}
+
+void saveModelMixes(unsigned char model_id) {
+	short eeprom_offset;
+	unsigned char i;
+	unsigned char raw_mix = 0;
+	unsigned char raw_scaling = 0;
 	
+	eeprom_offset = MODEL_SIZE * model_id;
+
 	for (i=0; i<MAX_MIXES; i++) {
 		raw_mix = ((current_model.mix[i].input & 0x0f) << 4) | (current_model.mix[i].output & 0x0f);
 		
@@ -147,5 +166,13 @@ void saveModel (unsigned char model_id) {
 		writeEeprom(eeprom_offset + MIX_OFFSET + (i*3) + 1, raw_scaling);
 		writeEeprom(eeprom_offset + MIX_OFFSET + (i*3) + 2, current_model.mix[i].expo);
 	}
+}
+
+void saveModel (unsigned char model_id) {
+	saveModelName(model_id);
+	saveTrim(model_id);
+	saveModelScale(model_id);
+	saveModelOutputMap(model_id);
+	saveModelMixes(model_id);
 }
 

@@ -110,7 +110,7 @@ unsigned char handleNameEditPage () {
 	}
 
 	if (button_long_press(button1)) {
-		// save model name??
+		saveModelName(current_model.id);
 		loadModelEditPage();
 		return MODEL_EDIT_PAGE;
 	}
