@@ -9,6 +9,7 @@ char charset[CHARSET_SIZE+1] = " ABCDEFGHIJKLMNOPQRSTUVWXUZ0123456789-";
 
 signed char idx;
 bit capitalize;
+bit edited;
 
 signed char findIdx (char x) {
 	unsigned char i;
@@ -22,6 +23,7 @@ signed char findIdx (char x) {
 
 void loadNameEditPage () {
 	capitalize = 1;
+	edited = 0;
 	selection = 0;
 	idx = findIdx(current_model.name[0]);
 
@@ -78,6 +80,7 @@ void editLetterInName () {
 unsigned char handleNameEditPage () {
 	if (button_click(button1)) {
 		idx--;
+		edited = 1;
 		if (idx < 0) {
 			idx = CHARSET_SIZE-1;
 		}
@@ -86,6 +89,7 @@ unsigned char handleNameEditPage () {
 
 	if (button_click(button2)) {
 		idx++;
+		edited = 1;
 		if (idx >= CHARSET_SIZE) {
 			idx = 0;
 		}
@@ -110,7 +114,9 @@ unsigned char handleNameEditPage () {
 	}
 
 	if (button_long_press(button1)) {
-		saveModelName(current_model.id);
+		if (edited) {
+			saveModelName(current_model.id);
+		}
 		loadModelEditPage();
 		return MODEL_EDIT_PAGE;
 	}
