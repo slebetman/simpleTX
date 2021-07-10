@@ -1,12 +1,18 @@
 #include <xc.h>
 #include "button-const.h"
 
-void button_init (button *btn, unsigned char id) {
-	btn->id = id;
+#define LONG_CLICK 750
+
+void button_reset (button *btn) {
 	btn->count = 0;
 	btn->longCount = 0;
 	btn->state = 0;
 	btn->longState = 0;
+}
+
+void button_init (button *btn, unsigned char id) {
+	btn->id = id;
+	button_reset(btn);
 }
 
 unsigned char button_click (button *btn) {
@@ -46,7 +52,7 @@ unsigned char button_click (button *btn) {
 			if (value == HIGH) { // button unclicked
 				if (btn->count > 2) {
 					btn->state = 2;
-					if (btn->count < 1000) {
+					if (btn->count < LONG_CLICK) {
 						btn->count = 0;
 						return 1;
 					}
@@ -58,9 +64,8 @@ unsigned char button_click (button *btn) {
 			break;
 		case 2:
 			btn->count++;
-			if (btn->count > 200) { // debounce
-				btn->count = 0;
-				btn->state = 0;
+			if (btn->count > 50) { // debounce
+				button_reset(btn);
 			}
 			break;
 	}
@@ -88,7 +93,7 @@ unsigned char button_long_click (button *btn) {
 		case 0:
 			if (value == LOW) { // button clicked
 				btn->longCount++;
-				if (btn->longCount >= 1000) { // one second press
+				if (btn->longCount >= LONG_CLICK) { // one second press
 					btn->longCount = 0;
 					btn->longState = 1;
 					return 1;
@@ -111,9 +116,8 @@ unsigned char button_long_click (button *btn) {
 			break;
 		case 2:
 			btn->longCount++;
-			if (btn->longCount > 200) { // debounce
-				btn->longCount = 0;
-				btn->longState = 0;
+			if (btn->longCount > 50) { // debounce
+				
 			}
 			break;
 	}
