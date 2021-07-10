@@ -9,9 +9,11 @@
 
 unsigned char mode;
 unsigned char tmp;
+bit edited;
 
 void loadOutputMappingPage () {
 	selection = 0;
+	edited = 0;
 	mode = SELECT_MODE;
 
 	oled_clear();
@@ -105,7 +107,9 @@ unsigned char handleMapSelectMode () {
 	handleSelection(6);
 
 	if (button_long_press(button1)) {
-		saveModelOutputMap(current_model.id);
+		if (edited) {
+			saveModelOutputMap(current_model.id);
+		}
 		loadModelEditPage();
 		return MODEL_EDIT_PAGE;
 	}
@@ -146,6 +150,7 @@ unsigned char handleMapEditMode () {
 	}
 
 	if (button_long_press(button2)) {
+		edited = 1;
 		mode = SELECT_MODE;
 	}
 	return OUTPUT_MAP_PAGE;
