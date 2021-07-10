@@ -26,8 +26,8 @@
 │Edit Model:               │      │Name:                     │ │Input scaling:            │ │Output Map:               │
 │                          │      │                          │ │                          │ │                          │
 │> Model name              │ ---> │                          │ │> 0: 100%                 │ │> CH0: 0        CH3: -    │
-│  Input scaling           │ --.  │       Model 1            │ │  1: 100%                 │ │  CH1: 1        CH4: -    │
-│  Output Map              │   |  │       ━┈┈┈┈┈┈┈┈┈         │ │  2: 100%                 │ │  CH2: -        CH5: -    │
+│  Input scaling           │ --.  │  [M]o d e l   1          │ │  1: 100%                 │ │  CH1: 1        CH4: -    │
+│  Output Map              │   |  │                          │ │  2: 100%                 │ │  CH2: -        CH5: -    │
 │  Mixing                  │   |  │                          │ │  3: 100%                 │ │                          │
 │                          │   |  │                          │ │                          │ │                          │
 │                          │   |  │                          │ │                          │ │                          │
@@ -38,8 +38,8 @@
 ┌──────────────────────────┐
 │Mixes:                    │
 │                          │
-│> 0:in[J0]out[ 0]s[100]R  │
-│  1:in[J1]out[ 1]s[100]   │
+│> 0:in=J0,out= 0,s=100,R  │
+│  1:in=J1,out= 1,s=100    │
 │  2:-                     │
 │  3:-                     │
 │  4:-                     │

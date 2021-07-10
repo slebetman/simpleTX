@@ -72,7 +72,7 @@ unsigned char button_click (button *btn) {
 	return 0;
 }
 
-unsigned char button_long_click (button *btn) {
+unsigned char button_long_press (button *btn) {
 	static bit value;
 
 	value = 0;

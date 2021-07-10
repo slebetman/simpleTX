@@ -56,12 +56,12 @@ void updateInputScalingPage () {
 unsigned char handleSelectMode () {
 	handleSelection(4);
 
-	if (button_long_click(button2)) {
+	if (button_long_press(button2)) {
 		selectedInput = selection;
 		tmp = current_model.scale[selectedInput];
 		mode = EDIT_MODE;
 	}
-	if (button_long_click(button1)) {
+	if (button_long_press(button1)) {
 		loadModelEditPage();
 		return MODEL_EDIT_PAGE;
 	}
@@ -81,7 +81,7 @@ unsigned char handleEditMode () {
 			scaling ++;
 		}
 	}
-	if (button_long_click(button1)) {
+	if (button_long_press(button1)) {
 		current_model.scale[selectedInput] = tmp; // cancel changes
 		selectedInput = -1;
 		mode = SELECT_MODE;
@@ -89,7 +89,7 @@ unsigned char handleEditMode () {
 	else {
 		current_model.scale[selectedInput] = scaling;
 
-		if (button_long_click(button2)) {
+		if (button_long_press(button2)) {
 			// should save to eeprom here??
 			selectedInput = -1;
 			mode = SELECT_MODE;

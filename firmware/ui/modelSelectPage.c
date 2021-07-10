@@ -79,11 +79,11 @@ unsigned char handleModelSelectPage() {
 			modelID = 0;
 		}
 	}
-	if (button_long_click(button2)) {
+	if (button_long_press(button2)) {
 		getModelFromEeprom(modelID);
 		return HOME_PAGE;
 	}
-	if (button_long_click(button1)) { // cancel
+	if (button_long_press(button1)) { // cancel
 		loadHomePage();
 		return HOME_PAGE;
 	}

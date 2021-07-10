@@ -1,6 +1,7 @@
 #include "../drivers/oled.h"
 #include "../drivers/button.h"
 #include "inputScalingPage.h"
+#include "nameEditPage.h"
 #include "gui.h"
 
 #define MODEL_NAME     0
@@ -34,10 +35,11 @@ void updateModelEditPage () {
 unsigned char handleModelEditPage () {
 	handleSelection(4);
 
-	if (button_long_click(button2)) {
+	if (button_long_press(button2)) {
 		switch (selection) {
 			case MODEL_NAME:
-				break;
+				loadNameEditPage();
+				return NAME_EDIT_PAGE;
 			case INPUT_SCALING:
 				loadInputScalingPage();
 				return INPUT_SCALING_PAGE;
@@ -47,7 +49,7 @@ unsigned char handleModelEditPage () {
 				break;
 		}
 	}
-	if (button_long_click(button1)) {
+	if (button_long_press(button1)) {
 		loadHomePage();
 		return HOME_PAGE;
 	}
