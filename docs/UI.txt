@@ -26,8 +26,8 @@
 │Edit Model:               │      │Name:                     │ │Input scaling:            │ │Output Map:               │
 │                          │      │                          │ │                          │ │                          │
 │> Model name              │ ---> │                          │ │> 0: 100%                 │ │> CH0: 0        CH3: -    │
-│  Input scaling           │ --.  │  [M]o d e l   1          │ │  1: 100%                 │ │  CH1: 1        CH4: -    │
-│  Output Map              │   |  │                          │ │  2: 100%                 │ │  CH2: -        CH5: -    │
+│  Input scaling           │ --.  │    [Model 1         ]    │ │  1: 100%                 │ │  CH1: 1        CH4: -    │
+│  Output Map              │   |  │     ^                    │ │  2: 100%                 │ │  CH2: -        CH5: -    │
 │  Mixing                  │   |  │                          │ │  3: 100%                 │ │                          │
 │                          │   |  │                          │ │                          │ │                          │
 │                          │   |  │                          │ │                          │ │                          │
