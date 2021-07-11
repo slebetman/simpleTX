@@ -14,28 +14,27 @@ Mixing data:
                             channel 11 reserved for 1024
      _ _ _ _ _ _ _ _
     [_ _|_|_ _ _ _ _]
-      ^  ^     ^
-      |  |     |
-      |  |     '------- scaling, numbers 0-100 in increments of 4 (shif left by 2 bits)
-      |  |                  value = scaling << 2
-      |  '------------- reverse input direction
-      '---------------- switch A
-                            00=no condition,
-                            01=active when up,
-                            10=active when down,
-                            11=active when middle
+         ^     ^
+         |     |
+         |     '------- scaling, numbers 0-100 in increments of 4 (shif left by 2 bits)
+         |                  value = scaling << 2
+         '------------- reverse input direction
      _ _ _ _ _ _ _ _
-    [_ _|_|_ _ _ _ _]
-      ^        ^
-      |        |
-      |        '------- expo, numbers 0-100 in increments of 4 (shif left by 2 bits)
-      |                     value = expo << 2
-      |
-      '---------------- switch B
-                            00=no condition,
-                            01=active when up,
-                            10=active when down,
-                            11=active when middle
+    [_ _ _|_ _ _ _ _]
+       ^       ^
+       |       |
+       |       '------- expo, numbers 0-100 in increments of 4 (shif left by 2 bits)
+       |                    value = expo << 2
+       |
+       '--------------- conditional
+                            000=no condition,
+                            100=no condition (can be used for toggle switch),
+                            001=active when switch A up,
+                            010=active when switch A down,
+                            011=active when switch A middle,
+                            101=active when switch B up,
+                            110=active when switch B down,
+                            111=active when switch B middle
 
 
 Model data:
@@ -94,5 +93,3 @@ total 63 bytes
 4 models = 252 bytes
 4 bytes remaining
 current model = (0xff)
-
-
