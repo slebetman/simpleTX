@@ -49,16 +49,16 @@ void loadPage (unsigned char pageNumber) {
 					oled_print_signed_number(source-USER_CHANNELS);
 				}
 
-				oled_write_string(",o=");
+				oled_write_string(" o=");
 				xCursor = oled_print_signed_number(target);
 				oled_blank((6*2)-xCursor);
 
-				oled_write_string(",s=");
+				oled_write_string(" s=");
 				xCursor = oled_print_signed_number(current_model.mix[i].scale);
 				oled_blank((6*3)-xCursor);
 
 				if (current_model.mix[i].reverse) {
-					oled_write_string(",R");
+					oled_write_string(" R");
 				}
 				else {
 					oled_blank(6*2);
