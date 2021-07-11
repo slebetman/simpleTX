@@ -3,6 +3,7 @@
 #include "inputScalingPage.h"
 #include "nameEditPage.h"
 #include "outputMappingPage.h"
+#include "mixesPage.h"
 #include "gui.h"
 
 #define MODEL_NAME     0
@@ -48,7 +49,8 @@ unsigned char handleModelEditPage () {
 				loadOutputMappingPage();
 				return OUTPUT_MAP_PAGE;
 			case MIXING:
-				break;
+				loadMixesPage();
+				return MIXES_PAGE;
 		}
 	}
 	if (button_long_press(button1)) {
