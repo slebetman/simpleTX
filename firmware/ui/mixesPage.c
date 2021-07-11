@@ -2,6 +2,7 @@
 #include "../drivers/oled.h"
 #include "../model/model.h"
 #include "modelEditPage.h"
+#include "mixEditPage.h"
 #include "gui.h"
 
 unsigned char page;
@@ -39,6 +40,10 @@ void loadPage (unsigned char pageNumber) {
 			target = current_model.mix[i].output;
 
 			if (target < USER_CHANNELS) {
+				oled_write_string(" o=");
+				xCursor = oled_print_signed_number(target);
+				oled_blank((6*2)-xCursor);
+
 				oled_write_string("i=");
 				if (source < USER_CHANNELS) {
 					xCursor = oled_print_signed_number(source);
@@ -48,10 +53,6 @@ void loadPage (unsigned char pageNumber) {
 					oled_write_string("J");
 					oled_print_signed_number(source-USER_CHANNELS);
 				}
-
-				oled_write_string(" o=");
-				xCursor = oled_print_signed_number(target);
-				oled_blank((6*2)-xCursor);
 
 				oled_write_string(" s=");
 				xCursor = oled_print_signed_number(current_model.mix[i].scale);
@@ -113,6 +114,11 @@ void updateMixesPage () {
 // Controller:
 unsigned char handleMixesPage () {
 	handleSelection(MAX_MIXES);
+
+	if (button_long_press(button2)) {
+		loadMixEditPage(selection);
+		return MIX_EDIT_PAGE;
+	}
 
 	if (button_long_press(button1)) {
 		loadModelEditPage();

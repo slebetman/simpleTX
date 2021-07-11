@@ -24,6 +24,7 @@ void loadInputScalingPage () {
 
 	for (unsigned char i=0; i<4; i++) {
 		oled_goto(8,i+2);
+		oled_write_string("J");
 		oled_print_signed_number(i);
 		oled_write_string(": ");
 	}
@@ -36,7 +37,7 @@ void updateInputScalingPage () {
 	updateSelection(4);
 
 	for (unsigned char i=0; i<4; i++) {
-		oled_goto(8+(6*2),2+i);
+		oled_goto(8+(6*3),2+i);
 		if (selectedInput == i) {
 			oled_write_string("[");
 		}
