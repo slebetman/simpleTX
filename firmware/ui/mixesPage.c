@@ -6,6 +6,7 @@
 #include "gui.h"
 
 unsigned char page;
+signed char selection;
 
 void loadPage (unsigned char pageNumber) {
 	unsigned char start;
@@ -76,9 +77,9 @@ void loadPage (unsigned char pageNumber) {
 	}
 }
 
-void loadMixesPage () {
+void loadMixesPage (unsigned char init) {
 	page = 0;
-	selection = 0;
+	if (init) selection = 0;
 
 	oled_clear();
 	oled_goto(0,0);
@@ -113,15 +114,16 @@ void updateMixesPage () {
 
 // Controller:
 unsigned char handleMixesPage () {
-	handleSelection(MAX_MIXES);
-
 	if (button_long_press(button2)) {
 		loadMixEditPage(selection);
 		return MIX_EDIT_PAGE;
 	}
+	else {
+		selection = handleSelection(MAX_MIXES, selection);
+	}
 
 	if (button_long_press(button1)) {
-		loadModelEditPage();
+		loadModelEditPage(0);
 		return MODEL_EDIT_PAGE;
 	}
 

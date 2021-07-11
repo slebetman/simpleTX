@@ -8,6 +8,7 @@
 char charset[CHARSET_SIZE+1] = " ABCDEFGHIJKLMNOPQRSTUVWXUZ0123456789-";
 
 signed char idx;
+signed char selection;
 bit capitalize;
 bit edited;
 
@@ -117,7 +118,7 @@ unsigned char handleNameEditPage () {
 		if (edited) {
 			saveModelName(current_model.id);
 		}
-		loadModelEditPage();
+		loadModelEditPage(0);
 		return MODEL_EDIT_PAGE;
 	}
 

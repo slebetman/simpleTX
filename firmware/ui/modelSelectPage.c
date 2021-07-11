@@ -54,31 +54,13 @@ void loadModelSelectPage() {
 
 // View:
 void updateModelSelectPage() {
-	for (unsigned char i=0; i<MAX_MODELS; i++) {
-		oled_goto(0,i+2);
-		if (i == modelID) {
-			oled_write_string(ARROW);
-		}
-		else {
-			oled_blank(6);
-		}
-	}
+	drawSelection(MAX_MODELS, modelID);
 }
 
 // Controller:
 unsigned char handleModelSelectPage() {
-	if (button_click(button1)) {
-		modelID--;
-		if (modelID < 0) {
-			modelID = MAX_MODELS-1;
-		}
-	}
-	if (button_click(button2)) {
-		modelID++;
-		if (modelID >= MAX_MODELS) {
-			modelID = 0;
-		}
-	}
+	modelID = handleSelection(MAX_MODELS, modelID);
+	
 	if (button_long_press(button2)) {
 		getModelFromEeprom(modelID);
 		return HOME_PAGE;

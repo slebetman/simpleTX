@@ -29,7 +29,6 @@ button *button2 = &btn2;
 button *button3 = &btn3;
 
 signed char modelID;
-signed char selection;
 unsigned char guiState;
 
 void initGUI () {
@@ -49,7 +48,7 @@ void initGUI () {
 	modelID = current_model.id;
 }
 
-void handleSelection (unsigned char totalOptions) {
+signed char handleSelection (unsigned char totalOptions, signed char selection) {
 	if (button_click(button1)) {
 		selection--;
 		if (selection < 0) {
@@ -62,9 +61,11 @@ void handleSelection (unsigned char totalOptions) {
 			selection = 0;
 		}
 	}
+
+	return selection;
 }
 
-void updateSelection (unsigned char totalOptions) {
+void drawSelection (unsigned char totalOptions, signed char selection) {
 	for (unsigned char i=0; i<totalOptions; i++) {
 		oled_goto(0,i+2);
 		if (i == selection) {

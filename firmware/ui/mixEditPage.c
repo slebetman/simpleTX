@@ -15,10 +15,12 @@
 
 unsigned char mode;
 unsigned char mixIdx;
+signed char selection;
 
 void loadMixEditPage (unsigned char mix) {
 	mode = SELECT_MODE;
 	mixIdx = mix;
+	selection = OUT_SELECTED;
 
 	oled_clear();
 	oled_goto(0,0);
@@ -148,12 +150,12 @@ unsigned char handleMixSelectMode () {
 		mode = EDIT_MODE;
 	}
 	else {
-		handleSelection(5);
+		selection = handleSelection(5, selection);
 	}
 
 	if (button_long_press(button1)) {
 		// save mix here?
-		loadMixesPage();
+		loadMixesPage(0);
 		return MIXES_PAGE;
 	}
 

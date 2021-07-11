@@ -72,7 +72,7 @@ unsigned char handleChannelsPage () {
 		return MODEL_SELECT_PAGE;
 	}
 	if (button_click(button2)) {
-		loadModelEditPage();
+		loadModelEditPage(1);
 		return MODEL_EDIT_PAGE;
 	}
 	return CHANNELS_PAGE;

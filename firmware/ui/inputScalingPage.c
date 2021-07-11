@@ -10,6 +10,7 @@
 signed char selectedInput;
 unsigned char mode;
 unsigned char tmp;
+signed char selection;
 bit edited;
 
 void loadInputScalingPage () {
@@ -34,7 +35,7 @@ void loadInputScalingPage () {
 void updateInputScalingPage () {
 	unsigned char xCursor;
 
-	updateSelection(4);
+	drawSelection(4, selection);
 
 	for (unsigned char i=0; i<4; i++) {
 		oled_goto(8+(6*3),2+i);
@@ -57,18 +58,20 @@ void updateInputScalingPage () {
 }
 
 unsigned char handleScaleSelectMode () {
-	handleSelection(4);
-
 	if (button_long_press(button2)) {
 		selectedInput = selection;
 		tmp = current_model.scale[selectedInput];
 		mode = EDIT_MODE;
 	}
+	else {
+		selection = handleSelection(4, selection);
+	}
+	
 	if (button_long_press(button1)) {
 		if (edited) {
 			saveModelScale(current_model.id);
 		}
-		loadModelEditPage();
+		loadModelEditPage(0);
 		return MODEL_EDIT_PAGE;
 	}
 
