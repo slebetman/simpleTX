@@ -10,6 +10,7 @@
 
 extern unsigned char tick;
 extern unsigned char frameTimer;
+
 #define TICK_1MS 6
 #define TICK_ANALOG_SAMPLE 63540
 //#define TICK_ANALOG_SAMPLE 64546

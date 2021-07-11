@@ -8,12 +8,11 @@
 #define EDIT_MODE    1
 
 unsigned char mode;
-unsigned char tmp;
-signed char selection;
+signed char mapSelection;
 bit edited;
 
 void loadOutputMappingPage () {
-	selection = 0;
+	mapSelection = 0;
 	edited = 0;
 	mode = SELECT_MODE;
 
@@ -40,7 +39,7 @@ void printOutputMap (unsigned char idx) {
 	short xCursor;
 	
 	source = current_model.output_map[idx];
-	if (mode == EDIT_MODE && idx == selection) {
+	if (mode == EDIT_MODE && idx == mapSelection) {
 		oled_write_string("[");
 	}
 	else {
@@ -53,7 +52,7 @@ void printOutputMap (unsigned char idx) {
 		xCursor = oled_print_signed_number(source);
 	}
 	oled_blank(((6*2)+1)-xCursor);
-	if (mode == EDIT_MODE && idx == selection) {
+	if (mode == EDIT_MODE && idx == mapSelection) {
 		oled_write_string("]");
 	}
 	else {
@@ -86,7 +85,7 @@ void updateOutputMappingPage () {
 
 	for (i=0; i<3; i++) {
 		oled_goto(0,2+i);
-		if (i == selection) {
+		if (i == mapSelection) {
 			oled_write_string(ARROW);
 		}
 		else {
@@ -95,7 +94,7 @@ void updateOutputMappingPage () {
 	}
 	for (i=3; i<6; i++) {
 		oled_goto(64,2+i-3);
-		if (i == selection) {
+		if (i == mapSelection) {
 			oled_write_string(ARROW);
 		}
 		else {
@@ -114,40 +113,29 @@ unsigned char handleMapSelectMode () {
 	}
 
 	if (button_long_press(button2)) {
-		tmp = current_model.output_map[selection];
+		tmp = current_model.output_map[mapSelection];
 		mode = EDIT_MODE;
 	}
 	else {
-		selection = handleSelection(6, selection);
+		mapSelection = handleSelection(6, mapSelection);
 	}
 	return OUTPUT_MAP_PAGE;
 }
 
 unsigned char handleMapEditMode () {
 	signed char map;
-	map = current_model.output_map[selection];
+	map = current_model.output_map[mapSelection];
 	if (map > USER_CHANNELS) {
 		map = USER_CHANNELS;
 	}
-	if (button_click(button1)) {
-		map--;
-		if (map < 0) {
-			map = USER_CHANNELS;
-		}
-	}
-	if (button_click(button2)) {
-		map++;
-		if (map > USER_CHANNELS) {
-			map = 0;
-		}
-	}
+	map = handleSelection(USER_CHANNELS+1, map);
 	if (map >= USER_CHANNELS) {
 		map = 0xf;
 	}
-	current_model.output_map[selection] = map;
+	current_model.output_map[mapSelection] = map;
 
 	if (button_long_press(button1)) {
-		current_model.output_map[selection] = tmp; // cancel changes
+		current_model.output_map[mapSelection] = tmp; // cancel changes
 		mode = SELECT_MODE;
 	}
 

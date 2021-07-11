@@ -15,12 +15,14 @@
 
 unsigned char mode;
 unsigned char mixIdx;
-signed char selection;
+signed char mixSelection;
+bit edited;
 
 void loadMixEditPage (unsigned char mix) {
 	mode = SELECT_MODE;
 	mixIdx = mix;
-	selection = OUT_SELECTED;
+	edited = 0;
+	mixSelection = OUT_SELECTED;
 
 	oled_clear();
 	oled_goto(0,0);
@@ -51,7 +53,13 @@ void drawSelector (unsigned char i, const char *left, const char *right) {
 		oled_goto(8+(6*10),i+2);
 		oled_write_string(right);
 	}
-	else if (i < 4) {
+	else if (i == 2) {
+		oled_goto(8+(6*7),i+2);
+		oled_write_string(left);
+		oled_goto(8+(6*12),i+2);
+		oled_write_string(right);
+	}
+	else if (i == 3) {
 		oled_goto(8+(6*7),i+2);
 		oled_write_string(left);
 		oled_goto(8+(6*11),i+2);
@@ -125,7 +133,7 @@ void updateMixEditPage () {
 	}
 
 	for (i=0; i<5; i++) {
-		if (selection == i) {
+		if (mixSelection == i) {
 			oled_goto(0,i+2);
 			oled_write_string(ARROW);
 
@@ -147,14 +155,31 @@ void updateMixEditPage () {
 
 unsigned char handleMixSelectMode () {
 	if (button_long_press(button2)) {
+		switch (mixSelection) {
+			case OUT_SELECTED:
+				tmp = current_model.mix[mixIdx].output;
+				break;
+			case IN_SELECTED:
+				tmp = current_model.mix[mixIdx].input;
+				break;
+			case SCALE_SELECTED:
+				tmp = current_model.mix[mixIdx].scale;
+				break;
+			case EXPO_SELECTED:
+				tmp = current_model.mix[mixIdx].expo;
+				break;
+			case DIR_SELECTED:
+				tmp = current_model.mix[mixIdx].reverse;
+				break;
+		}
 		mode = EDIT_MODE;
 	}
 	else {
-		selection = handleSelection(5, selection);
+		mixSelection = handleSelection(5, mixSelection);
 	}
 
 	if (button_long_press(button1)) {
-		// save mix here?
+		saveModelMixes(current_model.id);
 		loadMixesPage(0);
 		return MIXES_PAGE;
 	}
@@ -163,22 +188,63 @@ unsigned char handleMixSelectMode () {
 }
 
 unsigned char handleMixEditMode () {
-	switch (selection) {
+	unsigned char out;
+
+	switch (mixSelection) {
 		case OUT_SELECTED:
+			out = current_model.mix[mixIdx].output;
+			if (out >= USER_CHANNELS) {
+				out = USER_CHANNELS;
+			}
+			out = handleSelection(USER_CHANNELS+1,out);
+			if (out == USER_CHANNELS) {
+				out = 0xf;
+			}
+			current_model.mix[mixIdx].output = out;
 			break;
 		case IN_SELECTED:
+			current_model.mix[mixIdx].input
+				= handleSelection(TOTAL_CHANNELS,current_model.mix[mixIdx].input);
 			break;
 		case SCALE_SELECTED:
+			current_model.mix[mixIdx].scale
+				= handleSelection(127,current_model.mix[mixIdx].scale);
 			break;
 		case EXPO_SELECTED:
+			current_model.mix[mixIdx].expo
+				= handleSelection(100,current_model.mix[mixIdx].expo);
 			break;
 		case DIR_SELECTED:
+			current_model.mix[mixIdx].reverse
+				= handleSelection(2,current_model.mix[mixIdx].reverse);
 			break;
 		default:
-			selection = OUT_SELECTED;
+			mixSelection = OUT_SELECTED;
+	}
+
+	if (button_long_press(button2)) {
+		edited = 1;
+		mode = SELECT_MODE;
 	}
 
 	if (button_long_press(button1)) {
+		switch (mixSelection) { // cancel changes:
+			case OUT_SELECTED:
+				current_model.mix[mixIdx].output = tmp;
+				break;
+			case IN_SELECTED:
+				current_model.mix[mixIdx].input = tmp;
+				break;
+			case SCALE_SELECTED:
+				current_model.mix[mixIdx].scale = tmp;
+				break;
+			case EXPO_SELECTED:
+				current_model.mix[mixIdx].expo = tmp;
+				break;
+			case DIR_SELECTED:
+				current_model.mix[mixIdx].reverse = tmp;
+				break;
+		}
 		mode = SELECT_MODE;
 	}
 

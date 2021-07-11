@@ -11,11 +11,11 @@
 #define OUTPUT_MAP     2
 #define MIXING         3
 
-signed char selection;
+signed char modelSelection;
 
 // View:
 void loadModelEditPage (unsigned char init) {
-	if (init) selection = 0;
+	if (init) modelSelection = 0;
 
 	oled_clear();
 	oled_goto(0,0);
@@ -32,13 +32,13 @@ void loadModelEditPage (unsigned char init) {
 }
 
 void updateModelEditPage () {
-	drawSelection(4, selection);
+	drawSelection(4, modelSelection);
 }
 
 // Controller:
 unsigned char handleModelEditPage () {
 	if (button_long_press(button2)) {
-		switch (selection) {
+		switch (modelSelection) {
 			case MODEL_NAME:
 				loadNameEditPage();
 				return NAME_EDIT_PAGE;
@@ -54,7 +54,7 @@ unsigned char handleModelEditPage () {
 		}
 	}
 	else {
-		selection = handleSelection(4, selection);
+		modelSelection = handleSelection(4, modelSelection);
 	}
 	if (button_long_press(button1)) {
 		loadHomePage();

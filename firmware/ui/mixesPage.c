@@ -6,7 +6,7 @@
 #include "gui.h"
 
 unsigned char page;
-signed char selection;
+signed char mixesSelection;
 
 void loadPage (unsigned char pageNumber) {
 	unsigned char start;
@@ -79,7 +79,7 @@ void loadPage (unsigned char pageNumber) {
 
 void loadMixesPage (unsigned char init) {
 	page = 0;
-	if (init) selection = 0;
+	if (init) mixesSelection = 0;
 
 	oled_clear();
 	oled_goto(0,0);
@@ -92,13 +92,13 @@ void loadMixesPage (unsigned char init) {
 void updateMixesPage () {
 	unsigned char selectIdx;
 
-	if (selection < 6) {
+	if (mixesSelection < 6) {
 		loadPage(1);
-		selectIdx = selection;
+		selectIdx = mixesSelection;
 	}
 	else {
 		loadPage(2);
-		selectIdx = selection-6;
+		selectIdx = mixesSelection-6;
 	}
 
 	for (unsigned char i=0; i<6; i++) {
@@ -115,11 +115,11 @@ void updateMixesPage () {
 // Controller:
 unsigned char handleMixesPage () {
 	if (button_long_press(button2)) {
-		loadMixEditPage(selection);
+		loadMixEditPage(mixesSelection);
 		return MIX_EDIT_PAGE;
 	}
 	else {
-		selection = handleSelection(MAX_MIXES, selection);
+		mixesSelection = handleSelection(MAX_MIXES, mixesSelection);
 	}
 
 	if (button_long_press(button1)) {

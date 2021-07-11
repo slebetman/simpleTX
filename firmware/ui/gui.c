@@ -20,6 +20,8 @@
 unsigned char guiTracker;
 short guiCount;
 
+signed char tmp;
+
 button btn1;
 button btn2;
 button btn3;

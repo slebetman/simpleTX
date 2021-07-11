@@ -8,7 +8,7 @@
 char charset[CHARSET_SIZE+1] = " ABCDEFGHIJKLMNOPQRSTUVWXUZ0123456789-";
 
 signed char idx;
-signed char selection;
+signed char nameSelection;
 bit capitalize;
 bit edited;
 
@@ -25,7 +25,7 @@ signed char findIdx (char x) {
 void loadNameEditPage () {
 	capitalize = 1;
 	edited = 0;
-	selection = 0;
+	nameSelection = 0;
 	idx = findIdx(current_model.name[0]);
 
 	oled_clear();
@@ -59,7 +59,7 @@ void updateNameEditPage () {
 
 	oled_goto(34,4);
 	for (i=0; i<10; i++) {
-		if (i == selection) {
+		if (i == nameSelection) {
 			oled_write_string("^");
 		}
 		else {
@@ -70,10 +70,10 @@ void updateNameEditPage () {
 
 void editLetterInName () {
 	if (capitalize || idx == 0 || idx >= DIGIT_START) {
-		current_model.name[selection] = charset[idx];
+		current_model.name[nameSelection] = charset[idx];
 	}
 	else {
-		current_model.name[selection] = idx + 'a' -1;
+		current_model.name[nameSelection] = idx + 'a' -1;
 	}
 }
 
@@ -99,19 +99,19 @@ unsigned char handleNameEditPage () {
 
 	if (button_long_press(button2)) {
 		editLetterInName();
-		selection++;
-		if (selection >= 10) {
-			selection = 0;
+		nameSelection++;
+		if (nameSelection >= 10) {
+			nameSelection = 0;
 		}
 
-		if (charset[idx] == ' ' || selection == 0) {
+		if (charset[idx] == ' ' || nameSelection == 0) {
 			capitalize = 1;
 		}
 		else {
 			capitalize = 0;
 		}
 
-		idx = findIdx(current_model.name[selection]);
+		idx = findIdx(current_model.name[nameSelection]);
 	}
 
 	if (button_long_press(button1)) {

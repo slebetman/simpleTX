@@ -1,6 +1,8 @@
 #include "../drivers/button.h"
 #include "gui-const.h"
 
+extern signed char tmp;
+
 extern button *button1;
 extern button *button2;
 extern button *button3;
