@@ -3,6 +3,7 @@
 #include "channels.h"
 
 struct model current_model;
+void saveModel (unsigned char model_id);
 
 unsigned char mixIsDisabled(unsigned char i) {
 	if (current_model.mix[i].output >= USER_CHANNELS) {
@@ -15,6 +16,8 @@ unsigned char mixIsDisabled(unsigned char i) {
 
 void newModel () {
 	unsigned char i;
+
+	current_model.saved = 0;
 
 	for (i=0; i<NAME_SIZE; i++) {
 		current_model.name[i] = 0;
@@ -64,6 +67,8 @@ void loadModel (unsigned char model_id) {
 
 	current_model.id = model_id;
 
+	current_model.saved = 1;
+
 	getModelName(model_id, current_model.name);
 
 	if (current_model.name[0] > '~' || current_model.name[0] < ' ') {
@@ -101,19 +106,28 @@ void loadModel (unsigned char model_id) {
 	}
 }
 
-void saveTrim (unsigned char model_id) {
+void doSaveTrim (unsigned char model_id) {
 	short eeprom_offset;
 	unsigned char i;
 
 	eeprom_offset = MODEL_SIZE * model_id;
 
-	
 	for (i=0; i<4; i++) {
 		writeEeprom(eeprom_offset + TRIM_OFFSET + i, (char)(current_model.trim[i] / 4)); // sacrifice last two bits to get +512/-512
 	}
 }
 
-void saveModelName (unsigned char model_id) {
+void saveTrim (unsigned char model_id) {
+	if (current_model.saved) {
+		doSaveTrim(model_id);
+	}
+	else {
+		current_model.saved = 1;
+		saveModel(model_id);
+	}
+}
+
+void doSaveModelName (unsigned char model_id) {
 	short eeprom_offset;
 	unsigned char i;
 	
@@ -124,10 +138,20 @@ void saveModelName (unsigned char model_id) {
 	}
 }
 
-void saveModelScale (unsigned char model_id) {
+void saveModelName (unsigned char model_id) {
+	if (current_model.saved) {
+		doSaveModelName(model_id);
+	}
+	else {
+		current_model.saved = 1;
+		saveModel(model_id);
+	}
+}
+
+void doSaveModelScale (unsigned char model_id) {
 	short eeprom_offset;
 	unsigned char i;
-	
+
 	eeprom_offset = MODEL_SIZE * model_id;
 
 	for (i=0; i<4; i++) {
@@ -135,7 +159,17 @@ void saveModelScale (unsigned char model_id) {
 	}
 }
 
-void saveModelOutputMap (unsigned char model_id) {
+void saveModelScale (unsigned char model_id) {
+	if (current_model.saved) {
+		doSaveModelScale(model_id);
+	}
+	else {
+		current_model.saved = 1;
+		saveModel(model_id);
+	}
+}
+
+void doSaveModelOutputMap (unsigned char model_id) {
 	short eeprom_offset;
 	unsigned char i;
 	
@@ -149,7 +183,17 @@ void saveModelOutputMap (unsigned char model_id) {
 	}
 }
 
-void saveModelMixes(unsigned char model_id) {
+void saveModelOutputMap (unsigned char model_id) {
+	if (current_model.saved) {
+		doSaveModelOutputMap(model_id);
+	}
+	else {
+		current_model.saved = 1;
+		saveModel(model_id);
+	}
+}
+
+void doSaveModelMixes(unsigned char model_id) {
 	short eeprom_offset;
 	unsigned char i;
 	unsigned char raw_mix = 0;
@@ -168,11 +212,21 @@ void saveModelMixes(unsigned char model_id) {
 	}
 }
 
+void saveModelMixes(unsigned char model_id) {
+	if (current_model.saved) {
+		doSaveModelMixes(model_id);
+	}
+	else {
+		current_model.saved = 1;
+		saveModel(model_id);
+	}
+}
+
 void saveModel (unsigned char model_id) {
-	saveModelName(model_id);
-	saveTrim(model_id);
-	saveModelScale(model_id);
-	saveModelOutputMap(model_id);
-	saveModelMixes(model_id);
+	doSaveModelName(model_id);
+	doSaveTrim(model_id);
+	doSaveModelScale(model_id);
+	doSaveModelOutputMap(model_id);
+	doSaveModelMixes(model_id);
 }
 
