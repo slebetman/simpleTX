@@ -20,3 +20,4 @@ extern short oled_write_string (const char *str);
 extern short oled_print_signed_number (short);
 extern short oled_print_hex (short);
 extern void oled_blank (short length);
+extern void oled_bar (char pattern1, char pattern2, short length);

@@ -31,7 +31,12 @@ void initTimers (void) {
 	// TMR1GE = 0;
 	TMR1CS = 0; // use internal clock
 	T1CKPS0 = 0;
-	T1CKPS1 = 0; // 1:4 prescale
+	T1CKPS1 = 0; // 1:4 prescale - timer is exactly 0.5us at 32MHz
+	             // Note: Since our joystick signal is +/-1024 this means that at 0.5us
+				 //       we have roughly full resolution between 1ms to 2ms.
+				 //       This also means we can nicely set the 16 bit counter for
+				 //       servo timings. Max time we can set would be 32ms which is also
+				 //       in the order of magnitude of the CPPM frame.
 	T1SYNC = 1; // disable external sync
 	
 	// Set up timer 3 for microsecond async timings.

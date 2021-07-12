@@ -41,28 +41,52 @@ void updateChannelsPage () {
 	short xCursor;
 
 	oled_goto(24,2);
-	xCursor = oled_print_signed_number(output_channels[0]);
-	oled_blank(36-xCursor);
+	xCursor = (output_channels[0] / 64) + 16;
+	oled_bar(0x18,0x18,1);
+	oled_bar(0x10,0x08,xCursor-1);
+	oled_bar(0x7e,0x7e,2);
+	oled_bar(0x10,0x08,31-xCursor);
+	oled_bar(0x18,0x18,1);
 
 	oled_goto(24,3);
-	xCursor = oled_print_signed_number(output_channels[1]);
-	oled_blank(36-xCursor);
+	xCursor = (output_channels[1] / 64) + 16;
+	oled_bar(0x18,0x18,1);
+	oled_bar(0x10,0x08,xCursor-1);
+	oled_bar(0x7e,0x7e,2);
+	oled_bar(0x10,0x08,31-xCursor);
+	oled_bar(0x18,0x18,1);
 
 	oled_goto(24,4);
-	xCursor = oled_print_signed_number(output_channels[2]);
-	oled_blank(36-xCursor);
+	xCursor = (output_channels[2] / 64) + 16;
+	oled_bar(0x18,0x18,1);
+	oled_bar(0x10,0x08,xCursor-1);
+	oled_bar(0x7e,0x7e,2);
+	oled_bar(0x10,0x08,31-xCursor);
+	oled_bar(0x18,0x18,1);
 
 	oled_goto(64+24,2);
-	xCursor = oled_print_signed_number(output_channels[3]);
-	oled_blank(36-xCursor);
+	xCursor = (output_channels[3] / 64) + 16;
+	oled_bar(0x18,0x18,1);
+	oled_bar(0x10,0x08,xCursor-1);
+	oled_bar(0x7e,0x7e,2);
+	oled_bar(0x10,0x08,31-xCursor);
+	oled_bar(0x18,0x18,1);
 
 	oled_goto(64+24,3);
-	xCursor = oled_print_signed_number(output_channels[4]);
-	oled_blank(36-xCursor);
+	xCursor = (output_channels[4] / 64) + 16;
+	oled_bar(0x18,0x18,1);
+	oled_bar(0x10,0x08,xCursor-1);
+	oled_bar(0x7e,0x7e,2);
+	oled_bar(0x10,0x08,31-xCursor);
+	oled_bar(0x18,0x18,1);
 
 	oled_goto(64+24,4);
-	xCursor = oled_print_signed_number(output_channels[5]);
-	oled_blank(36-xCursor);
+	xCursor = (output_channels[5] / 64) + 16;
+	oled_bar(0x18,0x18,1);
+	oled_bar(0x10,0x08,xCursor-1);
+	oled_bar(0x7e,0x7e,2);
+	oled_bar(0x10,0x08,31-xCursor);
+	oled_bar(0x18,0x18,1);
 }
 
 // Controller:

@@ -7,14 +7,14 @@ short expo (short input, unsigned char percent /* 0-100 */) {
 
 	long x;
 	
-	x = (signed long)input*X_RANGE/2; // scale down to -512/512
+	x = (signed long)input/2; // scale down to -512/512
 	                                  // we're assuming 11 bit input
 	
 	// all calculations from this point on are signed 10 bits:
 
 	// Thanks to Thus from rcgroups for this formula:	
 	x = (
-			x*x*x/65536*percent/(X_RANGE*X_RANGE/65536) +
+			x*x*x/512*percent/(X_RANGE*X_RANGE/512) +
 			(P_RANGE-percent)*x + 
 			P_RANGE/2
 		) /
@@ -22,7 +22,7 @@ short expo (short input, unsigned char percent /* 0-100 */) {
 	
 	// now scale it back up to full range:
 	
-	x = x*2/X_RANGE;
+	x = x*2;
 	
 	return (short)x;
 }

@@ -69,6 +69,7 @@ void oled_init () {
 
 	i2c_OLED_send_cmd(0xA4); // Set all pixels OFF
 	i2c_OLED_send_cmd(0xA6); // Set display not inverted
+	// i2c_OLED_send_cmd(0xA7); // Set display inverted
 	i2c_OLED_send_cmd(0xAF); // Set display On
 	
 	i2c_OLED_send(OLED_COMMAND, pageAddressingCmd, 2); // set page addressing mode
@@ -105,6 +106,26 @@ void oled_blank (short length) {
 	
 	for (i=0; i<length; i++) {
 		i2c_write(0x00);
+	}
+	
+	i2c_master_ack(I2C_DATA_NOACK);
+	i2c_stop();
+}
+
+void oled_bar (char pattern1, char pattern2, short length) {
+	short i;
+
+	i2c_start();
+	i2c_write(OLED_ADDRESS | I2C_WRITE_CMD);
+	i2c_write(OLED_DATA);
+	
+	for (i=0; i<length; i++) {
+		if (i & 0x1) {
+			i2c_write(pattern2);
+		}
+		else {
+			i2c_write(pattern1);
+		}
 	}
 	
 	i2c_master_ack(I2C_DATA_NOACK);
