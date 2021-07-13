@@ -11,6 +11,8 @@ unsigned char ppmTracker;
 signed char channel;
 short output_pulse[TOTAL_OUTPUT_CHANNELS];
 
+#pragma interrupt_level 1
+#pragma interrupt_level 2
 void startPPM (unsigned short duration,signed char mode) {
 	if (mode == BEGIN) {
 		channel = 0;
@@ -52,8 +54,10 @@ unsigned char processPPM () {
 		ppmTracker = tick;
 
 		if (frameTimer > 20) {
-			frameTimer = 0;			
+			frameTimer = 0;
+			disableInterrupts();	
 			startPPM(10, BEGIN);
+			enableInterrupts();
 			return 1;
 		}
 	}
