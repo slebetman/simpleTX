@@ -14,6 +14,7 @@
 #define OUTPUT_MAP_PAGE     6
 #define MIXES_PAGE          7
 #define MIX_EDIT_PAGE       8
+#define BIND_PAGE           9
 #define HOME_PAGE           CHANNELS_PAGE
 
 #endif

@@ -4,12 +4,14 @@
 #include "nameEditPage.h"
 #include "outputMappingPage.h"
 #include "mixesPage.h"
+#include "bindPage.h"
 #include "gui.h"
 
 #define MODEL_NAME     0
 #define INPUT_SCALING  1
 #define OUTPUT_MAP     2
 #define MIXING         3
+#define BIND           4
 
 signed char modelSelection;
 
@@ -29,10 +31,12 @@ void loadModelEditPage (unsigned char init) {
 	oled_write_string("Output map");
 	oled_goto(8,5);
 	oled_write_string("Mixing");
+	oled_goto(8,6);
+	oled_write_string("Bind model");
 }
 
 void updateModelEditPage () {
-	drawSelection(4, modelSelection);
+	drawSelection(5, modelSelection);
 }
 
 // Controller:
@@ -51,10 +55,13 @@ unsigned char handleModelEditPage () {
 			case MIXING:
 				loadMixesPage(1);
 				return MIXES_PAGE;
+			case BIND:
+				loadBindPage();
+				return BIND_PAGE;
 		}
 	}
 	else {
-		modelSelection = handleSelection(4, modelSelection);
+		modelSelection = handleSelection(5, modelSelection);
 	}
 	if (button_long_press(button1)) {
 		loadHomePage();
