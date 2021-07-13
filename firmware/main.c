@@ -24,26 +24,20 @@ unsigned char frameTimer;
 
 void main(void)
 {
+	TX_POWER_OFF;
+
 	initCpuClock();
 
 	init();
-	// initTrim();
+
 	initGUI();
+
+	TX_BIND_DISABLED;
+	TX_POWER_ON;
 
 	while(1)
 	{
-		// if (frameTimer > 20) {
-		// 	frameTimer = 0;
-
-		// 	output_pulse[CHANNEL1] = 0;
-		// 	output_pulse[CHANNEL2] = 0;
-		// 	output_pulse[CHANNEL3] = 0;
-			
-		// 	trim(TRIM_SWITCH, NO_EXCEPTIONS);
-			
-		// 	startPPM(10, BEGIN);
-		// }
-
+		if (processPPM()) continue;
 		
 		if (startMixer()) continue;
 

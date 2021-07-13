@@ -64,7 +64,7 @@ void initTimers (void) {
 
 void initIO (void) {
 	TRISA = 0x03;
-	TRISB = 0xFF;
+	TRISB = 0xF8;
 	TRISC = 0xEF;
 	RBPU = 0;
 }

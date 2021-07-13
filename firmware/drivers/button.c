@@ -1,4 +1,5 @@
 #include <xc.h>
+#include "../hardware/pinout.h"
 #include "button-const.h"
 
 #define LONG_CLICK 750
@@ -22,13 +23,13 @@ unsigned char button_click (button *btn) {
 
 	switch (btn->id) {
 		case 1:
-			value = PORTBbits.RB7;
+			value = BUTTON1;
 			break;
 		case 2:
-			value = PORTBbits.RB4;
+			value = BUTTON2;
 			break;
 		case 3:
-			value = PORTBbits.RB3;
+			value = BUTTON3;
 			break;
 	}
 
@@ -79,13 +80,13 @@ unsigned char button_long_press (button *btn) {
 
 	switch (btn->id) {
 		case 1:
-			value = PORTBbits.RB7;
+			value = BUTTON1;
 			break;
 		case 2:
-			value = PORTBbits.RB4;
+			value = BUTTON2;
 			break;
 		case 3:
-			value = PORTBbits.RB3;
+			value = BUTTON3;
 			break;
 	}
 
