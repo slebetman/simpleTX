@@ -52,10 +52,7 @@ Model data:
     [_ _ _ _ _ _ _ _]  /  to get +127/-128
 
      _ _ _ _ _ _ _ _
-    [_ _ _ _ _ _ _ _]  \
-    [_ _ _ _ _ _ _ _]  |
-    [_ _ _ _ _ _ _ _]   > scaling for joystick 4 bytes
-    [_ _ _ _ _ _ _ _]  /
+    [_ _|_|_|_|_|_|_]  - extended servo range
 
      _ _ _ _ _ _ _ _
     [_ _ _ _|_ _ _ _]  \
@@ -88,8 +85,8 @@ Model data:
     [_ _ _ _ _ _ _ _]  /
 
 
-total 63 bytes
+total 60 bytes
 
-4 models = 252 bytes
-4 bytes remaining
+4 models = 240 bytes
+16 bytes remaining
 current model = (0xff)
