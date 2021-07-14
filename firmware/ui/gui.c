@@ -11,7 +11,6 @@
 #include "channelsPage.h"
 #include "modelSelectPage.h"
 #include "modelEditPage.h"
-#include "inputScalingPage.h"
 #include "nameEditPage.h"
 #include "mixesPage.h"
 #include "mixEditPage.h"
@@ -117,9 +116,6 @@ unsigned char updateGUI () {
 				case MODEL_EDIT_PAGE:
 					updateModelEditPage();
 					break;
-				case INPUT_SCALING_PAGE:
-					updateInputScalingPage();
-					break;
 				case NAME_EDIT_PAGE:
 					updateNameEditPage();
 					break;
@@ -135,6 +131,10 @@ unsigned char updateGUI () {
 				case BIND_PAGE:
 					updateBindPage();
 					break;
+				case ENDPOINTS_PAGE:
+					break;
+				case ENDPOINT_EDIT_PAGE:
+					break;
 			}
 		}
 
@@ -148,9 +148,6 @@ unsigned char updateGUI () {
 				break;
 			case MODEL_EDIT_PAGE:
 				guiState = handleModelEditPage();
-				break;
-			case INPUT_SCALING_PAGE:
-				guiState = handleInputScalingPage();
 				break;
 			case NAME_EDIT_PAGE:
 				guiState = handleNameEditPage();
@@ -166,6 +163,10 @@ unsigned char updateGUI () {
 				break;
 			case BIND_PAGE:
 				guiState = handleBindPage();
+				break;
+			case ENDPOINTS_PAGE:
+				break;
+			case ENDPOINT_EDIT_PAGE:
 				break;
 			default:
 				guiState = CHANNELS_PAGE;

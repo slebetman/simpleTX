@@ -27,9 +27,7 @@ void newModel () {
 		current_model.trim[i] = 0;
 	}
 
-	for (i=0; i<4; i++) {
-		current_model.scale[i] = 100;
-	}
+	current_model.extended_range.asChar = 0x00;
 
 	for (i=0; i<TOTAL_OUTPUT_CHANNELS; i++) {
 		current_model.output_map[i] = 0xf; // disabled
@@ -80,9 +78,7 @@ void loadModel (unsigned char model_id) {
 			current_model.trim[i] = (char)(readEeprom(eeprom_offset+TRIM_OFFSET + i) * 4);
 		}
 
-		for (i=0; i<4; i++) {
-			current_model.scale[i] = readEeprom(eeprom_offset + SCALE_OFFSET + i);
-		}
+		current_model.extended_range.asChar = readEeprom(eeprom_offset + EXT_RANGE_OFFSET);
 
 		for (i=0; i<(TOTAL_OUTPUT_CHANNELS/2); i++) {
 			raw_map = readEeprom(eeprom_offset + OUTPUT_MAP_OFFSET + i);
@@ -148,20 +144,16 @@ void saveModelName (unsigned char model_id) {
 	}
 }
 
-void doSaveModelScale (unsigned char model_id) {
+void doSaveModelExtendedRange (unsigned char model_id) {
 	short eeprom_offset;
-	unsigned char i;
 
 	eeprom_offset = MODEL_SIZE * model_id;
-
-	for (i=0; i<4; i++) {
-		writeEeprom(eeprom_offset + SCALE_OFFSET + i, current_model.scale[i]);
-	}
+	writeEeprom(eeprom_offset + EXT_RANGE_OFFSET, current_model.extended_range.asChar);
 }
 
-void saveModelScale (unsigned char model_id) {
+void saveModelExtendedRange (unsigned char model_id) {
 	if (current_model.saved) {
-		doSaveModelScale(model_id);
+		doSaveModelExtendedRange(model_id);
 	}
 	else {
 		current_model.saved = 1;
@@ -225,7 +217,7 @@ void saveModelMixes(unsigned char model_id) {
 void saveModel (unsigned char model_id) {
 	doSaveModelName(model_id);
 	doSaveTrim(model_id);
-	doSaveModelScale(model_id);
+	doSaveModelExtendedRange(model_id);
 	doSaveModelOutputMap(model_id);
 	doSaveModelMixes(model_id);
 }

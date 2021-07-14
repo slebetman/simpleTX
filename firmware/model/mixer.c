@@ -62,7 +62,6 @@ unsigned char processMixer () {
 
 			for (i=0; i<TOTAL_ANALOG_CHANNELS; i++) {
 				tmp = read_stick(i) + current_model.trim[i];
-				tmp = scale(tmp, current_model.scale[i]);
 				ANALOG_CHANNEL(i) = tmp;
 			}
 

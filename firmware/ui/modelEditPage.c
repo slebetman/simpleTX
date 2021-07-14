@@ -1,17 +1,16 @@
 #include "../drivers/oled.h"
 #include "../drivers/button.h"
-#include "inputScalingPage.h"
 #include "nameEditPage.h"
 #include "outputMappingPage.h"
 #include "mixesPage.h"
 #include "bindPage.h"
 #include "gui.h"
 
-#define MODEL_NAME     0
-#define INPUT_SCALING  1
-#define OUTPUT_MAP     2
-#define MIXING         3
-#define BIND           4
+#define MODEL_NAME       0
+#define OUTPUT_MAP       1
+#define OUTPUT_ENDPOINT  2
+#define MIXING           3
+#define BIND             4
 
 signed char modelSelection;
 
@@ -26,9 +25,9 @@ void loadModelEditPage (unsigned char init) {
 	oled_goto(8,2);
 	oled_write_string("Model name");
 	oled_goto(8,3);
-	oled_write_string("Input scaling");
-	oled_goto(8,4);
 	oled_write_string("Output map");
+	oled_goto(8,4);
+	oled_write_string("Output endpoints");
 	oled_goto(8,5);
 	oled_write_string("Mixing");
 	oled_goto(8,6);
@@ -46,12 +45,11 @@ unsigned char handleModelEditPage () {
 			case MODEL_NAME:
 				loadNameEditPage();
 				return NAME_EDIT_PAGE;
-			case INPUT_SCALING:
-				loadInputScalingPage();
-				return INPUT_SCALING_PAGE;
 			case OUTPUT_MAP:
 				loadOutputMappingPage();
 				return OUTPUT_MAP_PAGE;
+			case OUTPUT_ENDPOINT:
+				break;
 			case MIXING:
 				loadMixesPage(1);
 				return MIXES_PAGE;

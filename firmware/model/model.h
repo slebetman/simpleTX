@@ -8,6 +8,6 @@ extern unsigned char mixIsDisabled(unsigned char i);
 extern void newModel ();
 extern void saveModelName(unsigned char model_id);
 extern void saveTrim(unsigned char model_id);
-extern void saveModelScale(unsigned char model_id);
+extern void saveModelExtendedRange(unsigned char model_id);
 extern void saveModelOutputMap(unsigned char model_id);
 extern void saveModelMixes(unsigned char model_id);

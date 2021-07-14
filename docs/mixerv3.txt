@@ -28,14 +28,18 @@ Mixing data:
        |
        '--------------- conditional
                             000=no condition,
-                            100=no condition (can be used for toggle switch),
                             001=active when switch A up,
                             010=active when switch A down,
                             011=active when switch A middle,
-                            101=active when switch B up,
-                            110=active when switch B down,
-                            111=active when switch B middle
+                            100=active when switch B up,
+                            101=active when switch B down,
+                            110=active when switch B middle,
+                            111=no condition (can be used for toggle switch)
 
+Endpoint adjustment:
+     _ _ _ _ _ _ _ _
+    [_ _ _ _ _ _ _ _]   servo min
+    [_ _ _ _ _ _ _ _]   servo max
 
 Model data:
      _ _ _ _ _ _ _ _
@@ -62,14 +66,9 @@ Model data:
      _ _ _ _ _ _ _ _
     [_ _ _ _ _ _ _ _]  \
     [_ _ _ _ _ _ _ _]  |
-    [_ _ _ _ _ _ _ _]  |
-    [_ _ _ _ _ _ _ _]  |
-    [_ _ _ _ _ _ _ _]  |
-    [_ _ _ _ _ _ _ _]  |
-    [_ _ _ _ _ _ _ _]  |
-    [_ _ _ _ _ _ _ _]  |
-    [_ _ _ _ _ _ _ _]   > output endpoint adjustment 12 bytes
-    [_ _ _ _ _ _ _ _]  |
+            .          |
+            .           > output endpoint adjustment
+     _ _ _ _ _ _ _ _   |  6 channels - 12 bytes
     [_ _ _ _ _ _ _ _]  |
     [_ _ _ _ _ _ _ _]  /
 
@@ -78,8 +77,8 @@ Model data:
     [_ _ _ _ _ _ _ _]  |
     [_ _ _ _ _ _ _ _]  |
             .          |
-            .           > mix data - 11 mixes - 33 bytes
-     _ _ _ _ _ _ _ _   |
+            .           > mix data
+     _ _ _ _ _ _ _ _   |  11 mixes - 33 bytes
     [_ _ _ _|_ _ _ _]  |
     [_ _ _ _ _ _ _ _]  |
     [_ _ _ _ _ _ _ _]  /
