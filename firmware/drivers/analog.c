@@ -1,9 +1,9 @@
 #include <xc.h>
 #include "analog-const.h"
 
-#define BUFFER_SIZE 8
-#define BUFFER_SIZE_DIV 3
-#define BUFFER_SIZE_MASK 0x07
+#define BUFFER_SIZE 4
+#define BUFFER_SIZE_DIV 2
+#define BUFFER_SIZE_MASK 0x03
 
 unsigned short analog_filter[TOTAL_ANALOG_CHANNELS];
 unsigned short analog_buffer[TOTAL_ANALOG_CHANNELS][BUFFER_SIZE];

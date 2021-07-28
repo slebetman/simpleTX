@@ -1,8 +1,8 @@
 #include "analog.h"
 #include "../model/channels.h"
 
-#define BAND_FILTER 2
-#define DEADBAND 8
+#define BAND_FILTER 1
+#define DEADBAND 4
 
 short stick_values[TOTAL_ANALOG_CHANNELS];
 
