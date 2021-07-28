@@ -4,25 +4,27 @@
 #include "../model/channels.h"
 #include "ppmio.h"
 
-#define PPM_BLANK_CHECK 9 /* milliseconds */
-#define IRC_FUDGE_FACTOR 15 /* number of clocks before timer is set */
+#define IRC_FUDGE_FACTOR 550 /* number of clocks before timer is set */
+#define FRAME_FUDGE_FACTOR 4000
 
 unsigned char ppmTracker;
 signed char channel;
-short output_pulse[TOTAL_OUTPUT_CHANNELS];
+unsigned short output_pulse[TOTAL_OUTPUT_CHANNELS];
+unsigned short currentFrameTime;
+bit ppmState;
+
+#define PPM_SIGNAL 0
+#define PPM_WAIT   1
+
+#define MARK  0
+#define SPACE 1
+#define GAP   65035 /* 65535 - 500 */
 
 #pragma interrupt_level 1
 #pragma interrupt_level 2
-void startPPM (unsigned short duration,signed char mode) {
-	if (mode == BEGIN) {
-		channel = 0;
-		for (unsigned char i=0; i<TOTAL_OUTPUT_CHANNELS; i++) {
-			output_pulse[i] = output_channels[i] - IRC_FUDGE_FACTOR;
-		}
-	}
-	duration = 65535-duration;
-	TMR1H = duration >> 8;
-	TMR1L = duration;
+void startPPM (unsigned short duration) {	
+	TMR1 = duration;
+
 	TMR1IF = 0;
 	TMR1IE = 1;
 	TMR1ON = 1;
@@ -30,37 +32,39 @@ void startPPM (unsigned short duration,signed char mode) {
 
 void processOutput () {
 	unsigned char delay;
+	DEBUG_OUT = 0;
 	
-	PPM_OUT = 0;
-	if (channel < TOTAL_OUTPUT_CHANNELS) {
-		startPPM(
-			output_pulse[channel] + PULSE_CENTER,
-			CONTINUE
-		);
-		channel++;
-	}
-	else {
-		stopPPM();
-	}
-	for (delay=100;delay--;) {
-		NOP();
-	}
-	PPM_OUT = 1;
-}
-
-unsigned char processPPM () {
-	if (ppmTracker != tick) { // 1ms
-		frameTimer += (tick-ppmTracker) & 0xff;
-		ppmTracker = tick;
-
-		if (frameTimer > 20) {
-			frameTimer = 0;
-			disableInterrupts();	
-			startPPM(10, BEGIN);
-			enableInterrupts();
-			return 1;
+	if (ppmState == PPM_SIGNAL) {
+		if (channel < TOTAL_OUTPUT_CHANNELS) {
+			startPPM(output_pulse[channel]);
+			PPM_OUT = MARK;
+			channel++;
+		}
+		else {
+			startPPM(65535 - currentFrameTime);
+			processPPM();
 		}
 	}
-	return 0;
+	else {
+		startPPM(GAP);
+		PPM_OUT = SPACE;
+	}
+	ppmState = !ppmState;
+}
+
+void processPPM () {
+	short pulse;
+
+	currentFrameTime = FRAME_TIME - FRAME_FUDGE_FACTOR;
+	frameTimer = 0;
+	DEBUG_OUT = 1;
+	
+	channel = 0;
+	ppmState = PPM_SIGNAL;
+	for (unsigned char i=0; i<TOTAL_OUTPUT_CHANNELS; i++) {
+		pulse = output_channels[i] - IRC_FUDGE_FACTOR + PULSE_CENTER;
+		output_pulse[i] = 65535 - pulse;
+		currentFrameTime -= pulse;
+	}
 }
 

@@ -13,7 +13,8 @@
 #define TX_POWER_OFF     TX_POWER=0
 
 // Buttons
-#define BUTTON1   PORTBbits.RB7
-#define BUTTON2   PORTBbits.RB4
+#define BUTTON1   PORTCbits.RC1
+#define BUTTON2   PORTCbits.RC0
 #define BUTTON3   PORTBbits.RB3
 
+#define DEBUG_OUT PORTCbits.RC2
