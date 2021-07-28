@@ -1,15 +1,13 @@
-#define PULSE_MIN (1000*2)
-#define PULSE_MAX (2000*2)
-#define PULSE_CENTER ((PULSE_MIN+PULSE_MAX)/2)
+#define PULSE_MIN 2000 /* (1000*2) */
+#define PULSE_MAX 4000 /* (2000*2) */
+#define PULSE_CENTER 3000 /* ((PULSE_MIN+PULSE_MAX)/2) */
+
+#define FRAME_TIME 40000 /* (20 * 2000) */
 
 #define stopPPM() TMR1IE=0;TMR1ON=0
 
-// Use to signal modes for startPPM and startCapture:
-#define BEGIN 0
-#define CONTINUE 1
-
-extern void startPPM (unsigned short, signed char);
+extern void startPPM (unsigned short);
 extern void processOutput ();
-extern unsigned char processPPM ();
+extern void processPPM ();
 
 

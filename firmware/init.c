@@ -30,8 +30,8 @@ void initTimers (void) {
 	// Set up timer 1 for servo control:
 	// TMR1GE = 0;
 	TMR1CS = 0; // use internal clock
-	T1CKPS0 = 0;
-	T1CKPS1 = 0; // 1:4 prescale - timer is exactly 0.5us at 32MHz
+	T1CKPS1 = 1;
+	T1CKPS0 = 0; // 1:4 prescale - timer is exactly 0.5us at 32MHz
 	             // Note: Since our joystick signal is +/-1024 this means that at 0.5us
 				 //       we have roughly full resolution between 1ms to 2ms.
 				 //       This also means we can nicely set the 16 bit counter for
@@ -65,7 +65,7 @@ void initTimers (void) {
 void initIO (void) {
 	TRISA = 0x03;
 	TRISB = 0xF8;
-	TRISC = 0xEF;
+	TRISC = 0xEB;
 	RBPU = 0;
 }
 

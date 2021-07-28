@@ -36,13 +36,9 @@ void main(void)
 	TX_POWER_ON;
 
 	while(1)
-	{
-		if (processPPM()) continue;
-		
+	{	
 		if (startMixer()) continue;
-
 		if (updateGUI()) continue;
-
 		processMixer();
 	}
 }
