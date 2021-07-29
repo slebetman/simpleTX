@@ -12,7 +12,6 @@
 #include "drivers/oled.h"
 #include "drivers/ppmio.h"
 #include "drivers/eeprom.h"
-#include "model/trim.h"
 #include "model/channels.h"
 #include "model/model.h"
 #include "model/mixer.h"

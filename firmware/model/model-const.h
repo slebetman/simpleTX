@@ -3,8 +3,8 @@
 #define NAME_SIZE          10
 #define NAME_OFFSET        0
 #define TRIM_OFFSET        (NAME_OFFSET+NAME_SIZE)
-#define SCALE_OFFSET       (TRIM_OFFSET+4)
-#define OUTPUT_MAP_OFFSET  (SCALE_OFFSET+4)
+#define SCALE_OFFSET       (TRIM_OFFSET+2)
+#define OUTPUT_MAP_OFFSET  (SCALE_OFFSET+3)
 #define MIX_OFFSET         (OUTPUT_MAP_OFFSET+3)
 
 #define MAX_MIXES   10
@@ -26,8 +26,8 @@ struct model {
 	unsigned char saved;
 	unsigned char id;
 	unsigned char name[NAME_SIZE];
-	short trim[4];
-	unsigned char scale[4];
+	short trim[2];
+	unsigned char scale[3];
 	unsigned char output_map[TOTAL_OUTPUT_CHANNELS];
 	struct mix mix[MAX_MIXES];
 };

@@ -23,17 +23,26 @@ void newModel () {
 		current_model.name[i] = 0;
 	}
 
-	for (i=0; i<4; i++) {
+	current_model.name[0] = 'T';
+	current_model.name[1] = 'e';
+	current_model.name[2] = 's';
+	current_model.name[3] = 't';
+
+	for (i=0; i<2; i++) {
 		current_model.trim[i] = 0;
 	}
 
-	for (i=0; i<4; i++) {
+	for (i=0; i<3; i++) {
 		current_model.scale[i] = 100;
 	}
 
 	for (i=0; i<TOTAL_OUTPUT_CHANNELS; i++) {
 		current_model.output_map[i] = 0xf; // disabled
 	}
+
+	current_model.output_map[0] = 0;
+	current_model.output_map[1] = 1;
+	current_model.output_map[2] = 2;
 	
 	for (i=0; i<MAX_MIXES; i++) {
 		current_model.mix[i].input = 0;
@@ -44,6 +53,15 @@ void newModel () {
 		
 		current_model.mix[i].reverse = 0;
 	}
+
+	current_model.mix[0].input = 12;
+	current_model.mix[0].output = 0;
+
+	current_model.mix[1].input = 13;
+	current_model.mix[1].output = 1;
+
+	current_model.mix[2].input = 14;
+	current_model.mix[2].output = 2;
 }
 
 void getModelName (unsigned char model_id, unsigned char *name) {
@@ -76,11 +94,11 @@ void loadModel (unsigned char model_id) {
 		newModel();
 	}
 	else {
-		for (i=0; i<4; i++) {
+		for (i=0; i<2; i++) {
 			current_model.trim[i] = (char)(readEeprom(eeprom_offset+TRIM_OFFSET + i) * 4);
 		}
 
-		for (i=0; i<4; i++) {
+		for (i=0; i<3; i++) {
 			current_model.scale[i] = readEeprom(eeprom_offset + SCALE_OFFSET + i);
 		}
 
@@ -112,7 +130,7 @@ void doSaveTrim (unsigned char model_id) {
 
 	eeprom_offset = MODEL_SIZE * model_id;
 
-	for (i=0; i<4; i++) {
+	for (i=0; i<2; i++) {
 		writeEeprom(eeprom_offset + TRIM_OFFSET + i, (char)(current_model.trim[i] / 4)); // sacrifice last two bits to get +512/-512
 	}
 }
@@ -154,7 +172,7 @@ void doSaveModelScale (unsigned char model_id) {
 
 	eeprom_offset = MODEL_SIZE * model_id;
 
-	for (i=0; i<4; i++) {
+	for (i=0; i<3; i++) {
 		writeEeprom(eeprom_offset + SCALE_OFFSET + i, current_model.scale[i]);
 	}
 }

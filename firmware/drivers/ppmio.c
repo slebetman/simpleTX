@@ -1,6 +1,5 @@
 #include <xc.h>
 #include "../common.h"
-#include "../model/trim.h"
 #include "../model/channels.h"
 #include "ppmio.h"
 

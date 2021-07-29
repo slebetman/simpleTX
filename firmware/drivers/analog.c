@@ -104,7 +104,10 @@ void analog_timer_interrupt_handler () {
 				current_buffer = (current_buffer + 1) & BUFFER_SIZE_MASK;
 			}
 
-			current_channel = (current_channel+1) % TOTAL_ANALOG_CHANNELS;
+			current_channel++;
+			if (current_channel >= TOTAL_ANALOG_CHANNELS) {
+				current_channel = 0;
+			}
 
 			ADCON0 =(ADCON0 & 0b11000011)|((current_channel<<2) & 0b00111100);
 			ADCON0 |= ((1<<ADON)|(1<<GO)); /*Enable ADC and start conversion*/
