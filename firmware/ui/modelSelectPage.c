@@ -34,7 +34,7 @@ void loadModelSelectPage() {
 	for (unsigned char i=0; i<MAX_MODELS; i++) {
 		getModelName(i,name);
 		oled_goto(8,i+2);
-		oled_print_signed_number(i);
+		oled_print_signed_number(i+1);
 		oled_write_string(": ");
 
 		if (current_model.name[0] > '~' || current_model.name[0] < ' ') {

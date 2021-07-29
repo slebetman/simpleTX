@@ -22,21 +22,21 @@ void loadInputScalingPage () {
 	oled_goto(0,0);
 	oled_write_string("Input scaling:");
 
-	for (unsigned char i=0; i<4; i++) {
-		oled_goto(8,i+2);
-		oled_write_string("J");
-		oled_print_signed_number(i);
-		oled_write_string(": ");
-	}
+	oled_goto(8,2);
+	oled_write_string("el:");
+	oled_goto(8,3);
+	oled_write_string("rd:");
+	oled_goto(8,4);
+	oled_write_string("th:");
 }
 
 // View:
 void updateInputScalingPage () {
 	unsigned char xCursor;
 
-	drawSelection(4, scaleSelection);
+	drawSelection(3, scaleSelection);
 
-	for (unsigned char i=0; i<4; i++) {
+	for (unsigned char i=0; i<3; i++) {
 		oled_goto(8+(6*3),2+i);
 		if (selectedInput == i) {
 			oled_write_string("[");
@@ -63,7 +63,7 @@ unsigned char handleScaleSelectMode () {
 		mode = EDIT_MODE;
 	}
 	else {
-		scaleSelection = handleSelection(4, scaleSelection);
+		scaleSelection = handleSelection(3, scaleSelection);
 	}
 	
 	if (button_long_press(button1)) {

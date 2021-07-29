@@ -27,7 +27,7 @@ void loadMixEditPage (unsigned char mix) {
 	oled_clear();
 	oled_goto(0,0);
 	oled_write_string("Mix ");
-	oled_print_signed_number(mixIdx);
+	oled_print_signed_number(mixIdx+1);
 	oled_write_string(":");
 
 	oled_goto(8,2);
@@ -85,17 +85,22 @@ void updateMixEditPage () {
 
 	if (target < USER_CHANNELS) {
 		oled_goto(8+(6*8),2); // out
-		xCursor = oled_print_signed_number(target);
+		xCursor = oled_print_signed_number(target+1);
 		oled_blank((6*2)-xCursor);
 
 		oled_goto(8+(6*8),3); // in
 		if (source < USER_CHANNELS) {
-			xCursor = oled_print_signed_number(source);
+			xCursor = oled_print_signed_number(source+1);
 			oled_blank((6*2)-xCursor);
 		}
-		else {
-			oled_write_string("J");
-			oled_print_signed_number(source-USER_CHANNELS);
+		else if (source == 12) {
+			oled_write_string("el");
+		}
+		else if (source == 13) {
+			oled_write_string("rd");
+		}
+		else if (source == 14) {
+			oled_write_string("th");
 		}
 
 		oled_goto(8+(6*8),4); // scale
@@ -204,7 +209,7 @@ unsigned char handleMixEditMode () {
 			break;
 		case IN_SELECTED:
 			current_model.mix[mixIdx].input
-				= handleSelection(TOTAL_CHANNELS,current_model.mix[mixIdx].input);
+				= handleSelection(TOTAL_CHANNELS-1,current_model.mix[mixIdx].input);
 			break;
 		case SCALE_SELECTED:
 			current_model.mix[mixIdx].scale

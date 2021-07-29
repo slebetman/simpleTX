@@ -21,17 +21,17 @@ void loadOutputMappingPage () {
 	oled_write_string("Output map:");
 
 	oled_goto(0+8,2);
-	oled_write_string("CH0:");
-	oled_goto(0+8,3);
 	oled_write_string("CH1:");
-	oled_goto(0+8,4);
+	oled_goto(0+8,3);
 	oled_write_string("CH2:");
-	oled_goto(64+8,2);
+	oled_goto(0+8,4);
 	oled_write_string("CH3:");
-	oled_goto(64+8,3);
+	oled_goto(64+8,2);
 	oled_write_string("CH4:");
-	oled_goto(64+8,4);
+	oled_goto(64+8,3);
 	oled_write_string("CH5:");
+	oled_goto(64+8,4);
+	oled_write_string("CH6:");
 }
 
 void printOutputMap (unsigned char idx) {
@@ -49,7 +49,7 @@ void printOutputMap (unsigned char idx) {
 		xCursor = oled_write_string("-");
 	}
 	else {
-		xCursor = oled_print_signed_number(source);
+		xCursor = oled_print_signed_number(source+1);
 	}
 	oled_blank(((6*2)+1)-xCursor);
 	if (mode == EDIT_MODE && idx == mapSelection) {

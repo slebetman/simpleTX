@@ -35,24 +35,29 @@ void loadPage (unsigned char pageNumber) {
 	for (unsigned char i=start; i<end; i++,y++) {
 		oled_goto(8,y);
 		if (i < MAX_MIXES) {
-			oled_print_signed_number(i);
+			oled_print_signed_number(i+1);
 			oled_write_string(":");
 			source = current_model.mix[i].input;
 			target = current_model.mix[i].output;
 
 			if (target < USER_CHANNELS) {
 				oled_write_string(" o=");
-				xCursor = oled_print_signed_number(target);
+				xCursor = oled_print_signed_number(target+1);
 				oled_blank((6*2)-xCursor);
 
 				oled_write_string("i=");
 				if (source < USER_CHANNELS) {
-					xCursor = oled_print_signed_number(source);
+					xCursor = oled_print_signed_number(source+1);
 					oled_blank((6*2)-xCursor);
 				}
-				else {
-					oled_write_string("J");
-					oled_print_signed_number(source-USER_CHANNELS);
+				else if (source == 12) {
+					oled_write_string("el");
+				}
+				else if (source == 13) {
+					oled_write_string("rd");
+				}
+				else if (source == 14) {
+					oled_write_string("th");
 				}
 
 				oled_write_string(" s=");
