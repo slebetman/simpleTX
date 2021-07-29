@@ -25,17 +25,17 @@ void loadChannelsPage () {
 	oled_write_string(modelName);
 
 	oled_goto(0,2);
-	oled_write_string("CH0:");
-	oled_goto(0,3);
 	oled_write_string("CH1:");
-	oled_goto(0,4);
+	oled_goto(0,3);
 	oled_write_string("CH2:");
-	oled_goto(64,2);
+	oled_goto(0,4);
 	oled_write_string("CH3:");
-	oled_goto(64,3);
+	oled_goto(64,2);
 	oled_write_string("CH4:");
-	oled_goto(64,4);
+	oled_goto(64,3);
 	oled_write_string("CH5:");
+	oled_goto(64,4);
+	oled_write_string("CH6:");
 }
 
 // View:
