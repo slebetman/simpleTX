@@ -16,7 +16,6 @@
 #include "mixesPage.h"
 #include "mixEditPage.h"
 #include "outputMappingPage.h"
-#include "bindPage.h"
 
 unsigned char guiTracker;
 short guiCount;
@@ -132,9 +131,6 @@ unsigned char updateGUI () {
 				case OUTPUT_MAP_PAGE:
 					updateOutputMappingPage();
 					break;
-				case BIND_PAGE:
-					updateBindPage();
-					break;
 			}
 		}
 
@@ -163,9 +159,6 @@ unsigned char updateGUI () {
 				break;
 			case OUTPUT_MAP_PAGE:
 				guiState = handleOutputMappingPage();
-				break;
-			case BIND_PAGE:
-				guiState = handleBindPage();
 				break;
 			default:
 				guiState = CHANNELS_PAGE;
