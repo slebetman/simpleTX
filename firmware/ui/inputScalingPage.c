@@ -23,11 +23,11 @@ void loadInputScalingPage () {
 	oled_write_string("Input scaling:");
 
 	oled_goto(8,2);
-	oled_write_string("el:");
+	oled_write_string("EL:");
 	oled_goto(8,3);
-	oled_write_string("rd:");
+	oled_write_string("RD:");
 	oled_goto(8,4);
-	oled_write_string("th:");
+	oled_write_string("TH:");
 }
 
 // View:

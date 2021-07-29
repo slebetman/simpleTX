@@ -94,13 +94,13 @@ void updateMixEditPage () {
 			oled_blank((6*2)-xCursor);
 		}
 		else if (source == 12) {
-			oled_write_string("el");
+			oled_write_string("EL");
 		}
 		else if (source == 13) {
-			oled_write_string("rd");
+			oled_write_string("RD");
 		}
 		else if (source == 14) {
-			oled_write_string("th");
+			oled_write_string("TH");
 		}
 
 		oled_goto(8+(6*8),4); // scale
