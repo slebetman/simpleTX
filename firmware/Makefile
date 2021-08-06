@@ -12,6 +12,8 @@ HEXFILE = $(PROJECT).hex
 CFLAGS = --chip=$(CPU) -O$(HEXFILE) --output=intel
 PROGRAMMER = usbpicprog
 
+all: $(HEXFILE) tidy
+
 $(HEXFILE): $(SOURCES) $(HEADERS)
 	$(CC) $(CFLAGS) $(SOURCES)
 
