@@ -57,7 +57,7 @@ void updateInputScalingPage () {
 }
 
 unsigned char handleScaleSelectMode () {
-	if (button_long_press(button2)) {
+	if (button_click(button4)) {
 		selectedInput = scaleSelection;
 		tmp = current_model.scale[selectedInput];
 		mode = EDIT_MODE;
@@ -66,7 +66,7 @@ unsigned char handleScaleSelectMode () {
 		scaleSelection = handleSelection(3, scaleSelection);
 	}
 	
-	if (button_long_press(button1)) {
+	if (button_click(button3)) {
 		if (edited) {
 			saveModelScale(current_model.id);
 		}
@@ -89,7 +89,7 @@ unsigned char handleScaleEditMode () {
 			scaling ++;
 		}
 	}
-	if (button_long_press(button1)) {
+	if (button_click(button3)) {
 		current_model.scale[selectedInput] = tmp; // cancel changes
 		selectedInput = -1;
 		mode = SELECT_MODE;
@@ -97,7 +97,7 @@ unsigned char handleScaleEditMode () {
 	else {
 		current_model.scale[selectedInput] = scaling;
 
-		if (button_long_press(button2)) {
+		if (button_click(button4)) {
 			edited = 1;
 			selectedInput = -1;
 			mode = SELECT_MODE;

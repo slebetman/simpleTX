@@ -159,7 +159,7 @@ void updateMixEditPage () {
 }
 
 unsigned char handleMixSelectMode () {
-	if (button_long_press(button2)) {
+	if (button_click(button4)) {
 		switch (mixSelection) {
 			case OUT_SELECTED:
 				tmp = current_model.mix[mixIdx].output;
@@ -183,7 +183,7 @@ unsigned char handleMixSelectMode () {
 		mixSelection = handleSelection(5, mixSelection);
 	}
 
-	if (button_long_press(button1)) {
+	if (button_click(button3)) {
 		saveModelMixes(current_model.id);
 		loadMixesPage(0);
 		return MIXES_PAGE;
@@ -227,12 +227,12 @@ unsigned char handleMixEditMode () {
 			mixSelection = OUT_SELECTED;
 	}
 
-	if (button_long_press(button2)) {
+	if (button_click(button4)) {
 		edited = 1;
 		mode = SELECT_MODE;
 	}
 
-	if (button_long_press(button1)) {
+	if (button_click(button3)) {
 		switch (mixSelection) { // cancel changes:
 			case OUT_SELECTED:
 				current_model.mix[mixIdx].output = tmp;

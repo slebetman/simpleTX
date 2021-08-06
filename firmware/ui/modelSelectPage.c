@@ -61,11 +61,11 @@ void updateModelSelectPage() {
 unsigned char handleModelSelectPage() {
 	modelID = handleSelection(MAX_MODELS, modelID);
 	
-	if (button_long_press(button2)) {
+	if (button_click(button4)) {
 		getModelFromEeprom(modelID);
 		return HOME_PAGE;
 	}
-	if (button_long_press(button1)) { // cancel
+	if (button_click(button3)) { // cancel
 		loadHomePage();
 		return HOME_PAGE;
 	}

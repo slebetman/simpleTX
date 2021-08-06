@@ -104,7 +104,7 @@ void updateOutputMappingPage () {
 }
 
 unsigned char handleMapSelectMode () {
-	if (button_long_press(button1)) {
+	if (button_click(button3)) {
 		if (edited) {
 			saveModelOutputMap(current_model.id);
 		}
@@ -112,7 +112,7 @@ unsigned char handleMapSelectMode () {
 		return MODEL_EDIT_PAGE;
 	}
 
-	if (button_long_press(button2)) {
+	if (button_click(button4)) {
 		tmp = current_model.output_map[mapSelection];
 		mode = EDIT_MODE;
 	}
@@ -134,12 +134,12 @@ unsigned char handleMapEditMode () {
 	}
 	current_model.output_map[mapSelection] = map;
 
-	if (button_long_press(button1)) {
+	if (button_click(button3)) {
 		current_model.output_map[mapSelection] = tmp; // cancel changes
 		mode = SELECT_MODE;
 	}
 
-	if (button_long_press(button2)) {
+	if (button_click(button4)) {
 		edited = 1;
 		mode = SELECT_MODE;
 	}

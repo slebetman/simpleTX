@@ -15,6 +15,7 @@
 // Buttons
 #define BUTTON1   PORTCbits.RC1
 #define BUTTON2   PORTCbits.RC0
-#define BUTTON3   PORTBbits.RB3
+#define BUTTON3   PORTAbits.RA6
+#define BUTTON4   PORTAbits.RA7
 
 #define DEBUG_OUT PORTCbits.RC2

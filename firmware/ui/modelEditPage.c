@@ -37,7 +37,7 @@ void updateModelEditPage () {
 
 // Controller:
 unsigned char handleModelEditPage () {
-	if (button_long_press(button2)) {
+	if (button_click(button4)) {
 		switch (modelSelection) {
 			case MODEL_NAME:
 				loadNameEditPage();
@@ -56,7 +56,7 @@ unsigned char handleModelEditPage () {
 	else {
 		modelSelection = handleSelection(4, modelSelection);
 	}
-	if (button_long_press(button1)) {
+	if (button_click(button3)) {
 		loadHomePage();
 		return HOME_PAGE;
 	}

@@ -31,6 +31,9 @@ unsigned char button_click (button *btn) {
 		case 3:
 			value = BUTTON3;
 			break;
+		case 4:
+			value = BUTTON4;
+			break;
 	}
 
 	switch (btn->state) {
@@ -87,6 +90,9 @@ unsigned char button_long_press (button *btn) {
 			break;
 		case 3:
 			value = BUTTON3;
+			break;
+		case 4:
+			value = BUTTON4;
 			break;
 	}
 

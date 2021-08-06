@@ -46,7 +46,7 @@ void initTimers (void) {
 	T3SYNC = 1; // disable external sync
 	T3CCP1 = 0;
 	T3CCP2 = 0;
-	
+
 	TMR3IE = 1; // initialise timer 3 interrupt.
 
 	PEIE = 1;
@@ -63,7 +63,7 @@ void initTimers (void) {
 }
 
 void initIO (void) {
-	TRISA = 0x03;
+	TRISA = 0xc3;
 	TRISB = 0xF8;
 	TRISC = 0xEB;
 	RBPU = 0;

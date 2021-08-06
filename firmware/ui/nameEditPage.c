@@ -97,7 +97,7 @@ unsigned char handleNameEditPage () {
 		editLetterInName();
 	}
 
-	if (button_long_press(button2)) {
+	if (button_click(button4)) {
 		editLetterInName();
 		nameSelection++;
 		if (nameSelection >= 10) {
@@ -114,7 +114,7 @@ unsigned char handleNameEditPage () {
 		idx = findIdx(current_model.name[nameSelection]);
 	}
 
-	if (button_long_press(button1)) {
+	if (button_click(button3)) {
 		if (edited) {
 			saveModelName(current_model.id);
 		}

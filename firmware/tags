@@ -1,0 +1,373 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+ADFM_JUSTIFY_RIGHT	drivers/analog-const.h	23;"	d
+AILERON	model/channels-const.h	9;"	d
+ANALOG_CHANNEL	model/channels-const.h	7;"	d
+ANALOG_CHANNEL0	drivers/analog-const.h	3;"	d
+ANALOG_CHANNEL1	drivers/analog-const.h	4;"	d
+ANALOG_CHANNEL10	drivers/analog-const.h	13;"	d
+ANALOG_CHANNEL11	drivers/analog-const.h	14;"	d
+ANALOG_CHANNEL12	drivers/analog-const.h	15;"	d
+ANALOG_CHANNEL2	drivers/analog-const.h	5;"	d
+ANALOG_CHANNEL3	drivers/analog-const.h	6;"	d
+ANALOG_CHANNEL4	drivers/analog-const.h	7;"	d
+ANALOG_CHANNEL5	drivers/analog-const.h	8;"	d
+ANALOG_CHANNEL6	drivers/analog-const.h	9;"	d
+ANALOG_CHANNEL7	drivers/analog-const.h	10;"	d
+ANALOG_CHANNEL8	drivers/analog-const.h	11;"	d
+ANALOG_CHANNEL9	drivers/analog-const.h	12;"	d
+ARROW	ui/gui-const.h	6;"	d
+BAND_FILTER	drivers/joystick.c	4;"	d	file:
+BIND_PAGE	ui/gui-const.h	17;"	d
+BUFFER_SIZE	drivers/analog.c	4;"	d	file:
+BUFFER_SIZE_DIV	drivers/analog.c	5;"	d	file:
+BUFFER_SIZE_MASK	drivers/analog.c	6;"	d	file:
+BUTTON1	hardware/pinout.h	16;"	d
+BUTTON2	hardware/pinout.h	17;"	d
+BUTTON3	hardware/pinout.h	18;"	d
+BUTTON4	hardware/pinout.h	19;"	d
+CC	Makefile	/^CC = xc8$/;"	m
+CENTER_SAMPLES	drivers/joystick.c	33;"	d	file:
+CENTER_SAMPLES_DIV	drivers/joystick.c	34;"	d	file:
+CFLAGS	Makefile	/^CFLAGS = --chip=$(CPU) -O$(HEXFILE) --output=intel$/;"	m
+CHANNELS_PAGE	ui/gui-const.h	9;"	d
+CHARSET_SIZE	ui/nameEditPage.c	6;"	d	file:
+CHECK	ui/gui-const.h	7;"	d
+CPU	Makefile	/^CPU    = 18F2520$/;"	m
+DEADBAND	drivers/joystick.c	5;"	d	file:
+DEBUG_OUT	hardware/pinout.h	21;"	d
+DIGIT_START	ui/nameEditPage.c	7;"	d	file:
+DIR_SELECTED	ui/mixEditPage.c	14;"	d	file:
+EDIT_MODE	ui/inputScalingPage.c	8;"	d	file:
+EDIT_MODE	ui/mixEditPage.c	8;"	d	file:
+EDIT_MODE	ui/outputMappingPage.c	8;"	d	file:
+ELEVATOR	model/channels-const.h	10;"	d
+EXPO_SELECTED	ui/mixEditPage.c	13;"	d	file:
+FILTER_SHIFT	drivers/analog.c	84;"	d	file:
+FRAME_FUDGE_FACTOR	drivers/ppmio.c	7;"	d	file:
+FRAME_TIME	drivers/ppmio.h	5;"	d
+GAP	drivers/ppmio.c	20;"	d	file:
+GRAPHICAL_CHANNELS	ui/channelsPage.c	8;"	d	file:
+HANDLER	hardware/interrupt.c	/^void interrupt HANDLER(void)$/;"	f
+HEADERS	Makefile	/^HEADERS = $(shell ls *.h *\/*.h)$/;"	m
+HEXFILE	Makefile	/^HEXFILE = $(PROJECT).hex$/;"	m
+HIGH	drivers/button-const.h	2;"	d
+HOME_PAGE	ui/gui-const.h	18;"	d
+I2C_DATA_ACK	drivers/i2c.h	4;"	d
+I2C_DATA_NOACK	drivers/i2c.h	5;"	d
+I2C_READ_CMD	drivers/i2c.h	7;"	d
+I2C_REQ_ACK	drivers/i2c.h	9;"	d
+I2C_REQ_NOACK	drivers/i2c.h	10;"	d
+I2C_WRITE_CMD	drivers/i2c.h	6;"	d
+INPUT_SCALING	ui/modelEditPage.c	12;"	d	file:
+INPUT_SCALING_PAGE	ui/gui-const.h	13;"	d
+IN_SELECTED	ui/mixEditPage.c	11;"	d	file:
+IRC_FUDGE_FACTOR	drivers/ppmio.c	6;"	d	file:
+LONG_CLICK	drivers/button.c	5;"	d	file:
+LOW	drivers/button-const.h	1;"	d
+MARK	drivers/ppmio.c	18;"	d	file:
+MAX_MIXES	model/model-const.h	10;"	d
+MAX_MODELS	model/model-const.h	13;"	d
+MIXES_PAGE	ui/gui-const.h	15;"	d
+MIXING	ui/modelEditPage.c	10;"	d	file:
+MIX_EDIT_PAGE	ui/gui-const.h	16;"	d
+MIX_OFFSET	model/model-const.h	8;"	d
+MIX_SIZE	model/model-const.h	11;"	d
+MIX_STATE_AVG1	model/mixer.c	11;"	d	file:
+MIX_STATE_AVG2	model/mixer.c	12;"	d	file:
+MIX_STATE_IDLE	model/mixer.c	8;"	d	file:
+MIX_STATE_MIX	model/mixer.c	10;"	d	file:
+MIX_STATE_OUT	model/mixer.c	13;"	d	file:
+MIX_STATE_START	model/mixer.c	9;"	d	file:
+MODEL_EDIT_PAGE	ui/gui-const.h	11;"	d
+MODEL_NAME	ui/modelEditPage.c	9;"	d	file:
+MODEL_SELECT_PAGE	ui/gui-const.h	10;"	d
+MODEL_SIZE	model/model-const.h	12;"	d
+NAME_EDIT_PAGE	ui/gui-const.h	12;"	d
+NAME_OFFSET	model/model-const.h	4;"	d
+NAME_SIZE	model/model-const.h	3;"	d
+OLED_ADDRESS	drivers/oled.h	4;"	d
+OLED_COMMAND	drivers/oled.h	7;"	d
+OLED_DATA	drivers/oled.h	8;"	d
+OUTPUT_MAP	ui/modelEditPage.c	11;"	d	file:
+OUTPUT_MAP_OFFSET	model/model-const.h	7;"	d
+OUTPUT_MAP_PAGE	ui/gui-const.h	14;"	d
+OUT_SELECTED	ui/mixEditPage.c	10;"	d	file:
+PPM_OUT	hardware/pinout.h	6;"	d
+PPM_SIGNAL	drivers/ppmio.c	15;"	d	file:
+PPM_WAIT	drivers/ppmio.c	16;"	d	file:
+PROGRAMMER	Makefile	/^PROGRAMMER = usbpicprog$/;"	m
+PROJECT	Makefile	/^PROJECT = simpleTX$/;"	m
+PULSE_CENTER	drivers/ppmio.h	3;"	d
+PULSE_MAX	drivers/ppmio.h	2;"	d
+PULSE_MIN	drivers/ppmio.h	1;"	d
+P_RANGE	model/calculations.c	6;"	d	file:
+REVERSE_MASK	model/model-const.h	15;"	d
+RUDDER	model/channels-const.h	12;"	d
+SAVED_MODEL	ui/gui-const.h	4;"	d
+SCALE_OFFSET	model/model-const.h	6;"	d
+SCALE_SELECTED	ui/mixEditPage.c	12;"	d	file:
+SELECT_MODE	ui/inputScalingPage.c	7;"	d	file:
+SELECT_MODE	ui/mixEditPage.c	7;"	d	file:
+SELECT_MODE	ui/outputMappingPage.c	7;"	d	file:
+SOURCES	Makefile	/^SOURCES = $(shell ls *.c *\/*.c)$/;"	m
+SPACE	drivers/ppmio.c	19;"	d	file:
+STATE_ACK	drivers/i2c.c	8;"	d	file:
+STATE_CONV	drivers/analog-const.h	20;"	d
+STATE_DONE	drivers/analog-const.h	21;"	d
+STATE_IDLE	drivers/analog-const.h	17;"	d
+STATE_RESTART	drivers/i2c.c	5;"	d	file:
+STATE_START	drivers/analog-const.h	18;"	d
+STATE_START	drivers/i2c.c	4;"	d	file:
+STATE_STOP	drivers/i2c.c	7;"	d	file:
+STATE_TRANSMIT	drivers/i2c.c	6;"	d	file:
+STATE_WAIT_AQU	drivers/analog-const.h	19;"	d
+THROTTLE	model/channels-const.h	11;"	d
+TICK_1MS	common.h	14;"	d
+TICK_ANALOG_SAMPLE	common.h	15;"	d
+TOTAL_ANALOG_CHANNELS	drivers/analog-const.h	1;"	d
+TOTAL_CHANNELS	model/channels-const.h	1;"	d
+TOTAL_JOYSTICK_CHANNELS	model/channels-const.h	5;"	d
+TOTAL_OUTPUT_CHANNELS	model/channels-const.h	3;"	d
+TRIM_OFFSET	model/model-const.h	5;"	d
+TX_BIND	hardware/pinout.h	7;"	d
+TX_BIND_DISABLED	hardware/pinout.h	10;"	d
+TX_BIND_ENABLED	hardware/pinout.h	11;"	d
+TX_POWER	hardware/pinout.h	8;"	d
+TX_POWER_OFF	hardware/pinout.h	13;"	d
+TX_POWER_ON	hardware/pinout.h	12;"	d
+USER_CHANNELS	model/channels-const.h	2;"	d
+X_RANGE	model/calculations.c	5;"	d	file:
+_ANALOG_	drivers/analog.h	2;"	d
+_BUTTON_	drivers/button.h	2;"	d
+_CHANNELS_	model/channels.h	2;"	d
+_COMMON_H_	common.h	6;"	d
+_CONFIG_H_	hardware/config.h	4;"	d
+_GUI_CONST_	ui/gui-const.h	2;"	d
+_XTAL_FREQ	init.c	3;"	d	file:
+_XTAL_FREQ	main.c	3;"	d	file:
+analogState	drivers/analog.c	/^unsigned char analogState;$/;"	v
+analog_buffer	drivers/analog.c	/^unsigned short analog_buffer[TOTAL_ANALOG_CHANNELS][BUFFER_SIZE];$/;"	v
+analog_count	drivers/analog.c	/^short analog_count;$/;"	v
+analog_filter	drivers/analog.c	/^unsigned short analog_filter[TOTAL_ANALOG_CHANNELS];$/;"	v
+analog_get	drivers/analog.c	/^unsigned short analog_get (unsigned char channel) {$/;"	f
+analog_get_sync	drivers/analog.c	/^unsigned short analog_get_sync (unsigned char channel)$/;"	f
+analog_mutex	drivers/analog.c	/^bit analog_mutex;$/;"	v
+analog_timer_interrupt_handler	drivers/analog.c	/^void analog_timer_interrupt_handler () {$/;"	f
+analog_values	drivers/analog.c	/^unsigned short analog_values[TOTAL_ANALOG_CHANNELS];$/;"	v
+asBytes	drivers/math.c	/^	struct bytes16 asBytes;$/;"	m	union:shortWord	typeref:struct:shortWord::bytes16	file:
+asBytes	drivers/math.c	/^	struct bytes16 asBytes;$/;"	m	union:uShortWord	typeref:struct:uShortWord::bytes16	file:
+asShort	drivers/math.c	/^	short asShort;$/;"	m	union:shortWord	file:
+asShort	drivers/math.c	/^	unsigned short asShort;$/;"	m	union:uShortWord	file:
+btn1	ui/gui.c	/^button btn1;$/;"	v
+btn2	ui/gui.c	/^button btn2;$/;"	v
+btn3	ui/gui.c	/^button btn3;$/;"	v
+btn4	ui/gui.c	/^button btn4;$/;"	v
+button	drivers/button-const.h	/^typedef struct button {$/;"	s
+button	drivers/button-const.h	/^} button;$/;"	t	typeref:struct:button
+button1	ui/gui.c	/^button *button1 = &btn1;$/;"	v
+button2	ui/gui.c	/^button *button2 = &btn2;$/;"	v
+button3	ui/gui.c	/^button *button3 = &btn3;$/;"	v
+button4	ui/gui.c	/^button *button4 = &btn4;$/;"	v
+button_click	drivers/button.c	/^unsigned char button_click (button *btn) {$/;"	f
+button_init	drivers/button.c	/^void button_init (button *btn, unsigned char id) {$/;"	f
+button_long_press	drivers/button.c	/^unsigned char button_long_press (button *btn) {$/;"	f
+button_reset	drivers/button.c	/^void button_reset (button *btn) {$/;"	f
+bytes16	drivers/math.c	/^struct bytes16 {$/;"	s	file:
+capitalize	ui/nameEditPage.c	/^bit capitalize;$/;"	v
+center	model/channels.c	/^short center[TOTAL_JOYSTICK_CHANNELS];$/;"	v
+channel	drivers/ppmio.c	/^signed char channel;$/;"	v
+channel_mix_count	model/mixer.c	/^unsigned char channel_mix_count[USER_CHANNELS];$/;"	v
+channels	model/channels.c	/^short channels[TOTAL_CHANNELS];$/;"	v
+charset	ui/nameEditPage.c	/^char charset[CHARSET_SIZE+1] = " ABCDEFGHIJKLMNOPQRSTUVWXUZ0123456789-";$/;"	v
+checksum	cfg-editor.tcl	/^proc checksum {x} {$/;"	p
+count	drivers/button-const.h	/^	short count;$/;"	m	struct:button
+currentFrameTime	drivers/ppmio.c	/^unsigned short currentFrameTime;$/;"	v
+current_buffer	drivers/analog.c	/^unsigned char current_buffer;$/;"	v
+current_channel	drivers/analog.c	/^unsigned char current_channel;$/;"	v
+current_model	model/model.c	/^struct model current_model;$/;"	v	typeref:struct:model
+disableInterrupts	common.h	9;"	d
+displayHex	cfg-editor.tcl	/^proc displayHex {args} {$/;"	p
+doSaveModelMixes	model/model.c	/^void doSaveModelMixes(unsigned char model_id) {$/;"	f
+doSaveModelName	model/model.c	/^void doSaveModelName (unsigned char model_id) {$/;"	f
+doSaveModelOutputMap	model/model.c	/^void doSaveModelOutputMap (unsigned char model_id) {$/;"	f
+doSaveModelScale	model/model.c	/^void doSaveModelScale (unsigned char model_id) {$/;"	f
+doSaveTrim	model/model.c	/^void doSaveTrim (unsigned char model_id) {$/;"	f
+drawSelection	ui/gui.c	/^void drawSelection (unsigned char totalOptions, signed char selection) {$/;"	f
+drawSelector	ui/mixEditPage.c	/^void drawSelector (unsigned char i, const char *left, const char *right) {$/;"	f
+editLetterInName	ui/nameEditPage.c	/^void editLetterInName () {$/;"	f
+edited	ui/inputScalingPage.c	/^bit edited;$/;"	v
+edited	ui/mixEditPage.c	/^bit edited;$/;"	v
+edited	ui/nameEditPage.c	/^bit edited;$/;"	v
+edited	ui/outputMappingPage.c	/^bit edited;$/;"	v
+enableInterrupts	common.h	8;"	d
+expo	model/calculations.c	/^short expo (short input, unsigned char percent \/* 0-100 *\/) {$/;"	f
+expo	model/model-const.h	/^	signed char expo;$/;"	m	struct:mix
+findIdx	ui/nameEditPage.c	/^signed char findIdx (char x) {$/;"	f
+forEachDataBytes	cfg-editor.tcl	/^proc forEachDataBytes {start end var idx callback} {$/;"	p
+formatHexFile	cfg-editor.tcl	/^proc formatHexFile {raw data} {$/;"	p
+frameTimer	main.c	/^unsigned char frameTimer;$/;"	v
+getDataByte	cfg-editor.tcl	/^proc getDataByte {i} {$/;"	p
+getFontIndex	font/font.c	/^const unsigned char* getFontIndex (unsigned char ch) {$/;"	f
+getModelFromEeprom	ui/modelSelectPage.c	/^void getModelFromEeprom (unsigned char id) {$/;"	f
+getModelName	model/model.c	/^void getModelName (unsigned char model_id, unsigned char *name) {$/;"	f
+guiCount	ui/gui.c	/^short guiCount;$/;"	v
+guiState	ui/gui.c	/^unsigned char guiState;$/;"	v
+guiTracker	ui/gui.c	/^unsigned char guiTracker;$/;"	v
+handleChannelsPage	ui/channelsPage.c	/^unsigned char handleChannelsPage () {$/;"	f
+handleInputScalingPage	ui/inputScalingPage.c	/^unsigned char handleInputScalingPage () {$/;"	f
+handleMapEditMode	ui/outputMappingPage.c	/^unsigned char handleMapEditMode () {$/;"	f
+handleMapSelectMode	ui/outputMappingPage.c	/^unsigned char handleMapSelectMode () {$/;"	f
+handleMixEditMode	ui/mixEditPage.c	/^unsigned char handleMixEditMode () {$/;"	f
+handleMixEditPage	ui/mixEditPage.c	/^unsigned char handleMixEditPage () {$/;"	f
+handleMixSelectMode	ui/mixEditPage.c	/^unsigned char handleMixSelectMode () {$/;"	f
+handleMixesPage	ui/mixesPage.c	/^unsigned char handleMixesPage () {$/;"	f
+handleModelEditPage	ui/modelEditPage.c	/^unsigned char handleModelEditPage () {$/;"	f
+handleModelSelectPage	ui/modelSelectPage.c	/^unsigned char handleModelSelectPage() {$/;"	f
+handleNameEditPage	ui/nameEditPage.c	/^unsigned char handleNameEditPage () {$/;"	f
+handleOutputMappingPage	ui/outputMappingPage.c	/^unsigned char handleOutputMappingPage () {$/;"	f
+handleScaleEditMode	ui/inputScalingPage.c	/^unsigned char handleScaleEditMode () {$/;"	f
+handleScaleSelectMode	ui/inputScalingPage.c	/^unsigned char handleScaleSelectMode () {$/;"	f
+handleSelection	ui/gui.c	/^signed char handleSelection (unsigned char totalOptions, signed char selection) {$/;"	f
+high	drivers/math.c	/^	unsigned char high;$/;"	m	struct:bytes16	file:
+i2c_OLED_send	drivers/oled.c	/^void i2c_OLED_send (unsigned char cmdOrData, const unsigned char *data, unsigned char length)$/;"	f
+i2c_OLED_send_cmd	drivers/oled.c	/^void i2c_OLED_send_cmd (unsigned char cmd) {$/;"	f
+i2c_OLED_send_data	drivers/oled.c	/^void i2c_OLED_send_data (const unsigned char *data, unsigned char length) {$/;"	f
+i2c_idle	drivers/i2c.c	/^void i2c_idle ()$/;"	f
+i2c_init	drivers/i2c.c	/^void i2c_init(void) {$/;"	f
+i2c_interrupt	drivers/i2c.c	/^void i2c_interrupt() {$/;"	f
+i2c_master_ack	drivers/i2c.c	/^void i2c_master_ack (unsigned char ack_type)$/;"	f
+i2c_read	drivers/i2c.c	/^unsigned char i2c_read ()$/;"	f
+i2c_restart	drivers/i2c.c	/^void i2c_restart ()$/;"	f
+i2c_slave_ack	drivers/i2c.c	/^unsigned char i2c_slave_ack ()$/;"	f
+i2c_start	drivers/i2c.c	/^void i2c_start ()$/;"	f
+i2c_stop	drivers/i2c.c	/^void i2c_stop ()$/;"	f
+i2c_write	drivers/i2c.c	/^void i2c_write (unsigned char data)$/;"	f
+id	drivers/button-const.h	/^	unsigned char id;$/;"	m	struct:button
+id	model/model-const.h	/^	unsigned char id;$/;"	m	struct:model
+idx	ui/nameEditPage.c	/^signed char idx;$/;"	v
+init	init.c	/^void init (void) {$/;"	f
+initCpuClock	hardware/cpuclock.c	/^void initCpuClock () {$/;"	f
+initGUI	ui/gui.c	/^void initGUI () {$/;"	f
+initGlobals	init.c	/^void initGlobals (void) {$/;"	f
+initIO	init.c	/^void initIO (void) {$/;"	f
+initMixer	model/mixer.c	/^void initMixer () {$/;"	f
+initTimers	init.c	/^void initTimers (void) {$/;"	f
+init_analog	drivers/analog.c	/^void init_analog () {$/;"	f
+init_joystick	drivers/joystick.c	/^void init_joystick () {$/;"	f
+input	model/model-const.h	/^	unsigned char input;$/;"	m	struct:mix
+intervalTimer	drivers/analog.c	/^short intervalTimer;$/;"	v
+limit	model/calculations.c	/^void limit (short *x, short pos, short neg) {$/;"	f
+loadChannelsPage	ui/channelsPage.c	/^void loadChannelsPage () {$/;"	f
+loadHomePage	ui/gui.c	/^void loadHomePage () {$/;"	f
+loadInputScalingPage	ui/inputScalingPage.c	/^void loadInputScalingPage () {$/;"	f
+loadMixEditPage	ui/mixEditPage.c	/^void loadMixEditPage (unsigned char mix) {$/;"	f
+loadMixesPage	ui/mixesPage.c	/^void loadMixesPage (unsigned char init) {$/;"	f
+loadModel	model/model.c	/^void loadModel (unsigned char model_id) {$/;"	f
+loadModelEditPage	ui/modelEditPage.c	/^void loadModelEditPage (unsigned char init) {$/;"	f
+loadModelSelectPage	ui/modelSelectPage.c	/^void loadModelSelectPage() {$/;"	f
+loadNameEditPage	ui/nameEditPage.c	/^void loadNameEditPage () {$/;"	f
+loadOutputMappingPage	ui/outputMappingPage.c	/^void loadOutputMappingPage () {$/;"	f
+loadPage	ui/mixesPage.c	/^void loadPage (unsigned char pageNumber) {$/;"	f
+loadSplashScreen	ui/splashScreen.c	/^void loadSplashScreen () {$/;"	f
+longCount	drivers/button-const.h	/^	short longCount;$/;"	m	struct:button
+longState	drivers/button-const.h	/^	char longState;$/;"	m	struct:button
+low	drivers/math.c	/^	unsigned char low;$/;"	m	struct:bytes16	file:
+main	cfg-editor.tcl	/^proc main {} {$/;"	p
+main	main.c	/^void main(void)$/;"	f
+mapSelection	ui/outputMappingPage.c	/^signed char mapSelection;$/;"	v
+mix	model/model-const.h	/^	struct mix mix[MAX_MIXES];$/;"	m	struct:model	typeref:struct:model::mix
+mix	model/model-const.h	/^struct mix {$/;"	s
+mixCount	model/mixer.c	/^short mixCount;$/;"	v
+mixIdx	ui/mixEditPage.c	/^unsigned char mixIdx;$/;"	v
+mixIndex	model/mixer.c	/^unsigned char mixIndex;$/;"	v
+mixIsDisabled	model/model.c	/^unsigned char mixIsDisabled(unsigned char i) {$/;"	f
+mixSelection	ui/mixEditPage.c	/^signed char mixSelection;$/;"	v
+mixTracker	model/mixer.c	/^unsigned char mixTracker;$/;"	v
+mixer_state	model/mixer.c	/^unsigned char mixer_state;$/;"	v
+mixesSelection	ui/mixesPage.c	/^signed char mixesSelection;$/;"	v
+mode	ui/inputScalingPage.c	/^unsigned char mode;$/;"	v
+mode	ui/mixEditPage.c	/^unsigned char mode;$/;"	v
+mode	ui/outputMappingPage.c	/^unsigned char mode;$/;"	v
+model	model/model-const.h	/^struct model {$/;"	s
+modelID	ui/gui.c	/^signed char modelID;$/;"	v
+modelSelection	ui/modelEditPage.c	/^signed char modelSelection;$/;"	v
+mult_16	drivers/math.h	3;"	d
+name	model/model-const.h	/^	unsigned char name[NAME_SIZE];$/;"	m	struct:model
+nameSelection	ui/nameEditPage.c	/^signed char nameSelection;$/;"	v
+newModel	model/model.c	/^void newModel () {$/;"	f
+oled_bar	drivers/oled.c	/^void oled_bar (char pattern1, char pattern2, short length) {$/;"	f
+oled_blank	drivers/oled.c	/^void oled_blank (short length) {$/;"	f
+oled_clear	drivers/oled.c	/^void oled_clear () {$/;"	f
+oled_goto	drivers/oled.c	/^void oled_goto (unsigned char x, unsigned char y) {$/;"	f
+oled_init	drivers/oled.c	/^void oled_init () {$/;"	f
+oled_print_hex	drivers/oled.c	/^short oled_print_hex (short n) {$/;"	f
+oled_print_signed_number	drivers/oled.c	/^short oled_print_signed_number (short n) {$/;"	f
+oled_send	drivers/oled.h	9;"	d
+oled_write_string	drivers/oled.c	/^short oled_write_string (const char *str) {$/;"	f
+output	model/model-const.h	/^	unsigned char output;$/;"	m	struct:mix
+output_channels	model/channels.c	/^short output_channels[TOTAL_OUTPUT_CHANNELS];$/;"	v
+output_map	model/model-const.h	/^	unsigned char output_map[TOTAL_OUTPUT_CHANNELS];$/;"	m	struct:model
+output_pulse	drivers/ppmio.c	/^unsigned short output_pulse[TOTAL_OUTPUT_CHANNELS];$/;"	v
+page	ui/mixesPage.c	/^unsigned char page;$/;"	v
+parseHexFile	cfg-editor.tcl	/^proc parseHexFile {raw} {$/;"	p
+parseHexLine	cfg-editor.tcl	/^proc parseHexLine {line} {$/;"	p
+parseModel	cfg-editor.tcl	/^proc parseModel {data} {$/;"	p
+ppmState	drivers/ppmio.c	/^bit ppmState;$/;"	v
+ppmTracker	drivers/ppmio.c	/^unsigned char ppmTracker;$/;"	v
+printOutputMap	ui/outputMappingPage.c	/^void printOutputMap (unsigned char idx) {$/;"	f
+processMixer	model/mixer.c	/^unsigned char processMixer () {$/;"	f
+processOutput	drivers/ppmio.c	/^void processOutput () {$/;"	f
+processPPM	drivers/ppmio.c	/^void processPPM () {$/;"	f
+readEeprom	drivers/eeprom.c	/^unsigned char readEeprom (unsigned short address) {$/;"	f
+read_stick	drivers/joystick.c	/^short read_stick(unsigned char channel) {$/;"	f
+resetTick	common.h	17;"	d
+reverse	model/model-const.h	/^	unsigned char reverse; \/\/ true\/false$/;"	m	struct:mix
+saveFile	cfg-editor.tcl	/^proc saveFile {raw} {$/;"	p
+saveModel	model/model.c	/^void saveModel (unsigned char model_id) {$/;"	f
+saveModelMixes	model/model.c	/^void saveModelMixes(unsigned char model_id) {$/;"	f
+saveModelName	model/model.c	/^void saveModelName (unsigned char model_id) {$/;"	f
+saveModelOutputMap	model/model.c	/^void saveModelOutputMap (unsigned char model_id) {$/;"	f
+saveModelScale	model/model.c	/^void saveModelScale (unsigned char model_id) {$/;"	f
+saveTrim	model/model.c	/^void saveTrim (unsigned char model_id) {$/;"	f
+saved	model/model-const.h	/^	unsigned char saved;$/;"	m	struct:model
+scale	model/calculations.c	/^short scale (short input, unsigned short percent) {$/;"	f
+scale	model/model-const.h	/^	signed char scale;$/;"	m	struct:mix
+scale	model/model-const.h	/^	unsigned char scale[3];$/;"	m	struct:model
+scaleSelection	ui/inputScalingPage.c	/^signed char scaleSelection;$/;"	v
+selectedInput	ui/inputScalingPage.c	/^signed char selectedInput;$/;"	v
+setDataByte	cfg-editor.tcl	/^proc setDataByte {i val} {$/;"	p
+shortWord	drivers/math.c	/^union shortWord {$/;"	u	file:
+slowdown	model/calculations.c	/^void slowdown (short input, short* output, short increment) {$/;"	f
+smallFont	font/font-6px.h	/^const unsigned char smallFont[95*5] = {$/;"	v
+smallFont	font/font-fixed.h	/^const unsigned char smallFont[95*5] = {$/;"	v
+smallFont	font/font-regular.h	/^const unsigned char smallFont[95*5] = {$/;"	v
+smallFont	font/font-small.h	/^const unsigned char smallFont[95*5] = {$/;"	v
+startMixer	model/mixer.c	/^unsigned char startMixer () {$/;"	f
+startPPM	drivers/ppmio.c	/^void startPPM (unsigned short duration) {	$/;"	f
+state	drivers/button-const.h	/^	char state;$/;"	m	struct:button
+stateFlag	drivers/i2c.c	/^unsigned char stateFlag;$/;"	v
+stick_values	drivers/joystick.c	/^short stick_values[TOTAL_ANALOG_CHANNELS];$/;"	v
+stopPPM	drivers/ppmio.h	7;"	d
+string2pixels	font/font.c	/^short string2pixels (const char* txt, unsigned char* buffer, short bufferLength) {$/;"	f
+thisMix	model/mixer.c	/^struct mix thisMix;$/;"	v	typeref:struct:mix
+tick	main.c	/^unsigned char tick; \/\/ timer tick (roughly 1ms)$/;"	v
+tmp	ui/gui.c	/^signed char tmp;$/;"	v
+trim	model/model-const.h	/^	short trim[2];$/;"	m	struct:model
+uShortWord	drivers/math.c	/^union uShortWord {$/;"	u	file:
+u_mult_16	drivers/math.c	/^unsigned short u_mult_16 (unsigned short a, unsigned short b) {$/;"	f
+updateChannelsPage	ui/channelsPage.c	/^void updateChannelsPage () {$/;"	f
+updateGUI	ui/gui.c	/^unsigned char updateGUI () {$/;"	f
+updateInputScalingPage	ui/inputScalingPage.c	/^void updateInputScalingPage () {$/;"	f
+updateMixEditPage	ui/mixEditPage.c	/^void updateMixEditPage () {$/;"	f
+updateMixesPage	ui/mixesPage.c	/^void updateMixesPage () {$/;"	f
+updateModelEditPage	ui/modelEditPage.c	/^void updateModelEditPage () {$/;"	f
+updateModelSelectPage	ui/modelSelectPage.c	/^void updateModelSelectPage() {$/;"	f
+updateNameEditPage	ui/nameEditPage.c	/^void updateNameEditPage () {$/;"	f
+updateOutputMappingPage	ui/outputMappingPage.c	/^void updateOutputMappingPage () {$/;"	f
+update_count	model/mixer.c	/^short update_count;$/;"	v
+writeEeprom	drivers/eeprom.c	/^void writeEeprom (unsigned short address, unsigned char data) {$/;"	f

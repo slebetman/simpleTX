@@ -119,7 +119,7 @@ void updateMixesPage () {
 
 // Controller:
 unsigned char handleMixesPage () {
-	if (button_long_press(button2)) {
+	if (button_click(button4)) {
 		loadMixEditPage(mixesSelection);
 		return MIX_EDIT_PAGE;
 	}
@@ -127,7 +127,7 @@ unsigned char handleMixesPage () {
 		mixesSelection = handleSelection(MAX_MIXES, mixesSelection);
 	}
 
-	if (button_long_press(button1)) {
+	if (button_click(button3)) {
 		loadModelEditPage(0);
 		return MODEL_EDIT_PAGE;
 	}

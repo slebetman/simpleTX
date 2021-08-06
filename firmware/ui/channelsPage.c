@@ -120,11 +120,11 @@ void updateChannelsPage () {
 
 // Controller:
 unsigned char handleChannelsPage () {
-	if (button_click(button1)) {
+	if (button_click(button1) || button_click(button3)) {
 		loadModelSelectPage();
 		return MODEL_SELECT_PAGE;
 	}
-	if (button_click(button2)) {
+	if (button_click(button2) || button_click(button4)) {
 		loadModelEditPage(1);
 		return MODEL_EDIT_PAGE;
 	}

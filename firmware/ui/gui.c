@@ -25,10 +25,12 @@ signed char tmp;
 button btn1;
 button btn2;
 button btn3;
+button btn4;
 
 button *button1 = &btn1;
 button *button2 = &btn2;
 button *button3 = &btn3;
+button *button4 = &btn4;
 
 signed char modelID;
 unsigned char guiState;
@@ -43,6 +45,7 @@ void initGUI () {
 	button_init(button1,1);
 	button_init(button2,2);
 	button_init(button3,3);
+	button_init(button4,4);
 
 	loadSplashScreen();
 
